@@ -40,9 +40,20 @@
                 </a>
                 <div class="arrow d-none {{ request()->is('transactions') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('transactions/create') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('transactions') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('transactions/list') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('templates/create') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('templates/1') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('templates/2') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('campaigns/1/edit') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('campaigns/2/edit') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
             </li>
+            <li class="list-group-item {{ request()->is('procurement') ? 'active' : '' }}">
+                <a href="/procurement">
+                    <div class="icon">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div class="link">
+                        Procurement
+                    </div>
+                </a>
+                <div class="arrow d-none {{ request()->is('procurement') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
+            </li>
             <li class="list-group-item {{ request()->is('reports') ? 'active' : '' }}">
                 <a href="/reports">
-                    <div class="icon stat">
+                    <div class="icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="link">

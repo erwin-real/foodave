@@ -20,17 +20,52 @@
 
                 <div class="form-group col-12 col-md-5 col-sm-8">
                     {{Form::label('name', 'Product Name')}} <span class="text-danger">*</span>
-                    {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Enter Product Name'])}}
+                    {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Enter Product Name', 'required' => 'required'])}}
+                </div>
+                
+                <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::label('type', 'Product Type')}} <span class="text-danger">*</span>
+                    {{Form::text('type', '', ['class' => 'form-control', 'placeholder' => 'Enter Product Type', 'required' => 'required'])}}
+                </div>
+                
+                <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::label('desc', 'Product Description')}}
+                    {{Form::text('desc', '', ['class' => 'form-control', 'placeholder' => 'Enter Product Description'])}}
                 </div>
 
                 <div class="form-group col-12 col-md-5 col-sm-8">
                     {{Form::label('price', 'Price')}} <span class="text-danger">*</span>
-                    {{Form::number('price', '', ['class' => 'form-control', 'placeholder' => 'Enter Price per piece', 'step' => '0.0001'])}}
+                    {{Form::number('price', '', ['class' => 'form-control', 'placeholder' => 'Enter Price per piece', 'step' => '0.0001', 'required' => 'required'])}}
+                </div>
+                
+                <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::label('srp', 'SRP')}} <span class="text-danger">*</span>
+                    {{Form::number('srp', '', ['class' => 'form-control', 'placeholder' => 'Enter SRP', 'step' => '0.0001', 'required' => 'required'])}}
+                </div>
+                
+                <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::label('src', 'Source of Supply')}}
+                    {{Form::text('src', '', ['class' => 'form-control', 'placeholder' => 'Enter Product\'s Source of Supply'])}}
+                </div>
+                
+                <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::label('contact', 'Contact Number')}}
+                    {{Form::number('contact', '', ['class' => 'form-control', 'placeholder' => 'Enter Contact Number'])}}
+                </div>
+                
+                <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::label('exp', 'Expiration Date')}}
+                    {{Form::date('exp', '', ['class' => 'form-control', 'placeholder' => 'Enter Expiration Date'])}}
+                </div>
+                
+                <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::label('stocks', 'Stocks')}} <span class="text-danger">*</span>
+                    {{Form::number('stocks', '', ['class' => 'form-control', 'placeholder' => 'Enter No. of Stocks', 'required' => 'required'])}}
                 </div>
 
                 <div class="form-group col-12 col-md-5 col-sm-8">
-                    {{Form::label('stocks', 'Stocks')}} <span class="text-danger">*</span>
-                    {{Form::number('stocks', '', ['class' => 'form-control', 'placeholder' => 'Enter No. of Stocks'])}}
+                    {{Form::label('pro', 'Procurement Level')}} <span class="text-danger">*</span>
+                    {{Form::number('pro', '', ['class' => 'form-control', 'placeholder' => 'Enter Procurement Level', 'required' => 'required'])}}
 
                     <div class="text-center mt-4">
                         {{Form::submit('Save', ['class' => 'btn btn-primary'])}}

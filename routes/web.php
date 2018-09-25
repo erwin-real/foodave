@@ -17,5 +17,8 @@ Route::get('/reports', 'ReportsController@index');
 
 Auth::routes();
 
+// HELP ROUTES
+Route::get('/procurement', 'DashboardController@procurement');
+
 Route::resource('products', 'ProductsController');
 Route::resource('transactions', 'TransactionsController');

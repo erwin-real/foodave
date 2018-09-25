@@ -16,8 +16,15 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('type');
+            $table->string('desc')->nullable();
             $table->double('price', 15, 4);
-            $table->unsignedInteger('stocks_remaining');
+            $table->double('srp', 15, 4);
+            $table->string('source')->nullable();
+            $table->string('contact')->nullable();
+            $table->timestamp('expired_at')->nullable();
+            $table->unsignedInteger('stocks');
+            $table->unsignedInteger('procurement');
             $table->timestamps();
         });
     }

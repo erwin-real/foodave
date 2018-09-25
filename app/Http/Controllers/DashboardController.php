@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Product;
 
 class DashboardController extends Controller
 {
@@ -24,5 +25,12 @@ class DashboardController extends Controller
     public function index()
     {
         return view('dashboard');
+    }
+
+    public function procurement() {
+        $products = Product::orderBy('updated_at','desc')->get();
+
+        return view('pages.procurement')
+            ->with('products', $products);
     }
 }

@@ -25,8 +25,8 @@
                     <li class="nav-tem"><a class="nav-link" href="/dashboard">Dashboard</a></li>
                     <li class="nav-tem"><a class="nav-link" href="/products">Products</a></li>
                     <li class="nav-tem"><a class="nav-link" href="/transactions">Transactions</a></li>
+                    <li class="nav-tem"><a class="nav-link" href="/procurement">Procurement</a></li>
                     <li class="nav-tem"><a class="nav-link" href="/reports">Reports</a></li>
-                    <!-- <li class="nav-tem"><a class="nav-link" href="/help">Help</a></li> -->
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>

@@ -40,14 +40,24 @@ class ProductsController extends Controller
     {        
         $this->validate($request, [
             'name' => 'required',
+            'type' => 'required',
             'price' => 'required',
-            'stocks' => 'required'
+            'srp' => 'required',
+            'stocks' => 'required',
+            'pro' => 'required'
         ]);
         
         $product = new Product;
         $product->name = $request->input('name');
+        $product->type = $request->input('type');
+        $product->desc = $request->input('desc');
         $product->price = $request->input('price');
-        $product->stocks_remaining = $request->input('stocks');
+        $product->srp = $request->input('srp');
+        $product->source = $request->input('src');
+        $product->contact = $request->input('contact');
+        $product->expired_at = $request->input('exp');
+        $product->procurement = $request->input('pro');
+        $product->stocks = $request->input('stocks');
         $product->save();
 
         return redirect('/products')->with('success', 'Product Added');
