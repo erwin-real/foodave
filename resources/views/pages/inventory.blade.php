@@ -18,7 +18,7 @@
 
             <div class="button-holder text-right">
                 <a href="/products/create" class="btn btn-primary mt-1"><i class="fas fa-plus"></i> Add Product</a>
-                <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a>
+                <!-- <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a> -->
             </div>
 
             <div class="lists-table table-responsive mt-3">
@@ -33,8 +33,8 @@
                             <th scope="col">Source</th>
                             <th scope="col">Contact #</th>
                             <th scope="col">Expiration Date</th>
-                            <th scope="col">Stocks Remaining</th>
-                            <th scope="col">Procurement Level</th>
+                            <th scope="col">Stocks</th>
+                            <th scope="col">Procurement</th>
                             <th scope="col">Date Created</th>
                             <th scope="col">Date Updated</th>
                             <th scope="col">Update</th>
@@ -52,14 +52,14 @@
                                     <td>{{$product->srp}}</td>
                                     <td>{{$product->source}}</td>
                                     <td>{{$product->contact}}</td>
-                                    <td>{{$product->expired_at}}</td>
+                                    <td>{{date('m-d-Y', strtotime($product->expired_at))}}</td>
                                     <td>{{$product->stocks}}</td>
                                     <td>{{$product->procurement}}</td>
-                                    <td>{{$product->created_at}}</td>
-                                    <td>{{$product->updated_at}}</td>
+                                    <td>{{date('m-d-Y H:i', strtotime($product->created_at))}}</td>
+                                    <td>{{date('m-d-Y H:i', strtotime($product->updated_at))}}</td>
                                     <td class="icons">
-                                        <a href="/products/edit/{{$product->id}}">
-                                            <i class="fa fa-pencil"></i>
+                                        <a href="/products/{{$product->id}}/edit">
+                                            <i class="fa fa-pencil-alt"></i>
                                         </a>
                                     </td>
                                     <td class="icons">

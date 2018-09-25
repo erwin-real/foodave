@@ -28,8 +28,8 @@
                             <th scope="col">Source</th>
                             <th scope="col">Contact #</th>
                             <th scope="col">Expiration Date</th>
-                            <th scope="col">Stocks Remaining</th>
-                            <th scope="col">Procurement Level</th>
+                            <th scope="col">Stocks</th>
+                            <th scope="col">Procurement</th>
                             <th scope="col">Date Created</th>
                             <th scope="col">Date Updated</th>
                             <th scope="col">Update</th>
@@ -39,32 +39,30 @@
                     <tbody>
                         @if(count($products) > 0)
                             @foreach($products as $product)
-                                @if($product->procurement >= $product->stocks)
-                                    <tr>
-                                        <td>{{$product->name}}</td>
-                                        <td>{{$product->type}}</td>
-                                        <td>{{$product->desc}}</td>
-                                        <td>{{$product->price}}</td>
-                                        <td>{{$product->srp}}</td>
-                                        <td>{{$product->source}}</td>
-                                        <td>{{$product->contact}}</td>
-                                        <td>{{$product->expired_at}}</td>
-                                        <td>{{$product->stocks}}</td>
-                                        <td>{{$product->procurement}}</td>
-                                        <td>{{$product->created_at}}</td>
-                                        <td>{{$product->updated_at}}</td>
-                                        <td class="icons">
-                                            <a href="/products/edit/{{$product->id}}">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                        </td>
-                                        <td class="icons">
-                                            <a href="/products/destroy/{{$product->id}}">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endif
+                                <tr>
+                                    <td>{{$product->name}}</td>
+                                    <td>{{$product->type}}</td>
+                                    <td>{{$product->desc}}</td>
+                                    <td>{{$product->price}}</td>
+                                    <td>{{$product->srp}}</td>
+                                    <td>{{$product->source}}</td>
+                                    <td>{{$product->contact}}</td>
+                                    <td>{{date('m-d-Y', strtotime($product->expired_at))}}</td>
+                                    <td>{{$product->stocks}}</td>
+                                    <td>{{$product->procurement}}</td>
+                                    <td>{{date('m-d-Y H:i', strtotime($product->created_at))}}</td>
+                                    <td>{{date('m-d-Y H:i', strtotime($product->updated_at))}}</td>
+                                    <td class="icons">
+                                        <a href="/products/edit/{{$product->id}}">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                    </td>
+                                    <td class="icons">
+                                        <a href="/products/destroy/{{$product->id}}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             @endforeach
                         @else
                         <tr class="text-center">

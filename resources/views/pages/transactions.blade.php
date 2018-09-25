@@ -18,7 +18,7 @@
 
             <div class="button-holder text-right">
                 <a href="/transactions/create" class="btn btn-primary mt-1"><i class="fas fa-plus"></i> New Transaction</a>
-                <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a>
+                <!-- <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a> -->
             </div>
 
             <div class="lists-table table-responsive mt-3">
@@ -36,7 +36,7 @@
                     </thead>
                     <tbody>
                         <tr class="text-center">
-                            <th colspan="7">No products found</th>
+                            <th colspan="7">No transactions found</th>
                         </tr>
                     </tbody>
                 </table>
