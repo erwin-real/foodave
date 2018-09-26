@@ -17,6 +17,8 @@ Route::get('/reports', 'ReportsController@index');
 
 Auth::routes();
 
+Route::get('/products/action', 'ProductsController@action')->name('products.action');
+
 // HELP ROUTES
 Route::get('/procurement', 'DashboardController@procurement');
 

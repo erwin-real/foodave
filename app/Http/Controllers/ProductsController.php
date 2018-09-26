@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use DB;
 
 class ProductsController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +27,7 @@ class ProductsController extends Controller
     {        
         $products = Product::orderBy('updated_at','desc')->get();
 
-        return view('pages.inventory')
+        return view('pages.products')
             ->with('products', $products);
     }
 
@@ -123,7 +134,7 @@ class ProductsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminatsade\Http\Response
      */
     public function destroy($id)
     {
@@ -131,5 +142,56 @@ class ProductsController extends Controller
         $product->delete();
         
         return redirect('/product')->with('success', 'Product Deleted');
+    }
+
+    public function action(Request $request) {
+        if ($request->ajax()) {
+            $output='';
+            $query = $request->get('query');
+            if($query != '') {
+                $data = DB::table('products')
+                        ->where('name', 'like', '%'.$query.'%')
+                        ->orWhere('type', 'like', '%'.$query.'%')
+                        ->orWhere('desc', 'like', '%'.$query.'%')
+                        ->orWhere('source', 'like', '%'.$query.'%')
+                        ->orderBy('id', 'desc')
+                        ->get();
+            } else {
+                $data = DB::table('products')
+                        ->orderBy('id', 'desc')
+                        ->get();
+            }
+            $total_row = $data->count();
+            if($total_row > 0) {
+                foreach($data as $row) {
+                    $output .= '
+                    <tr>
+                        <td>'. $row->name .'</td>
+                        <td>'. $row->type .'</td>
+                        <td>'. $row->desc .'</td>
+                        <td>'. $row->price .'</td>
+                        <td>'. $row->srp .'</td>
+                        <td>'. $row->source .'</td>
+                        <td>'. $row->contact .'</td>
+                        <td>'. date('m-d-Y', strtotime($row->expired_at)) .'</td>
+                        <td>'. $row->stocks .'</td>
+                        <td>'. date('m-d-Y H:i', strtotime($row->created_at)) .'</td>
+                        <td>'. date('m-d-Y H:i', strtotime($row->updated_at)) .'</td>
+                    <tr>
+                    ';
+                }
+            } else {
+                $output = '
+                <tr>
+                    <td align="center" colspan="7">No Data Found</td>
+                </tr>
+                ';
+            }
+            $data = array(
+                'table_data' => $output,
+                'total_data' => $total_row
+            );
+            echo json_encode($data);
+        }
     }
 }

@@ -53,7 +53,7 @@
                                     <td>{{date('m-d-Y H:i', strtotime($product->created_at))}}</td>
                                     <td>{{date('m-d-Y H:i', strtotime($product->updated_at))}}</td>
                                     <td class="icons">
-                                        <a href="/products/edit/{{$product->id}}">
+                                        <a href="/products/{{$product->id}}/edit">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
                                     </td>

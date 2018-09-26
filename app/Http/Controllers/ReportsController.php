@@ -7,6 +7,16 @@ use App\Charts\MyChart;
 
 class ReportsController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index() {
         $chart = new MyChart;
         $chart->labels(['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']);
