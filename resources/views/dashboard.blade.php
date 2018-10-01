@@ -53,7 +53,7 @@
 
                     <div class="col-sm-12 mb-2">
                         <div class="card mb-2">
-                            <h5 class="card-title campaign-title">Inventory Summary <a class="float-right" href="/campaign"><i class="fas fa-ellipsis-v"></i></a></h5>
+                            <h5 class="card-title campaign-title">Transactions Summary <a class="float-right" href="/transactions"><i class="fas fa-ellipsis-v"></i></a></h5>
                             <div class="card-body table-responsive-sm">
                                 <table class="table table-hover table-striped">
                                     <thead>
@@ -79,7 +79,7 @@
 
                     <div class="col-md-6">
                         <div class="card mb-2">
-                            <h5 class="card-title lists-title">Products <a class="float-right" href="/contacts"><i class="fas fa-ellipsis-v"></i></a></h5>
+                            <h5 class="card-title lists-title">Procurement <a class="float-right" href="/procurement"><i class="fas fa-ellipsis-v"></i></a></h5>
                             <div class="card-body table-responsive-sm">
                                 <table class="table table-hover table-striped">
                                     <thead>
@@ -100,7 +100,7 @@
 
                     <div class="col-md-6">
                         <div class="card mb-2">
-                            <h5 class="card-title report-title">Report Summary <a class="float-right" href="/statistics"><i class="fas fa-ellipsis-v"></i></a></h5>
+                            <h5 class="card-title report-title">Report Summary <a class="float-right" href="/reports"><i class="fas fa-ellipsis-v"></i></a></h5>
                             <div class="card-body text-center h-100 d-table">
                                 <div class="v-align h-100 d-table-cell align-middle">
                                     <div class="row h-100 align-items-center">

@@ -175,8 +175,11 @@ class ProductsController extends Controller
                         <td>'. $row->contact .'</td>
                         <td>'. date('m-d-Y', strtotime($row->expired_at)) .'</td>
                         <td>'. $row->stocks .'</td>
+                        <td>'. $row->procurement .'</td>
                         <td>'. date('m-d-Y H:i', strtotime($row->created_at)) .'</td>
                         <td>'. date('m-d-Y H:i', strtotime($row->updated_at)) .'</td>
+                        <td>'. $row->id .'</td>
+                        <td>'. $row->id .'</td>
                     <tr>
                     ';
                 }

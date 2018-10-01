@@ -39,30 +39,32 @@
                     <tbody>
                         @if(count($products) > 0)
                             @foreach($products as $product)
-                                <tr>
-                                    <td>{{$product->name}}</td>
-                                    <td>{{$product->type}}</td>
-                                    <td>{{$product->desc}}</td>
-                                    <td>{{$product->price}}</td>
-                                    <td>{{$product->srp}}</td>
-                                    <td>{{$product->source}}</td>
-                                    <td>{{$product->contact}}</td>
-                                    <td>{{date('m-d-Y', strtotime($product->expired_at))}}</td>
-                                    <td>{{$product->stocks}}</td>
-                                    <td>{{$product->procurement}}</td>
-                                    <td>{{date('m-d-Y H:i', strtotime($product->created_at))}}</td>
-                                    <td>{{date('m-d-Y H:i', strtotime($product->updated_at))}}</td>
-                                    <td class="icons">
-                                        <a href="/products/{{$product->id}}/edit">
-                                            <i class="fa fa-pencil-alt"></i>
-                                        </a>
-                                    </td>
-                                    <td class="icons">
-                                        <a href="/products/destroy/{{$product->id}}">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @if($product->stocks <= $product->procurement)
+                                    <tr>
+                                        <td>{{$product->name}}</td>
+                                        <td>{{$product->type}}</td>
+                                        <td>{{$product->desc}}</td>
+                                        <td>{{$product->price}}</td>
+                                        <td>{{$product->srp}}</td>
+                                        <td>{{$product->source}}</td>
+                                        <td>{{$product->contact}}</td>
+                                        <td>{{date('m-d-Y', strtotime($product->expired_at))}}</td>
+                                        <td>{{$product->stocks}}</td>
+                                        <td>{{$product->procurement}}</td>
+                                        <td>{{date('m-d-Y H:i', strtotime($product->created_at))}}</td>
+                                        <td>{{date('m-d-Y H:i', strtotime($product->updated_at))}}</td>
+                                        <td class="icons">
+                                            <a href="/products/{{$product->id}}/edit">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
+                                        </td>
+                                        <td class="icons">
+                                            <a href="/products/destroy/{{$product->id}}">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         @else
                         <tr class="text-center">

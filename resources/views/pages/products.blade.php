@@ -20,13 +20,13 @@
                 <a href="/products/create" class="btn btn-primary mt-1"><i class="fas fa-plus"></i> Add Product</a>
                 <!-- <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a> -->
             </div>
-            <div class="panel-body">
+            <div class="mt-4 panel-body">
                 <div class="form-group">
                     <input type="text" name="search" id="search" class="form-control" placeholder="Search Product Data">
                 </div>
 
                 <div class="lists-table table-responsive mt-3">
-                <h4 align="center">Total Data: <span id="total_records"></span></h4>
+                <h4 align="center">Total Product: <span id="total_records"></span></h4>
                     <table class="table table-hover table-striped py-3 text-center">
                         <thead>
                             <tr>
