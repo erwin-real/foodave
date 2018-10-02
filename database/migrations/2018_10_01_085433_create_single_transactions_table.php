@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTransactionsTable extends Migration
+class CreateSingleTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('single_transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('total', 15, 4);
-            $table->double('money_received', 15, 4);
-            $table->double('change', 15, 4);
+            $table->unsignedInteger('transaction_id');
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('quantity');
+            $table->double('subtotal', 15, 4);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('single_transactions');
     }
 }

@@ -141,7 +141,7 @@ class ProductsController extends Controller
         $product = Product::find($id);
         $product->delete();
         
-        return redirect('/product')->with('success', 'Product Deleted');
+        return redirect('/products')->with('success', 'Product Deleted');
     }
 
     public function action(Request $request) {
@@ -154,18 +154,18 @@ class ProductsController extends Controller
                         ->orWhere('type', 'like', '%'.$query.'%')
                         ->orWhere('desc', 'like', '%'.$query.'%')
                         ->orWhere('source', 'like', '%'.$query.'%')
-                        ->orderBy('id', 'desc')
+                        ->orderBy('updated_at', 'desc')
                         ->get();
             } else {
                 $data = DB::table('products')
-                        ->orderBy('id', 'desc')
+                        ->orderBy('updated_at', 'desc')
                         ->get();
             }
             $total_row = $data->count();
             if($total_row > 0) {
                 foreach($data as $row) {
                     $output .= '
-                    <tr>
+                    <tr id="product'. $row->id .'">
                         <td>'. $row->name .'</td>
                         <td>'. $row->type .'</td>
                         <td>'. $row->desc .'</td>
@@ -178,15 +178,23 @@ class ProductsController extends Controller
                         <td>'. $row->procurement .'</td>
                         <td>'. date('m-d-Y H:i', strtotime($row->created_at)) .'</td>
                         <td>'. date('m-d-Y H:i', strtotime($row->updated_at)) .'</td>
-                        <td>'. $row->id .'</td>
-                        <td>'. $row->id .'</td>
+                        <td class="icons">
+                            <a href="/products/'. $row->id .'/edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                        </td>
+                        <td class="icons">
+                            <a onclick="deleteProduct('. $row->id .')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
                     <tr>
                     ';
                 }
             } else {
                 $output = '
                 <tr>
-                    <td align="center" colspan="7">No Data Found</td>
+                    <td align="center" colspan="14">No Data Found</td>
                 </tr>
                 ';
             }
@@ -196,5 +204,55 @@ class ProductsController extends Controller
             );
             echo json_encode($data);
         }
+    }
+
+    public function transact(Request $request) {
+        if ($request->ajax()) {
+            $output='';
+            $query = $request->get('query');
+            if($query != '') {
+                $data = DB::table('products')
+                        ->where('name', 'like', '%'.$query.'%')
+                        ->orWhere('desc', 'like', '%'.$query.'%')
+                        ->orderBy('updated_at', 'desc')
+                        ->get();
+            } else {
+                $data = DB::table('products')
+                        ->orderBy('updated_at', 'desc')
+                        ->get();
+            }
+            $total_row = $data->count();
+            if($total_row > 0) {
+                foreach($data as $row) {
+                    $output .= '
+                    <tr>
+                        <td>'. $row->name .'</td>
+                        <td>'. $row->desc .'</td>
+                        <td>'. $row->srp .'</td>
+                        <td>'. $row->stocks .'</td>
+                        <td>'. $row->id .'</td>
+                    <tr>
+                    ';
+                }
+            } else {
+                $output = '
+                <tr>
+                    <td align="center" colspan="5">No Product Found</td>
+                </tr>
+                ';
+            }
+            $data = array(
+                'table_data' => $output,
+                'total_data' => $total_row
+            );
+            echo json_encode($data);
+        }
+    }
+
+    public function del($product_id) {
+        $product = Product::find($product_id);
+        $product->delete();
+        
+        return redirect('/products')->with('success', 'Product Deleted');
     }
 }

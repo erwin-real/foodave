@@ -18,6 +18,8 @@ Route::get('/reports', 'ReportsController@index');
 Auth::routes();
 
 Route::get('/products/action', 'ProductsController@action')->name('products.action');
+Route::get('/products/transact', 'ProductsController@transact')->name('products.transact');
+Route::get('/products/{product_id}/del', 'ProductsController@del');
 
 // HELP ROUTES
 Route::get('/procurement', 'DashboardController@procurement');

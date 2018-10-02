@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-12 col-xl-6">
                         <div class="card mb-2">
-                            <h5 class="card-title lists-title">Transaction Summary <a class="float-right" href="/transactions"><i class="fas fa-ellipsis-v"></i></a></h5>
+                            <h5 class="card-title lists-title">Transaction Summary</h5>
                             <!-- <div class="card-body text-center h-100 d-table"> -->
                                 <div class="lists-table table-responsive mt-3">
                                     <table class="table table-hover table-striped py-3 text-center" id="transactionTable">
@@ -31,7 +31,7 @@
                                                 <th scope="col">Price</th>
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col">Total</th>
-                                                <!-- <th scope="col">Remove</th> -->
+                                                <th scope="col">Remove</th>
                                             </tr>
                                         </thead>
                                         <tbody id="transactionsBody">
@@ -49,13 +49,19 @@
 
                     <div class="col-12 col-xl-6 mt-xl-0 mt-4">
                         <div class="card mb-2">
-                            <h5 class="card-title report-title">Products <a class="float-right" href="/statistics"><i class="fas fa-ellipsis-v"></i></a></h5>
+                            <h5 class="card-title report-title">Products</h5>
                             <!-- <div class="card-body text-center h-100 d-table"> -->
-                                <div class="lists-table table-responsive mt-3">
+                                <div class="form-group mt-4" align="center">
+                                    <label for="search">Search here :</label>
+                                    <input type="text" name="search" id="search" class="w-50 form-control" placeholder="Search Product Data">
+                                </div>
+                                <div class="lists-table table-responsive mt-3">    
+                                <h4 align="center">Total Product: <span id="total_records"></span></h4>
                                     <table id="productsTable" class="table table-hover table-striped py-3 text-center">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Name</th>
+                                                <th scope="col">Description</th>
                                                 <th scope="col">Price</th>
                                                 <th scope="col">Stocks Remaining</th>
                                                 <th scope="col">Add</th>
@@ -66,9 +72,11 @@
                                                 @foreach($products as $product)
                                                     <tr>
                                                         <td>{{$product->name}}</td>
+                                                        <td>{{$product->desc}}</td>
                                                         <td>{{$product->price}}</td>
-                                                        <td>{{$product->stocks_remaining}}</td>
-                                                        <td class="icons" style="cursor: pointer;" onclick="deleteRow(this,{{$product}})">
+                                                        <td>{{$product->stocks}}</td>
+                                                        {{-- <td class="icons" style="cursor: pointer;" onclick="deleteRow(this,{{$product}})"> --}}
+                                                        <td class="icons" style="cursor: pointer;">
                                                             <i class="fa fa-plus"></i>
                                                         </td>
                                                     </tr>
@@ -90,73 +98,97 @@
         </div>
     </div>
 
-
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> -->
-
     <script type="text/javascript">
+        $(document).ready(function() { 
 
-    function changeTotal(index) {
-        var i = index.parentNode.parentNode.rowIndex;
+            fetch_product_data_transact();
 
-    var x = document.getElementById("myInput").value;
-    document.getElementById("demo").innerHTML = "You wrote: " + x;
-    }
+             function fetch_product_data_transact(query = '')
+            {
+                $.ajax({
+                url:"{{ route('products.transact') }}",
+                method:'GET',
+                data:{query:query},
+                dataType:'json',
+                success:function(data)
+                    {
+                        $('#productsTBody').html(data.table_data);
+                        $('#total_records').text(data.total_data);
+                    },error:function(data) {
+                    console.log(data);
+                }
+                })
+            }
 
-        function deleteRow(r, product) {
-            var i = r.parentNode.parentNode.rowIndex;
-            document.getElementById("productsTBody").deleteRow(i);
+            $(document).on('keyup', '#search', function() {
+                var query = $(this).val();
+                fetch_product_data_transact(query);
+            });
+            
+        });
 
+    // function changeTotal(index) {
+    //     var i = index.parentNode.parentNode.rowIndex;
 
-            var values = new Array(3);
-              values[0] = [123.45, "apple", true];
+    // var x = document.getElementById("myInput").value;
+    // document.getElementById("demo").innerHTML = "You wrote: " + x;
+    // }
 
-              var mixed = document.getElementById("transactionTable");
-
-              // IE7 only supports appending rows to tbody
-              var tbody = document.getElementById("transactionsBody");
-
-              // for each outer array row
-                 var tr = document.createElement("tr");
-
-                 // for each inner array cell
-                 // create td then text, append
-                 var td = document.createElement("td");
-                 var name = document.createTextNode(product.name);
-                 td.appendChild(name);
-                 tr.appendChild(td);
-
-                 var td = document.createElement("td");
-                 var price = document.createTextNode(product.price);
-                 td.appendChild(price);
-                 tr.appendChild(td);
-
-                 var td = document.createElement("td");
-                 var quantity = document.createElement("input");
-                 quantity.type = 'number';
-                 quantity.name = 'quantity';
-                 quantity.style = 'width: 100%';
-                 td.appendChild(quantity);
-                 tr.appendChild(td);
-
-                 var td = document.createElement("td");
-                 var price = document.createTextNode("0");
-                 td.appendChild(price);
-                 tr.appendChild(td);
+    //     function deleteRow(r, product) {
+    //         var i = r.parentNode.parentNode.rowIndex;
+    //         document.getElementById("productsTBody").deleteRow(i);
 
 
-                  // var td = document.createElement("td");
-                  // var i = document.createElement("i");
-                  // i.className = "fa fa-trash";
-                  // td.appendChild(i);
-                  // tr.appendChild(td);
+    //         var values = new Array(3);
+    //           values[0] = [123.45, "apple", true];
 
-                 // append row to table
-                 // IE7 requires append row to tbody, append tbody to table
-                 tbody.appendChild(tr);
-                 mixed.appendChild(tbody);
+    //           var mixed = document.getElementById("transactionTable");
+
+    //           // IE7 only supports appending rows to tbody
+    //           var tbody = document.getElementById("transactionsBody");
+
+    //           // for each outer array row
+    //              var tr = document.createElement("tr");
+
+    //              // for each inner array cell
+    //              // create td then text, append
+    //              var td = document.createElement("td");
+    //              var name = document.createTextNode(product.name);
+    //              td.appendChild(name);
+    //              tr.appendChild(td);
+
+    //              var td = document.createElement("td");
+    //              var price = document.createTextNode(product.price);
+    //              td.appendChild(price);
+    //              tr.appendChild(td);
+
+    //              var td = document.createElement("td");
+    //              var quantity = document.createElement("input");
+    //              quantity.type = 'number';
+    //              quantity.name = 'quantity';
+    //              quantity.style = 'width: 100%';
+    //              td.appendChild(quantity);
+    //              tr.appendChild(td);
+
+    //              var td = document.createElement("td");
+    //              var price = document.createTextNode("0");
+    //              td.appendChild(price);
+    //              tr.appendChild(td);
 
 
-        }
+    //               // var td = document.createElement("td");
+    //               // var i = document.createElement("i");
+    //               // i.className = "fa fa-trash";
+    //               // td.appendChild(i);
+    //               // tr.appendChild(td);
+
+    //              // append row to table
+    //              // IE7 requires append row to tbody, append tbody to table
+    //              tbody.appendChild(tr);
+    //              mixed.appendChild(tbody);
+
+
+    //     }
     </script>
 
 @endsection

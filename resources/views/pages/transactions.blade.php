@@ -25,18 +25,17 @@
                 <table class="table table-hover table-striped py-3 text-center">
                     <thead>
                         <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Stocks Remaining</th>
-                            <th scope="col">Date Created</th>
-                            <th scope="col">Date Updated</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Money Received</th>
+                            <th scope="col">Change</th>
+                            <th scope="col">Date</th>
                             <th scope="col">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="text-center">
-                            <th colspan="7">No transactions found</th>
+                            <th colspan="6">No transactions found</th>
                         </tr>
                     </tbody>
                 </table>

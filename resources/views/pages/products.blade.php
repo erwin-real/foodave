@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="lists-table table-responsive mt-3">
-                <h4 align="center">Total Product: <span id="total_records"></span></h4>
+                    <h4 align="center">Total Product: <span id="total_records"></span></h4>
                     <table class="table table-hover table-striped py-3 text-center">
                         <thead>
                             <tr>
@@ -56,12 +56,14 @@
     </div>
 
     <script>
+        function deleteProduct(id) {
+            if(confirm("Delete?")) window.location = "/products/"+id+"/del";
+        }
         $(document).ready(function() { 
 
             fetch_product_data();
 
-             function fetch_product_data(query = '')
-            {
+            function fetch_product_data(query = '') {
                 $.ajax({
                 url:"{{ route('products.action') }}",
                 method:'GET',
@@ -81,6 +83,25 @@
                 var query = $(this).val();
                 fetch_product_data(query);
             });
+
+
+            // $('.delProduct').click(function() {
+            //     console.log('tst');
+            //     alert("id: " + $(this).attr('id'))
+            //     console.log($(this).attr('id'));
+                // $.ajax({
+                //     url: "products/" + product_id,
+                //     method: 'DELETE',
+                //     success: function(data) {
+                //         $("#product"+product_id).remove();
+                //         console.log("Deleted Product ID: " + product_id + " Successfully");
+                //     },
+                //     error: function(data) {
+                //         console.log('Error: ', data);
+                //     }
+                // });
+            // })
+            
             
         });
 
