@@ -28,13 +28,14 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">Name</th>
+                                                <th scope="col">Description</th>
                                                 <th scope="col">Price</th>
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Remove</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="transactionsBody">
+                                        <tbody id="transactionsTBody">
 
                                         </tbody>
                                     </table>
@@ -68,24 +69,6 @@
                                             </tr>
                                         </thead>
                                         <tbody id="productsTBody">
-                                            @if(count($products) > 0)
-                                                @foreach($products as $product)
-                                                    <tr>
-                                                        <td>{{$product->name}}</td>
-                                                        <td>{{$product->desc}}</td>
-                                                        <td>{{$product->price}}</td>
-                                                        <td>{{$product->stocks}}</td>
-                                                        {{-- <td class="icons" style="cursor: pointer;" onclick="deleteRow(this,{{$product}})"> --}}
-                                                        <td class="icons" style="cursor: pointer;">
-                                                            <i class="fa fa-plus"></i>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
-                                            <tr class="text-center">
-                                                <th colspan="6">No products found</th>
-                                            </tr>
-                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -127,6 +110,71 @@
             
         });
 
+        function addTransaction(id, name, desc, srp) {
+            var td, tr;            
+            var tbody = document.getElementById("transactionsTBody");
+
+            // for each outer array row
+            tr = document.createElement("tr");
+
+            // for each inner array cell
+            // create td then text, append
+            td = document.createElement("td");
+            var node_name = document.createTextNode(name);
+            td.appendChild(node_name);
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            var node_desc = document.createTextNode(desc);
+            td.appendChild(node_desc);
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            var node_srp = document.createTextNode(srp);
+            td.appendChild(node_srp);
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            var quantity = document.createElement("input");
+            quantity.type = 'number';
+            quantity.name = 'quantity';
+            quantity.style = 'width: 50%';
+            quantity.setAttribute("onkeyup","updateSubtotal(this)");
+            td.appendChild(quantity);
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            var node_total = document.createTextNode("0");
+            td.appendChild(node_total);
+            tr.appendChild(td);
+
+
+            td = document.createElement("td");
+            var i = document.createElement("i");
+            i.className = "fa fa-trash";
+            i.setAttribute("onclick","deleteRow(this)");
+            td.appendChild(i);
+            tr.appendChild(td);
+
+            // append row to table
+            // IE7 requires append row to tbody, append tbody to table
+            tbody.appendChild(tr);
+        }
+
+        
+        function deleteRow(r) {
+            var i = (r.parentNode.parentNode.rowIndex - 1);
+            document.getElementById("transactionsTBody").deleteRow(i);
+        }
+
+        function updateSubtotal(r) {
+            var node = r.parentNode.parentNode.children;
+            var price = node[2].innerText;
+            var quantity = node[3].children[0].value;
+            node[4].innerText = price * quantity;
+        }
+
+
     // function changeTotal(index) {
     //     var i = index.parentNode.parentNode.rowIndex;
 
@@ -145,7 +193,7 @@
     //           var mixed = document.getElementById("transactionTable");
 
     //           // IE7 only supports appending rows to tbody
-    //           var tbody = document.getElementById("transactionsBody");
+    //           var tbody = document.getElementById("transactionsTBody");
 
     //           // for each outer array row
     //              var tr = document.createElement("tr");
