@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\SingleTransaction;
+use App\Transaction;
 
 class TransactionsController extends Controller
 {
@@ -47,7 +49,7 @@ class TransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo json_encode($request);
     }
 
     /**
@@ -93,5 +95,32 @@ class TransactionsController extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+    public function get(Request $request) {
+        // $data = array(
+        //     'total' => $request->get('total')
+        // );
+        // echo json_encode($data);
+        if ($request->ajax()) {
+
+            $transaction = new Transaction;
+            $transaction->total = $request->get('total');
+            $transaction->money_received = $request->get('money');
+            $transaction->change = $request->get('change');
+            $transaction->save();
+
+            foreach ($request->get('transactions') as $transac) {
+                $singleTransaction = new SingleTransaction;
+                $singleTransaction->transaction_id = $transaction->id;
+                $singleTransaction->product_id = $transac['product_id'];
+                $singleTransaction->quantity = $transac['quantity'];
+                $singleTransaction->subtotal = $transac['subtotal'];
+                $singleTransaction->save();
+            }
+
+        }
+        $returnHTML = view('pages.transactions')->with('success', 'Transaction Finished')->render();
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
     }
 }

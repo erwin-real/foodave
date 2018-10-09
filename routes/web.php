@@ -21,6 +21,8 @@ Route::get('/products/action', 'ProductsController@action')->name('products.acti
 Route::get('/products/transact', 'ProductsController@transact')->name('products.transact');
 Route::get('/products/{product_id}/del', 'ProductsController@del');
 
+Route::get('/transactions/get', 'TransactionsController@get')->name('transactions.get');
+
 // HELP ROUTES
 Route::get('/procurement', 'DashboardController@procurement');
 

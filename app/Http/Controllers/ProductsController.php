@@ -231,7 +231,11 @@ class ProductsController extends Controller
                         <td>'. $row->srp .'</td>
                         <td>'. $row->stocks .'</td>
                         <td class="icons" onclick="
-                                addTransaction('.$row->id.', \''.strval($row->name).'\', \''.strval($row->desc).'\',  '.$row->srp.')
+                                addTransaction('.$row->id.', \''
+                                    .strval($row->name).'\', \''
+                                    .strval($row->desc).'\', \''
+                                    .$row->srp.'\',  '
+                                    .$row->stocks.')
                             " style="cursor: pointer;">
                             <i class="fa fa-plus"></i>
                         </td>
