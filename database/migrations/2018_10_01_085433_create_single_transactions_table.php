@@ -18,7 +18,9 @@ class CreateSingleTransactionsTable extends Migration
             $table->unsignedInteger('transaction_id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('quantity');
-            $table->double('subtotal', 15, 4);
+            $table->double('total', 15, 4);
+            $table->double('capital', 15, 4);
+            $table->double('income', 15, 4);
             $table->timestamps();
         });
     }

@@ -18,6 +18,8 @@ class CreateTransactionsTable extends Migration
             $table->double('total', 15, 4);
             $table->double('money_received', 15, 4);
             $table->double('change', 15, 4);
+            $table->double('capital', 15, 4);
+            $table->double('income', 15, 4);
             $table->timestamps();
         });
     }

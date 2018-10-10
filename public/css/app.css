@@ -10417,6 +10417,13 @@ a.text-dark:focus {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.del-btn {
+  background: none;
+  border: none;
+  font-size: 1em;
+  color: blue;
+}
+
 .body-left {
   position: fixed;
   top: 0;

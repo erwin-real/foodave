@@ -14,4 +14,12 @@ class SingleTransaction extends Model
 
     // Timestamps
     public $timestamps = true;
+
+    public function transaction() {
+        return $this->belongsTo('App\Transaction');
+    }
+    
+    public function product() {
+        return $this->belongsTo('App\Product');
+    }
 }

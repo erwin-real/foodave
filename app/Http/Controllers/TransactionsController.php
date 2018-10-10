@@ -26,7 +26,8 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        return view('pages.transactions');
+        return view('pages.transactions')
+            ->with('transactions', Transaction::orderBy('created_at', 'desc')->paginate(15));
     }
 
     /**
@@ -36,9 +37,8 @@ class TransactionsController extends Controller
      */
     public function create()
     {
-        $products = Product::all();
         return view('pages.transactions.create')
-            ->with('products', $products);
+            ->with('products', Product::all());
     }
 
     /**
@@ -49,7 +49,44 @@ class TransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        echo json_encode($request);
+        $capital = 0;
+        $income = 0;
+
+        $transaction = new Transaction;
+        $transaction->total = $request->get('total');
+        $transaction->money_received = $request->get('money');
+        $transaction->change = $request->get('change');
+        $transaction->capital = $capital;
+        $transaction->income = $income;
+        $transaction->save();
+
+        foreach ($request->get('transactions') as $transac) {
+            $singleTransaction = new SingleTransaction;
+            $singleTransaction->transaction_id = $transaction->id;
+            $singleTransaction->product_id = $transac['product_id'];
+            $singleTransaction->quantity = $transac['quantity'];
+            $singleTransaction->total = $transac['subtotal'];
+            $singleTransaction->capital = $transac['quantity'] * $singleTransaction->product->price;
+            $singleTransaction->income = $transac['subtotal'] - $singleTransaction->capital;
+            $singleTransaction->save();
+
+            $product = Product::find($singleTransaction->product_id);
+            $product->stocks -= $singleTransaction->quantity;
+            $product->save();
+
+            $capital += $singleTransaction->capital;
+            $income += $singleTransaction->income;
+        }
+
+        $transaction = Transaction::find($transaction->id);
+        $transaction->capital = $capital;
+        $transaction->income = $income;
+        $transaction->save();
+
+        return "success";
+
+        // $returnHTML = view('pages.transactions')->with('success', 'Transaction Finished')->render();
+        // return response()->json(array('success' => true, 'html'=>$returnHTML));
     }
 
     /**
@@ -60,7 +97,8 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('pages.transactions.single')
+            ->with('transaction', Transaction::find($id));
     }
 
     /**
@@ -94,33 +132,10 @@ class TransactionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        echo $id;
     }
     
     public function get(Request $request) {
-        // $data = array(
-        //     'total' => $request->get('total')
-        // );
-        // echo json_encode($data);
-        if ($request->ajax()) {
-
-            $transaction = new Transaction;
-            $transaction->total = $request->get('total');
-            $transaction->money_received = $request->get('money');
-            $transaction->change = $request->get('change');
-            $transaction->save();
-
-            foreach ($request->get('transactions') as $transac) {
-                $singleTransaction = new SingleTransaction;
-                $singleTransaction->transaction_id = $transaction->id;
-                $singleTransaction->product_id = $transac['product_id'];
-                $singleTransaction->quantity = $transac['quantity'];
-                $singleTransaction->subtotal = $transac['subtotal'];
-                $singleTransaction->save();
-            }
-
-        }
-        $returnHTML = view('pages.transactions')->with('success', 'Transaction Finished')->render();
-        return response()->json(array('success' => true, 'html'=>$returnHTML));
+        if ($request->ajax()) return $this->store($request);
     }
 }

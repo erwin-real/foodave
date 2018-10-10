@@ -22,7 +22,7 @@
             </div>
             <div class="mt-4 panel-body">
                 <div class="form-group">
-                    <input type="text" name="search" id="search" class="form-control" placeholder="Search Product Data">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Search Product">
                 </div>
 
                 <div class="lists-table table-responsive mt-3">

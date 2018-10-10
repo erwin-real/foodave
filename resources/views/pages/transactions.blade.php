@@ -21,11 +21,12 @@
                 <!-- <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a> -->
             </div>
 
+            {{$transactions->links()}}
             <div class="lists-table table-responsive mt-3">
                 <table class="table table-hover table-striped py-3 text-center">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
+                            <th scope="col">Show</th>
                             <th scope="col">Total</th>
                             <th scope="col">Money Received</th>
                             <th scope="col">Change</th>
@@ -34,9 +35,31 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if(count($transactions) > 0)
+                            @foreach($transactions as $transaction)
+                                <tr>
+                                    <td class="icons">
+                                        <a href="/transactions/{{$transaction->id}}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                    <td>{{$transaction->total}}</td>
+                                    <td>{{$transaction->money_received}}</td>
+                                    <td>{{$transaction->change}}</td>
+                                    <td>{{date('D m-d-Y H:i', strtotime($transaction->created_at))}}</td>
+                                    <td class="icons">
+                                        {!!Form::open(['action' => ['TransactionsController@destroy', $transaction->id], 'method' => 'POST'])!!}
+                                            {{Form::hidden('_method', 'DELETE')}}
+                                            {!! Form::button('<i class="fa fa-trash"></i>', ['class'=>'del-btn', 'type'=>'submit']) !!}
+                                        {!!Form::close()!!}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
                         <tr class="text-center">
                             <th colspan="6">No transactions found</th>
                         </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>

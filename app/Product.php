@@ -14,4 +14,5 @@ class Product extends Model
 
     // Timestamps
     public $timestamps = true;
+    
 }

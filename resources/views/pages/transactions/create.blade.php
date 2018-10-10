@@ -58,7 +58,7 @@
                             <h5 class="card-title report-title">Products</h5>
                             <div class="form-group mt-4" align="center">
                                 <label for="search">Search here :</label>
-                                <input type="text" name="search" id="search" class="w-50 form-control" placeholder="Search Product Data">
+                                <input type="text" name="search" id="search" class="w-50 form-control" placeholder="Search Product">
                             </div>
                             <div class="lists-table table-responsive mt-3">    
                             <h4 align="center">Total Product: <span id="total_records"></span></h4>
@@ -101,7 +101,7 @@
                     $('#total_records').text(data.total_data);
                 },
                 error:function(data) {
-                console.log(data);
+                    console.log(data);
                 }
                 })
             }
@@ -112,35 +112,39 @@
             });
 
             $( "#save" ).click(function() {
-                var tBodyChildren = document.getElementById('transactionsTBody').children;
-                var transactions = {};
-                
-                for (var i = 0; i < tBodyChildren.length; i++) {
-                    transactions[i] = {
-                        'product_id': tBodyChildren[i].children[7].children[0].value,
-                        'quantity': tBodyChildren[i].children[4].children[0].value,
-                        'subtotal': tBodyChildren[i].children[5].innerText
-                    };
-                }
-                
-                $.ajax({
-                url:"{{ route('transactions.get') }}",
-                method:'GET',
-                data:{
-                    transactions: transactions,
-                    total: $('#total').text(),
-                    money: $('#money').val(),
-                    change: $('#change').text()
-                },
-                dataType:'json',
-                success:function(data) {
-                    window.location.href = "/transactions";
-                },
-                error:function(data) {
-                    console.log(data);
-                }
-                })
+                if (confirm("Confirm Transaction")) {
 
+                    var tBodyChildren = document.getElementById('transactionsTBody').children;
+                    var transactions = {};
+                    
+                    for (var i = 0; i < tBodyChildren.length; i++) {
+                        transactions[i] = {
+                            'product_id': tBodyChildren[i].children[7].children[0].value,
+                            'quantity': tBodyChildren[i].children[4].children[0].value,
+                            'subtotal': tBodyChildren[i].children[5].innerText
+                        };
+                    }
+                    
+                    $.ajax({
+                    url:"{{ route('transactions.get') }}",
+                    method:'GET',
+                    data:{
+                        transactions: transactions,
+                        total: $('#total').text(),
+                        money: $('#money').val(),
+                        change: $('#change').text()
+                    },
+                    dataType:'json',
+                    success:function(data) {
+                        window.location.href = "/transactions";
+                    },
+                    error:function(data) {
+                        if (data.status == 200 && data.responseText === "success")
+                            window.location.href = "/transactions";
+                    }
+                    })
+
+                }
             });
             
         });
