@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel d-xs-block d-sm-block d-md-block d-lg-none">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <!-- {{ config('app.name', 'Laravel') }} -->
             FoodAvenue
         </a>
+         {{-- -> {{ Auth::user()->name }} --}}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -44,6 +44,18 @@
                             </form>
                         </div>
                     </li>
+                    {{-- <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                          document.getElementById('logout-form').submit();">
+                             {{ __('Logout') }}
+                         </a>
+
+                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                             @csrf
+                         </form>
+
+                    </li> --}}
                 @endguest
             </ul>
         </div>

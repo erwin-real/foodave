@@ -10,13 +10,13 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="/transaction">Transactions</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="/transactions">Transactions</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{$transaction->id}}</li>
                 </ol>
             </nav>
-
-            Date of Transaction: {{date('D M d,Y H:i', strtotime($transaction->created_at))}}
-            Total: {{$transaction->singleTransactions->sum('')}}
+            
+            <p>Date of Transaction: {{date('D M d,Y H:i', strtotime($transaction->created_at))}}</p>
+            <p>Total: {{$transaction->total}}</p>
 
             <div class="lists-table table-responsive mt-3">
                 <table class="table table-hover table-striped py-3 text-center">
@@ -50,6 +50,8 @@
                     </tbody>
                 </table>
             </div>
+
+            <a href="/transactions" class="btn btn-primary mb-3 mx-2"><i class="fas fa-chevron-left"></i> Back</a>
 
         </div>
     </div>

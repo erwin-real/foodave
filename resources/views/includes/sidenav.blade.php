@@ -43,7 +43,7 @@
             <li class="list-group-item {{ request()->is('procurement') ? 'active' : '' }}">
                 <a href="/procurement">
                     <div class="icon">
-                        <i class="fas fa-question"></i>
+                        <i class="fas fa-shopping-cart"></i>
                     </div>
                     <div class="link">
                         Procurement
@@ -61,7 +61,7 @@
                     </div>
                 </a>
                 <div class="arrow d-none {{ request()->is('reports') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
-            </li>
+            </li>      
             @guest
                 <li class="list-group-item"><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                 <li class="list-group-item"><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
