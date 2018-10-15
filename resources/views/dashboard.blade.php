@@ -93,7 +93,7 @@
 
                     <div class="col-md-6">
                         <div class="card mb-2">
-                            <h5 class="card-title lists-title">Procurement: {{count($procurements)}} <a class="float-right" href="/procurement"><i class="fas fa-ellipsis-v"></i></a></h5>
+                            <h5 class="card-title lists-title">Procurements: {{count($procurements)}} <a class="float-right" href="/procurement"><i class="fas fa-ellipsis-v"></i></a></h5>
                             <div class="card-body table-responsive-sm">
                                 <table class="table table-hover table-striped">
                                     <thead>
