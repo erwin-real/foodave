@@ -31,7 +31,7 @@
                             <div class="card bg-info mb-3">
                                 <div class="card-body text-center">
                                     <h2>123</h2>
-                                    <p>Total</p>
+                                    <p>Capital</p>
                                 </div>
                             </div>
                         </div>
@@ -89,8 +89,11 @@
 @endsection
 
 
-<script src="https://unpkg.com/vue"></script>
-<script src=https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js charset=utf-8></script>
+{{-- <script src="https://unpkg.com/vue"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js" charset=utf-8></script> --}}
+<script src="/js/vue.js"></script>
+<script src="/js/echarts-en.min.js"></script>
 {!! $chart->script() !!}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.6/highcharts.js" charset="utf-8"></script>
+<script src="/js/highcharts.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.6/highcharts.js" charset="utf-8"></script> --}}

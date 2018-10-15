@@ -195,11 +195,12 @@
 
 
             td = document.createElement("td");
-            var i = document.createTextNode("del");
-            // var i = document.createElement("i");
-            // i.className = "fa fa-trash";
-            // i.setAttribute("onclick","deleteRow(this)");
+            td.style = "cursor: pointer";
             td.setAttribute("onclick","deleteRow(this)");
+            // var i = document.createTextNode("del");
+            var i = document.createElement("i");
+            i.className = "fa fa-trash";
+            // td.setAttribute("onclick","deleteRow(this)");
             td.appendChild(i);
             tr.appendChild(td);
 

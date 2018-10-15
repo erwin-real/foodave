@@ -17,94 +17,73 @@
             @include('includes.messages')
 
             <div class="button-holder text-right">
-                <a href="/products/create" class="btn btn-primary mt-1"><i class="fas fa-plus"></i> Add Product</a>
-                <!-- <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a> -->
+                <a href="/products/create" class="btn btn-primary mt-1"><i class="fas fa-plus"></i> Add</a>
+                <a href="/products/search" class="btn btn-primary mt-1"><i class="fas fa-search"></i> Search</a>
+                <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a>
             </div>
-            <div class="mt-4 panel-body">
-                <div class="form-group">
-                    <input type="text" name="search" id="search" class="form-control" placeholder="Search Product">
-                </div>
 
-                <div class="lists-table table-responsive mt-3">
-                    <h4 align="center">Total Product: <span id="total_records"></span></h4>
-                    <table class="table table-hover table-striped py-3 text-center">
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">SRP</th>
-                                <th scope="col">Source</th>
-                                <th scope="col">Contact #</th>
-                                <th scope="col">Expiration Date</th>
-                                <th scope="col">Stocks</th>
-                                <th scope="col">Procurement</th>
-                                <th scope="col">Date Created</th>
-                                <th scope="col">Date Updated</th>
-                                <th scope="col">Update</th>
-                                <th scope="col">Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+            @include('includes.messages')
+
+            <div class="lists-table table-responsive mt-3">
+            <h4>Total: {{count($products)}}</h4>
+                <table class="table table-hover table-striped py-3 text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">@sortablelink('name', 'Name',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('type', 'Type',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('desc', 'Description',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('price', 'Price',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('srp', 'SRP',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('source', 'Source',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('contact', 'Contact',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('expired_at', 'Expiration Date',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('stocks', 'Stocks',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('procurement', 'Procurement',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('created_at', 'Date Created',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('updated_at', 'Date Updated',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">Update</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(count($products) > 0)
+                            @foreach($products as $product)
+                                <tr>
+                                    <td>{{$product->name}}</td>
+                                    <td>{{$product->type}}</td>
+                                    <td>{{$product->desc}}</td>
+                                    <td>{{$product->price}}</td>
+                                    <td>{{$product->srp}}</td>
+                                    <td>{{$product->source}}</td>
+                                    <td>{{$product->contact}}</td>
+                                    <td>{{date('D M d,Y', strtotime($product->expired_at))}}</td>
+                                    <td>{{$product->stocks}}</td>
+                                    <td>{{$product->procurement}}</td>
+                                    <td>{{date('D M d,Y H:i', strtotime($product->created_at))}}</td>
+                                    <td>{{date('D M d,Y H:i', strtotime($product->updated_at))}}</td>
+                                    <td class="icons">
+                                        <a href="/products/{{$product->id}}/edit">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                    </td>
+                                    <td class="icons">
+                                        <a href="/products/destroy/{{$product->id}}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                        <tr class="text-center">
+                            <th colspan="14">No products found</th>
+                        </tr>
+                        @endif
+                    </tbody>
+                </table>
+                {!! $products->appends(\Request::except('page'))->render() !!}
             </div>
 
         </div>
     </div>
-
-    <script>
-        function deleteProduct(id) {
-            if(confirm("Delete?")) window.location = "/products/"+id+"/del";
-        }
-        $(document).ready(function() { 
-
-            fetch_product_data();
-
-            function fetch_product_data(query = '') {
-                $.ajax({
-                url:"{{ route('products.action') }}",
-                method:'GET',
-                data:{query:query},
-                dataType:'json',
-                success:function(data)
-                    {
-                        $('tbody').html(data.table_data);
-                        $('#total_records').text(data.total_data);
-                    },error:function(data) {
-                    console.log(data);
-                }
-                })
-            }
-
-            $(document).on('keyup', '#search', function() {
-                var query = $(this).val();
-                fetch_product_data(query);
-            });
-
-
-            // $('.delProduct').click(function() {
-            //     console.log('tst');
-            //     alert("id: " + $(this).attr('id'))
-            //     console.log($(this).attr('id'));
-                // $.ajax({
-                //     url: "products/" + product_id,
-                //     method: 'DELETE',
-                //     success: function(data) {
-                //         $("#product"+product_id).remove();
-                //         console.log("Deleted Product ID: " + product_id + " Successfully");
-                //     },
-                //     error: function(data) {
-                //         console.log('Error: ', data);
-                //     }
-                // });
-            // })
-            
-            
-        });
-
-    </script>
 
 @endsection

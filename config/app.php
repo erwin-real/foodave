@@ -65,7 +65,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    // 'timezone' => 'UTC',
+    'timezone' => 'Singapore',
 
     /*
     |--------------------------------------------------------------------------
@@ -162,6 +163,8 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         ConsoleTVs\Charts\ChartsServiceProvider::class,
+
+        Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
 
     ],
 

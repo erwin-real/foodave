@@ -38,15 +38,15 @@
                         @if(count($transactions) > 0)
                             @foreach($transactions as $transaction)
                                 <tr>
-                                    <td class="icons">
-                                        <a href="/transactions/{{$transaction->id}}">
+                                    <td class="icons" onclick="window.location.href = '/transactions/{{$transaction->id}}'" style="cursor:pointer;">
+                                        {{-- <a href="/transactions/{{$transaction->id}}"> --}}
                                             <i class="fas fa-eye"></i>
-                                        </a>
+                                        {{-- </a> --}}
                                     </td>
                                     <td>{{$transaction->total}}</td>
                                     <td>{{$transaction->money_received}}</td>
                                     <td>{{$transaction->change}}</td>
-                                    <td>{{date('D m-d-Y H:i', strtotime($transaction->created_at))}}</td>
+                                    <td>{{date('D M d,Y H:i', strtotime($transaction->created_at))}}</td>
                                     <td class="icons">
                                         {!!Form::open(['action' => ['TransactionsController@destroy', $transaction->id], 'method' => 'POST'])!!}
                                             {{Form::hidden('_method', 'DELETE')}}

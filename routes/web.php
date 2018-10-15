@@ -20,6 +20,9 @@ Auth::routes();
 Route::get('/products/action', 'ProductsController@action')->name('products.action');
 Route::get('/products/transact', 'ProductsController@transact')->name('products.transact');
 Route::get('/products/{product_id}/del', 'ProductsController@del');
+Route::get('/products/import', 'ProductsController@import');
+Route::post('/products/uploadFile', 'ProductsController@uploadCSVFile');
+Route::get('/products/search', 'ProductsController@search');
 
 Route::get('/transactions/get', 'TransactionsController@get')->name('transactions.get');
 

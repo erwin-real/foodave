@@ -17,6 +17,7 @@
             @include('includes.messages')
 
             <div class="lists-table table-responsive mt-3">
+            <h4>Total: {{count($procurements)}}</h4>
                 <table class="table table-hover table-striped py-3 text-center">
                     <thead>
                         <tr>
@@ -37,34 +38,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if(count($products) > 0)
-                            @foreach($products as $product)
-                                @if($product->stocks <= $product->procurement)
-                                    <tr>
-                                        <td>{{$product->name}}</td>
-                                        <td>{{$product->type}}</td>
-                                        <td>{{$product->desc}}</td>
-                                        <td>{{$product->price}}</td>
-                                        <td>{{$product->srp}}</td>
-                                        <td>{{$product->source}}</td>
-                                        <td>{{$product->contact}}</td>
-                                        <td>{{date('m-d-Y', strtotime($product->expired_at))}}</td>
-                                        <td>{{$product->stocks}}</td>
-                                        <td>{{$product->procurement}}</td>
-                                        <td>{{date('m-d-Y H:i', strtotime($product->created_at))}}</td>
-                                        <td>{{date('m-d-Y H:i', strtotime($product->updated_at))}}</td>
-                                        <td class="icons">
-                                            <a href="/products/{{$product->id}}/edit">
-                                                <i class="fa fa-pencil-alt"></i>
-                                            </a>
-                                        </td>
-                                        <td class="icons">
-                                            <a href="/products/destroy/{{$product->id}}">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endif
+                        @if(count($procurements) > 0)
+                            @foreach($procurements as $procurement)
+                                <tr>
+                                    <td>{{$procurement->name}}</td>
+                                    <td>{{$procurement->type}}</td>
+                                    <td>{{$procurement->desc}}</td>
+                                    <td>{{$procurement->price}}</td>
+                                    <td>{{$procurement->srp}}</td>
+                                    <td>{{$procurement->source}}</td>
+                                    <td>{{$procurement->contact}}</td>
+                                    <td>{{date('m-d-Y', strtotime($procurement->expired_at))}}</td>
+                                    <td>{{$procurement->stocks}}</td>
+                                    <td>{{$procurement->procurement}}</td>
+                                    <td>{{date('m-d-Y H:i', strtotime($procurement->created_at))}}</td>
+                                    <td>{{date('m-d-Y H:i', strtotime($procurement->updated_at))}}</td>
+                                    <td class="icons">
+                                        <a href="/products/{{$procurement->id}}/edit">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                    </td>
+                                    <td class="icons">
+                                        <a href="/products/destroy/{{$procurement->id}}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             @endforeach
                         @else
                         <tr class="text-center">

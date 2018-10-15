@@ -15,7 +15,7 @@
     <script src="{{ URL::asset('js/bootstrap.min.js') }}" defer></script> --}}
     
     <script src="/js/jquery.min.js"></script>
-    <script src="/js/popper.min.js"></script>
+    {{-- <script src="/js/popper.min.js"></script> --}}
     <script src="/js/bootstrap.min.js"></script>
 
     {{-- <script

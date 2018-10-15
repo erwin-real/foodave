@@ -16,7 +16,9 @@
             </nav>
             
             <p>Date of Transaction: {{date('D M d,Y H:i', strtotime($transaction->created_at))}}</p>
-            <p>Total: {{$transaction->total}}</p>
+            <span>Total: {{$transaction->total}}</span><br>
+            <span>Capital: {{$transaction->capital}}</span><br>
+            <span>Income: {{$transaction->income}}</span>
 
             <div class="lists-table table-responsive mt-3">
                 <table class="table table-hover table-striped py-3 text-center">
@@ -28,9 +30,6 @@
                             <th scope="col">Price</th>
                             <th scope="col">SRP</th>
                             <th scope="col">Sold</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Capital</th>
-                            <th scope="col">Income</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,9 +41,6 @@
                                 <td>{{$singleTransaction->product->price}}</td>
                                 <td>{{$singleTransaction->product->srp}}</td>
                                 <td>{{$singleTransaction->quantity}}</td>
-                                <td>{{$singleTransaction->total}}</td>
-                                <td>{{$singleTransaction->capital}}</td>
-                                <td>{{$singleTransaction->income}}</td>
                             </tr>
                         @endforeach
                     </tbody>

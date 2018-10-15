@@ -18,7 +18,7 @@
                         <div class="campaign-summary">
                             <div class="card camp-card mb-3">
                                 <div class="card-body text-center">
-                                    <h1>123</h1>
+                                    <h1>{{$transactions->sum('total')}}</h1>
                                     <p>TOTAL</p>
                                 </div>
                             </div>
@@ -28,8 +28,8 @@
                         <div class="list-summary">
                             <div class="card list-card mb-3">
                                 <div class="card-body text-center">
-                                    <h1>123</h1>
-                                    <p>TOTAL</p>
+                                    <h1>{{$transactions->sum('capital')}}</h1>
+                                    <p>CAPITAL</p>
                                 </div>
                             </div>
                         </div>
@@ -38,8 +38,8 @@
                         <div class="subs-summary">
                             <div class="card subs-card mb-3">
                                 <div class="card-body text-center">
-                                    <h1>123</h1>
-                                    <p>TOTAL</p>
+                                    <h1>{{$transactions->sum('income')}}</h1>
+                                    <p>INCOME</p>
                                 </div>
                             </div>
                         </div>
@@ -58,19 +58,33 @@
                                 <table class="table table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th scope="col"></th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Stocks Remaining</th>
-                                            <th scope="col">Date Created</th>
-                                            <th scope="col">Date Updated</th>
-                                            <th scope="col">Report</th>
+                                            <th scope="col">Show</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Money Received</th>
+                                            <th scope="col">Change</th>
+                                            <th scope="col">Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            <tr class="text-center">
-                                                <th colspan="7">No results found</th>
-                                            </tr>
+                                        @if(count($transactions) > 0)
+                                            @foreach($transactions as $transaction)
+                                                <tr>
+                                                    <td class="icons" onclick="window.location.href = '/transactions/{{$transaction->id}}'" style="cursor:pointer;">
+                                                        {{-- <a href="/transactions/{{$transaction->id}}"> --}}
+                                                            <i class="fas fa-eye"></i>
+                                                        {{-- </a> --}}
+                                                    </td>
+                                                    <td>{{$transaction->total}}</td>
+                                                    <td>{{$transaction->money_received}}</td>
+                                                    <td>{{$transaction->change}}</td>
+                                                    <td>{{date('D m-d-Y H:i', strtotime($transaction->created_at))}}</td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                        <tr class="text-center">
+                                            <th colspan="5">No transactions found</th>
+                                        </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -79,19 +93,32 @@
 
                     <div class="col-md-6">
                         <div class="card mb-2">
-                            <h5 class="card-title lists-title">Procurement <a class="float-right" href="/procurement"><i class="fas fa-ellipsis-v"></i></a></h5>
+                            <h5 class="card-title lists-title">Procurement: {{count($procurements)}} <a class="float-right" href="/procurement"><i class="fas fa-ellipsis-v"></i></a></h5>
                             <div class="card-body table-responsive-sm">
                                 <table class="table table-hover table-striped">
                                     <thead>
                                         <tr>
                                             <th scope="col">Name</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Description</th>
                                             <th scope="col">Stocks</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            <tr class="text-center">
-                                                <th colspan="2">No lists found</th>
-                                            </tr>
+                                        @if(count($procurements) > 0)
+                                            @foreach($procurements as $procurement)
+                                                <tr>
+                                                    <td>{{$procurement->name}}</td>
+                                                    <td>{{$procurement->type}}</td>
+                                                    <td>{{$procurement->desc}}</td>
+                                                    <td>{{$procurement->stocks}}</td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                        <tr class="text-center">
+                                            <th colspan="4">No procurements found</th>
+                                        </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

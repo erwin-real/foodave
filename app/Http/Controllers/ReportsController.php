@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Charts\MyChart;
+use App\Transaction;
+use DateTime;
+use DB;
 
 class ReportsController extends Controller
 {
@@ -19,13 +22,55 @@ class ReportsController extends Controller
     
     public function index() {
         $chart = new MyChart;
-        $chart->labels(['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']);
-        $chart->dataset('report 1', 'line', [1, 2, 3, 4, 3.4]);
-        $chart->dataset('report 2', 'line', [2, 3, 2.5, 4, 4.6]);
-        $chart->dataset('report 3', 'line', [1.5, 2.3, 4.2, 3.2, 4]);
-        $chart->dataset('report 4', 'line', [3, 2, 4, 3, 5]);
+        $data = $this->organizeDailyTransactions();
+        $chart->labels($data['dates']);
+        $chart->dataset('Total', 'line', $data['totals']);
+        $chart->dataset('Capital', 'line', $data['capitals']);
+        $chart->dataset('Income', 'line', $data['incomes']);
 
         return view('pages.reports')
-            ->with('chart', $chart);
+            ->with('chart', $chart);        
+    }
+
+    public function organizeDailyTransactions() {
+        $transactions = Transaction::all();
+        $date = new DateTime('tomorrow -1 month');        
+        $days = Transaction::select(array(
+            DB::raw('DATE(`created_at`) as `date`'),
+            DB::raw('COUNT(*) as `count`')
+        ))
+        ->where('created_at', '>', $date)
+        ->groupBy('date')
+        ->orderBy('date', 'ASC')
+        ->pluck('count', 'date');
+        
+        $incomes = collect();
+        $totals = collect();
+        $capitals = collect();
+        $dates = collect();
+
+        foreach($days as $date=>$count) {
+            $income = 0;
+            $capital = 0;
+            $total = 0;
+            foreach($transactions as $transaction) {
+                if($date === $transaction->created_at->format('Y-m-d')) {
+                    $income += $transaction->income;
+                    $capital += $transaction->capital;
+                    $total += $transaction->total;
+                }
+            }
+            $dates->push(\Carbon\Carbon::parse($date)->format('D M d,Y'));
+            $incomes->push($income);
+            $totals->push($total);
+            $capitals->push($capital);
+        }
+
+        return array(
+            'dates' => $dates,
+            'incomes' => $incomes,
+            'totals' => $totals,
+            'capitals' => $capitals,
+        );
     }
 }

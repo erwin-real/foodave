@@ -25,7 +25,7 @@ class ProductsController extends Controller
      */
     public function index()
     {        
-        $products = Product::orderBy('updated_at','desc')->get();
+        $products = Product::sortable()->paginate(20);
 
         return view('pages.products')
             ->with('products', $products);
@@ -38,7 +38,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('pages.inventory.add_product');
+        return view('pages.products.add_product');
     }
 
     /**
@@ -66,7 +66,7 @@ class ProductsController extends Controller
         $product->srp = $request->input('srp');
         $product->source = $request->input('src');
         $product->contact = $request->input('contact');
-        $product->expired_at = $request->input('exp');
+        $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
         $product->procurement = $request->input('pro');
         $product->stocks = $request->input('stocks');
         $product->save();
@@ -93,7 +93,7 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.inventory.edit_product')->with('product', Product::find($id));
+        return view('pages.products.edit_product')->with('product', Product::find($id));
     }
 
     /**
@@ -122,7 +122,7 @@ class ProductsController extends Controller
         $product->srp = $request->input('srp');
         $product->source = $request->input('src');
         $product->contact = $request->input('contact');
-        $product->expired_at = $request->input('exp');
+        $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
         $product->procurement = $request->input('pro');
         $product->stocks = $request->input('stocks');
         $product->save();
@@ -154,11 +154,11 @@ class ProductsController extends Controller
                         ->orWhere('type', 'like', '%'.$query.'%')
                         ->orWhere('desc', 'like', '%'.$query.'%')
                         ->orWhere('source', 'like', '%'.$query.'%')
-                        ->orderBy('updated_at', 'desc')
+                        ->orderBy('expired_at', 'desc')
                         ->get();
             } else {
                 $data = DB::table('products')
-                        ->orderBy('updated_at', 'desc')
+                        ->orderBy('expired_at', 'desc')
                         ->get();
             }
             $total_row = $data->count();
@@ -173,11 +173,16 @@ class ProductsController extends Controller
                         <td>'. $row->srp .'</td>
                         <td>'. $row->source .'</td>
                         <td>'. $row->contact .'</td>
-                        <td>'. date('m-d-Y', strtotime($row->expired_at)) .'</td>
+                        <td>'
+                    ;
+                    
+                    $output .= ($row->expired_at != null) ? date('D m-d-Y', strtotime($row->expired_at)) : 'N/A';
+                    
+                    $output .= '</td>
                         <td>'. $row->stocks .'</td>
                         <td>'. $row->procurement .'</td>
-                        <td>'. date('m-d-Y H:i', strtotime($row->created_at)) .'</td>
-                        <td>'. date('m-d-Y H:i', strtotime($row->updated_at)) .'</td>
+                        <td>'. date('D m-d-Y H:i', strtotime($row->created_at)) .'</td>
+                        <td>'. date('D m-d-Y H:i', strtotime($row->updated_at)) .'</td>
                         <td class="icons">
                             <a href="/products/'. $row->id .'/edit">
                                 <i class="fas fa-pencil-alt"></i>
@@ -221,25 +226,26 @@ class ProductsController extends Controller
                         ->orderBy('updated_at', 'desc')
                         ->get();
             }
+            $data = $data->where('stocks', '>' , 0);
             $total_row = $data->count();
             if($total_row > 0) {
                 foreach($data as $row) {
                     $output .= '
-                    <tr>
-                        <td>'. $row->name .'</td>
-                        <td>'. $row->desc .'</td>
-                        <td>'. $row->srp .'</td>
-                        <td>'. $row->stocks .'</td>
-                        <td class="icons" onclick="
-                                addTransaction('.$row->id.', \''
-                                    .strval($row->name).'\', \''
-                                    .strval($row->desc).'\', \''
-                                    .$row->srp.'\',  '
-                                    .$row->stocks.')
-                            " style="cursor: pointer;">
-                            <i class="fa fa-plus"></i>
-                        </td>
-                    <tr>
+                        <tr>
+                            <td>'. $row->name .'</td>
+                            <td>'. $row->desc .'</td>
+                            <td>'. $row->srp .'</td>
+                            <td>'. $row->stocks .'</td>
+                            <td class="icons" onclick="
+                                    addTransaction('.$row->id.', \''
+                                        .strval($row->name).'\', \''
+                                        .strval($row->desc).'\', \''
+                                        .$row->srp.'\',  '
+                                        .$row->stocks.')
+                                " style="cursor: pointer;">
+                                <i class="fa fa-plus"></i>
+                            </td>
+                        <tr>
                     ';
                 }
             } else {
@@ -262,5 +268,60 @@ class ProductsController extends Controller
         $product->delete();
         
         return redirect('/products')->with('success', 'Product Deleted');
+    }
+    
+    public function import()
+    {
+        return view('pages.products.import_csv');
+    }
+
+    public function uploadCSVFile(Request $request)
+    {        
+        $this->validate($request, ['csv_file' => 'required']);
+
+        $upload = $request->file('csv_file');
+        $filePath = $upload->getRealPath();
+        $file=fopen($filePath, 'r');
+        $header=fgetcsv($file);
+
+        $escapedHeader=[];
+
+        foreach($header as $key => $value) {
+            $lheader=strtolower($value);
+            $escapedItem=preg_replace('/[^a-z]/', '', $lheader);
+            array_push($escapedHeader, $escapedItem);
+        }
+
+        while($columns=fgetcsv($file)) {
+            if($columns[0]=="") continue;
+            foreach($columns as $key => $value) $value=preg_replace('/\D/','',$value);
+            $data = array_combine($escapedHeader, $columns);
+
+            $product = Product::firstOrNew(['name'=>$data['name'], 'type'=>$data['type'], 'desc'=>$data['description']]);
+            $product->name = $data['name'];
+            $product->type =$data['type'];
+            $product->desc =$data['description'];
+            $product->price =$data['price'];
+            $product->srp =$data['srp'];
+            $product->source =$data['source'];
+            $product->contact =$data['contact'];
+            $product->expired_at =$data['expiredat'];
+            $product->stocks =$data['stocks'];
+            $product->procurement =$data['procurement'];
+            $product->save();
+        }
+
+        return redirect('/products')
+        ->with('success', 'File Imported Successfully');
+    }
+
+    /**
+     * Show the form for searching a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
+        return view('pages.products.search');
     }
 }
