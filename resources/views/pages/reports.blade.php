@@ -20,8 +20,8 @@
                         <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                             <div class="card bg-secondary mb-3">
                                 <div class="card-body text-center">
-                                    <h2>123</h2>
-                                    <p>Total</p>
+                                    <h2>{{count($transactions)}}</h2>
+                                    <p>Transactions</p>
                                 </div>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                         <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                             <div class="card bg-info mb-3">
                                 <div class="card-body text-center">
-                                    <h2>123</h2>
+                                    <h2>{{$transactions->sum('capital')}}</h2>
                                     <p>Capital</p>
                                 </div>
                             </div>
@@ -40,8 +40,8 @@
                         <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                             <div class="card bg-primary mb-3">
                                 <div class="card-body text-center">
-                                    <h2>123</h2>
-                                    <p>Total</p>
+                                    <h2>{{$transactions->sum('income')}}</h2>
+                                    <p>Income</p>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                             <div class="card bg-success mb-3">
                                 <div class="card-body text-center">
-                                    <h2>123</h2>
+                                    <h2>{{$transactions->sum('total')}}</h2>
                                     <p>Total</p>
                                 </div>
                             </div>
@@ -61,8 +61,8 @@
                         <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                             <div class="card orange mb-3">
                                 <div class="card-body text-center">
-                                    <h2>123</h2>
-                                    <p>Total</p>
+                                    <h2>?</h2>
+                                    <p>Loss Products</p>
                                 </div>
                             </div>
                         </div>
@@ -71,8 +71,8 @@
                         <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                             <div class="card bg-danger mb-3">
                                 <div class="card-body text-center">
-                                    <h2>123</h2>
-                                    <p>Total</p>
+                                    <h2>?</h2>
+                                    <p>Loss Money</p>
                                 </div>
                             </div>
                         </div>

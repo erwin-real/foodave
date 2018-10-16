@@ -29,7 +29,8 @@ class ReportsController extends Controller
         $chart->dataset('Income', 'line', $data['incomes']);
 
         return view('pages.reports')
-            ->with('chart', $chart);        
+            ->with('chart', $chart)
+            ->with('transactions', $data['transactions']);        
     }
 
     public function organizeDailyTransactions() {
@@ -67,6 +68,7 @@ class ReportsController extends Controller
         }
 
         return array(
+            'transactions' => $transactions,
             'dates' => $dates,
             'incomes' => $incomes,
             'totals' => $totals,

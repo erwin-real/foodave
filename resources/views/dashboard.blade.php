@@ -18,8 +18,8 @@
                         <div class="campaign-summary">
                             <div class="card camp-card mb-3">
                                 <div class="card-body text-center">
-                                    <h1>{{$transactions->sum('total')}}</h1>
-                                    <p>TOTAL</p>
+                                    <h1>{{$transactions->sum('income')}}</h1>
+                                    <p>INCOME</p>
                                 </div>
                             </div>
                         </div>
@@ -38,8 +38,8 @@
                         <div class="subs-summary">
                             <div class="card subs-card mb-3">
                                 <div class="card-body text-center">
-                                    <h1>{{$transactions->sum('income')}}</h1>
-                                    <p>INCOME</p>
+                                    <h1>{{$transactions->sum('total')}}</h1>
+                                    <p>TOTAL</p>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                 <div class="row">
 
                     <div class="col-sm-12 mb-2">
-                        <div class="card mb-2">
+                        <div class="card card-dashboard mb-2">
                             <h5 class="card-title campaign-title">Transactions Summary <a class="float-right" href="/transactions"><i class="fas fa-ellipsis-v"></i></a></h5>
                             <div class="card-body table-responsive-sm">
                                 <table class="table table-hover table-striped">
@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="card mb-2">
+                        <div class="card card-dashboard mb-2">
                             <h5 class="card-title lists-title">Procurements: {{count($procurements)}} <a class="float-right" href="/procurement"><i class="fas fa-ellipsis-v"></i></a></h5>
                             <div class="card-body table-responsive-sm">
                                 <table class="table table-hover table-striped">
@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="card mb-2">
+                        <div class="card card-dashboard mb-2">
                             <h5 class="card-title report-title">Report Summary <a class="float-right" href="/reports"><i class="fas fa-ellipsis-v"></i></a></h5>
                             <div class="card-body text-center h-100 d-table">
                                 <div class="v-align h-100 d-table-cell align-middle">

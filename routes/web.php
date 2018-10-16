@@ -13,6 +13,7 @@
 
 Route::get('/', function () { return view('welcome'); });
 Route::get('/dashboard', 'DashboardController@index');
+Route::get('/procurement', 'DashboardController@procurement');
 Route::get('/reports', 'ReportsController@index');
 
 Auth::routes();
@@ -26,8 +27,6 @@ Route::get('/products/search', 'ProductsController@search');
 
 Route::get('/transactions/get', 'TransactionsController@get')->name('transactions.get');
 
-// HELP ROUTES
-Route::get('/procurement', 'DashboardController@procurement');
-
 Route::resource('products', 'ProductsController');
 Route::resource('transactions', 'TransactionsController');
+Route::resource('loss', 'LossController');

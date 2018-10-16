@@ -41,6 +41,7 @@
                             <th scope="col">@sortablelink('procurement', 'Procurement',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                             <th scope="col">@sortablelink('created_at', 'Date Created',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                             <th scope="col">@sortablelink('updated_at', 'Date Updated',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">Loss</th>
                             <th scope="col">Update</th>
                             <th scope="col">Delete</th>
                         </tr>
@@ -61,6 +62,11 @@
                                     <td>{{$product->procurement}}</td>
                                     <td>{{date('D M d,Y H:i', strtotime($product->created_at))}}</td>
                                     <td>{{date('D M d,Y H:i', strtotime($product->updated_at))}}</td>
+                                    <td class="icons">
+                                        <a href="/loss/{{$product->id}}/edit">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                        </a>
+                                    </td>
                                     <td class="icons">
                                         <a href="/products/{{$product->id}}/edit">
                                             <i class="fa fa-pencil-alt"></i>

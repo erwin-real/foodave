@@ -6,7 +6,7 @@
     {{-- Right Content --}}
     <div class="body-right">
         <div class="container-fluid">
-            <h1>Contact Lists</h1>
+            <h1>Single Transaction</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Dashboard</a></li>

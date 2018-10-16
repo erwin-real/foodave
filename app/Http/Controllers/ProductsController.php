@@ -25,10 +25,8 @@ class ProductsController extends Controller
      */
     public function index()
     {        
-        $products = Product::sortable()->paginate(20);
-
         return view('pages.products')
-            ->with('products', $products);
+            ->with('products', Product::sortable()->paginate(20));
     }
 
     /**
@@ -38,7 +36,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('pages.products.add_product');
+        return view('pages.products.create');
     }
 
     /**
@@ -93,7 +91,7 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.products.edit_product')->with('product', Product::find($id));
+        return view('pages.products.edit')->with('product', Product::find($id));
     }
 
     /**

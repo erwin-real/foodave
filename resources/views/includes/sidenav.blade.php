@@ -51,6 +51,17 @@
                 </a>
                 <div class="arrow d-none {{ request()->is('procurement') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
             </li>
+            <li class="list-group-item {{ request()->is('Loss') ? 'active' : '' }}">
+                <a href="/loss">
+                    <div class="icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="link">
+                        Loss
+                    </div>
+                </a>
+                <div class="arrow d-none {{ request()->is('procurement') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
+            </li>
             <li class="list-group-item {{ request()->is('reports') ? 'active' : '' }}">
                 <a href="/reports">
                     <div class="icon">

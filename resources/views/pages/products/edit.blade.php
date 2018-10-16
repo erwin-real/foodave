@@ -7,7 +7,7 @@
     <div class="body-right">
         <div class="container-fluid">
 
-            <h1>Add Product</h1>
+            <h1>Edit Product</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Dashboard</a></li>
