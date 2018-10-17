@@ -84,19 +84,42 @@ class LossController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.losses.create')->with('product', Product::find($id));
+        return view('pages.losses.edit')->with('loss', Loss::find($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Loss  $loss
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Loss $loss)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'quantity' => 'required',
+            'reason' => 'required'
+        ]);
+        
+        $loss = Loss::find($id);
+        $loss->reason = $request->input('reason');
+
+        $quantity = $request->input('quantity');        
+        $product = Product::find($loss->product_id);
+
+        if($quantity > $loss->quantity) {
+            $quantity -= $loss->quantity;
+            $product->stocks -= $quantity;            
+        } else if($quantity < $loss->quantity) {
+            $quantity = $loss->quantity - $quantity;
+            $product->stocks += $quantity;        
+        }
+
+        $loss->quantity = $request->input('quantity');
+        $loss->save();
+        $product->save();
+
+        return redirect('/loss')->with('success', 'Loss Product Updated');
     }
 
     /**
