@@ -25,7 +25,14 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    
+    protected function authenticated(Request $request, $user)
+    {
+        if ( $user->type == 'admin' ) return redirect('/dashboard');
+        
+        return redirect('/products');
+    }
+    // protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.

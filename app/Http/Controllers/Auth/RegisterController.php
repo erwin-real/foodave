@@ -28,7 +28,14 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    // protected $redirectTo = '/dashboard';
+    
+    protected function authenticated(Request $request, $user)
+    {
+        if ( $user->type == 'admin' ) return redirect('/dashboard');
+        
+        return redirect('/products');
+    }
 
     /**
      * Create a new controller instance.

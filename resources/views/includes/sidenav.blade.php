@@ -7,17 +7,19 @@
                 <div class="circle"></div>
                 {{ Auth::user()->name }}
             </li>
-            <li class="list-group-item {{ request()->is('dashboard') ? 'active' : '' }}">
-                <a href="/dashboard">
-                    <div class="icon">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <div class="link">
-                        Dashboard
-                    </div>
-                </a>
-                <div class="arrow d-none {{ request()->is('dashboard') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
-            </li>
+            @if(Auth::user()->type == 'admin')
+                <li class="list-group-item {{ request()->is('dashboard') ? 'active' : '' }}">
+                    <a href="/dashboard">
+                        <div class="icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="link">
+                            Dashboard
+                        </div>
+                    </a>
+                    <div class="arrow d-none {{ request()->is('dashboard') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
+                </li>
+            @endif
             <li class="list-group-item {{ request()->is('products') ? 'active' : '' }} {{ request()->is('products') ? 'active' : '' }} {{ request()->is('products/import') ? 'active' : '' }} {{ request()->is('products/add') ? 'active' : '' }} {{ request()->is('products/create') ? 'active' : '' }}">
                 <a href="/products">
                     <div class="icon">
@@ -62,17 +64,19 @@
                 </a>
                 <div class="arrow d-none {{ request()->is('procurement') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
             </li>
-            <li class="list-group-item {{ request()->is('reports') ? 'active' : '' }}">
-                <a href="/reports">
-                    <div class="icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="link">
-                        Reports
-                    </div>
-                </a>
-                <div class="arrow d-none {{ request()->is('reports') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
-            </li>      
+            @if(Auth::user()->type == 'admin')
+                <li class="list-group-item {{ request()->is('reports') ? 'active' : '' }}">
+                    <a href="/reports">
+                        <div class="icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="link">
+                            Reports
+                        </div>
+                    </a>
+                    <div class="arrow d-none {{ request()->is('reports') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
+                </li>      
+            @endif
             @guest
                 <li class="list-group-item"><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                 <li class="list-group-item"><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>

@@ -9,7 +9,11 @@
             <h1>Procurement</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Dashboard</a></li>
+                    @if(Auth::user()->type == 'admin')
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a href="/dashboard">Dashboard</a>
+                        </li>
+                    @endif
                     <li class="breadcrumb-item active" aria-current="page">Procurement</li>
                 </ol>
             </nav>
@@ -17,14 +21,18 @@
             @include('includes.messages')
 
             <div class="lists-table table-responsive mt-3">
-            <h4>Total: {{count($procurements)}}</h4>
+            <h4>Total Procurement: {{count($procurements)}}</h4>
                 <table class="table table-hover table-striped py-3 text-center">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Type</th>
                             <th scope="col">Description</th>
-                            <th scope="col">Price</th>
+                            
+                            @if(Auth::user()->type == 'admin')
+                                <th scope="col">Price</th>
+                            @endif
+
                             <th scope="col">SRP</th>
                             <th scope="col">Source</th>
                             <th scope="col">Contact #</th>
@@ -44,7 +52,11 @@
                                     <td>{{$procurement->name}}</td>
                                     <td>{{$procurement->type}}</td>
                                     <td>{{$procurement->desc}}</td>
-                                    <td>{{$procurement->price}}</td>
+                                    
+                                    @if(Auth::user()->type == 'admin')
+                                        <td>{{$procurement->price}}</td>
+                                    @endif
+                                    
                                     <td>{{$procurement->srp}}</td>
                                     <td>{{$procurement->source}}</td>
                                     <td>{{$procurement->contact}}</td>

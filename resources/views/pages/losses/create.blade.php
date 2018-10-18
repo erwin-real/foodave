@@ -9,7 +9,11 @@
             <h1>Add Loss Product</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Dashboard</a></li>
+                    @if(Auth::user()->type == 'admin')
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a href="/dashboard">Dashboard</a>
+                        </li>
+                    @endif
                     <li class="breadcrumb-item" aria-current="page"><a href="/loss">Loss</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Add Loss Product</li>
                 </ol>

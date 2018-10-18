@@ -9,7 +9,11 @@
             <h1>Loss</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Dashboard</a></li>
+                    @if(Auth::user()->type == 'admin')
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a href="/dashboard">Dashboard</a>
+                        </li>
+                    @endif
                     <li class="breadcrumb-item active" aria-current="page">Loss</li>
                 </ol>
             </nav>
@@ -17,6 +21,7 @@
             @include('includes.messages')
 
             <div class="lists-table table-responsive mt-3">
+                <h4>Total Loss: {{count($losses)}}</h4>
                 <table class="table table-hover table-striped py-3 text-center">
                     <thead>
                         <tr>

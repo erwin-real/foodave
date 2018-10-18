@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\User;
 use App\Transaction;
 
 class DashboardController extends Controller
