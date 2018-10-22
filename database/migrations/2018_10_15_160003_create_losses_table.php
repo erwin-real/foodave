@@ -17,6 +17,7 @@ class CreateLossesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('quantity');
+            $table->double('loss_money', 15, 4);
             $table->string('reason');
             $table->timestamps();
         });

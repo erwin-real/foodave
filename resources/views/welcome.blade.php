@@ -71,7 +71,7 @@
                     @auth
                         @if(Auth::user()->type == 'admin')
                             <a href="{{ url('/dashboard') }}">Dashboard</a>
-                        @else
+                        @elseif(Auth::user()->type == 'seller')
                             <a href="{{ url('/products') }}">Products</a>
                         @endif
                     @else

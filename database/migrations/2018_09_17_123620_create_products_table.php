@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('desc')->nullable();
             $table->double('price', 15, 4);
             $table->double('srp', 15, 4);
+            $table->string('sold_by');
             $table->string('source')->nullable();
             $table->string('contact')->nullable();
             $table->timestamp('expired_at')->nullable();
