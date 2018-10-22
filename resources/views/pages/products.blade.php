@@ -26,8 +26,6 @@
                 <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a>
             </div>
 
-            @include('includes.messages')
-
             <div class="lists-table table-responsive mt-3">
             <h4>Total: {{count($products)}}</h4>
                 <table class="table table-hover table-striped py-3 text-center">
@@ -42,6 +40,7 @@
                             @endif
 
                             <th scope="col">@sortablelink('srp', 'SRP',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('sold_by', 'Sold by',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                             <th scope="col">@sortablelink('source', 'Source',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                             <th scope="col">@sortablelink('contact', 'Contact',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                             <th scope="col">@sortablelink('expired_at', 'Expiration Date',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
@@ -67,6 +66,7 @@
                                     @endif
                                     
                                     <td>{{$product->srp}}</td>
+                                    <td>{{$product->sold_by}}</td>
                                     <td>{{$product->source}}</td>
                                     <td>{{$product->contact}}</td>
                                     <td>{{date('D M d,Y', strtotime($product->expired_at))}}</td>

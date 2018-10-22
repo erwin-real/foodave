@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Loss extends Model
 {
     protected $fillable = [
-        'product_id', 'quantity', 'reason'
+        'product_id', 'quantity', 
+        'reason', 'loss_money'
     ];
 
     // Table Name

@@ -54,7 +54,7 @@
                                 <div class="card bg-success mb-3">
                                     <div class="card-body text-center">
                                         <h2>{{$transactions->sum('total')}}</h2>
-                                        <p>Total</p>
+                                        <p>Capital + Income</p>
                                     </div>
                                 </div>
                             </div>
@@ -63,8 +63,8 @@
                             <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                                 <div class="card orange mb-3">
                                     <div class="card-body text-center">
-                                        <h2>?</h2>
-                                        <p>Loss Products</p>
+                                        <h2>{{$losses->sum('quantity')}}</h2>
+                                        <p>Total Loss Products</p>
                                     </div>
                                 </div>
                             </div>
@@ -73,8 +73,8 @@
                             <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                                 <div class="card bg-danger mb-3">
                                     <div class="card-body text-center">
-                                        <h2>?</h2>
-                                        <p>Loss Money</p>
+                                        <h2>{{$losses->sum('loss_money')}}</h2>
+                                        <p>Total Loss Money</p>
                                     </div>
                                 </div>
                             </div>

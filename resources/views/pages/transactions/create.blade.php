@@ -33,6 +33,7 @@
                                                 <th scope="col">Description</th>
                                                 <th scope="col">Stocks</th>
                                                 <th scope="col">Price</th>
+                                                <th scope="col">Sold by</th>
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Remove</th>
@@ -72,6 +73,7 @@
                                             <th scope="col">Name</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Price</th>
+                                            <th scope="col">Sold by</th>
                                             <th scope="col">Stocks Remaining</th>
                                             <th scope="col">Add</th>
                                         </tr>
@@ -124,8 +126,8 @@
                     for (var i = 0; i < tBodyChildren.length; i++) {
                         transactions[i] = {
                             'product_id': tBodyChildren[i].children[7].children[0].value,
-                            'quantity': tBodyChildren[i].children[4].children[0].value,
-                            'subtotal': tBodyChildren[i].children[5].innerText
+                            'quantity': tBodyChildren[i].children[5].children[0].value,
+                            'subtotal': tBodyChildren[i].children[6].innerText
                         };
                     }
                     
@@ -153,7 +155,7 @@
             
         });
 
-        function addTransaction(id, name, desc, srp, stocks) {
+        function addTransaction(id, name, desc, sold_by, srp, stocks) {
             var td, tr;            
             var tbody = document.getElementById("transactionsTBody");
 
@@ -180,6 +182,11 @@
             td = document.createElement("td");
             var node_srp = document.createTextNode(srp);
             td.appendChild(node_srp);
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            var node_sold_by = document.createTextNode(sold_by);
+            td.appendChild(node_sold_by);
             tr.appendChild(td);
 
             td = document.createElement("td");
@@ -225,7 +232,7 @@
             var temp = 0;
             var tBodyChildren = document.getElementById('transactionsTBody').children;
             for(var i = 0; i < tBodyChildren.length; i++) 
-                temp += parseFloat(tBodyChildren[i].children[5].innerText);
+                temp += parseFloat(tBodyChildren[i].children[6].innerText);
             
             document.getElementById("total").innerText = temp;
             updateChange();
@@ -244,8 +251,8 @@
             var temp = 0;
             var node = r.parentNode.parentNode.children;
             var price = node[3].innerText;
-            var quantity = node[4].children[0].value;
-            node[5].innerText = price * quantity;
+            var quantity = node[5].children[0].value;
+            node[6].innerText = price * quantity;
             setTotal();
         }
 

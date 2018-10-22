@@ -47,6 +47,11 @@
                 </div>
                 
                 <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::label('sold_by', 'Sold By')}} <span class="text-danger">*</span>
+                    {{Form::text('sold_by', $product->sold_by, ['class' => 'form-control', 'placeholder' => 'Sold by ...'])}}
+                </div>
+                
+                <div class="form-group col-12 col-md-5 col-sm-8">
                     {{Form::label('src', 'Source of Supply')}}
                     {{Form::text('src', $product->source, ['class' => 'form-control', 'placeholder' => 'Enter Product\'s Source of Supply'])}}
                 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Charts\MyChart;
 use App\Transaction;
+use App\Loss;
 use DateTime;
 use DB;
 
@@ -30,7 +31,8 @@ class ReportsController extends Controller
 
         return view('pages.reports')
             ->with('chart', $chart)
-            ->with('transactions', $data['transactions']);        
+            ->with('transactions', $data['transactions'])
+            ->with('losses', Loss::all());        
     }
 
     public function organizeDailyTransactions() {
@@ -39,11 +41,10 @@ class ReportsController extends Controller
         $days = Transaction::select(array(
             DB::raw('DATE(`created_at`) as `date`'),
             DB::raw('COUNT(*) as `count`')
-        ))
-        ->where('created_at', '>', $date)
-        ->groupBy('date')
-        ->orderBy('date', 'ASC')
-        ->pluck('count', 'date');
+        ))->where('created_at', '>', $date)
+          ->groupBy('date')
+          ->orderBy('date', 'ASC')
+          ->pluck('count', 'date');
         
         $incomes = collect();
         $totals = collect();

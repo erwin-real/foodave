@@ -42,8 +42,8 @@
                                 <td>{{$singleTransaction->product->name}}</td>
                                 <td>{{$singleTransaction->product->type}}</td>
                                 <td>{{$singleTransaction->product->desc}}</td>
-                                <td>{{$singleTransaction->product->price}}</td>
-                                <td>{{$singleTransaction->product->srp}}</td>
+                                <td>{{$singleTransaction->orig_price}}</td>
+                                <td>{{$singleTransaction->orig_srp}}</td>
                                 <td>{{$singleTransaction->quantity}}</td>
                             </tr>
                         @endforeach

@@ -56,6 +56,7 @@ class LossController extends Controller
         $loss->product_id = $request->input('product_id');
         $loss->quantity = $request->input('quantity');
         $loss->reason = $request->input('reason');
+        $loss->loss_money = $loss->product->srp * $loss->quantity;
         $loss->save();
 
         $product = Product::find($loss->product_id);
@@ -116,6 +117,7 @@ class LossController extends Controller
         }
 
         $loss->quantity = $request->input('quantity');
+        $loss->loss_money = $loss->product->srp * $loss->quantity;
         $loss->save();
         $product->save();
 

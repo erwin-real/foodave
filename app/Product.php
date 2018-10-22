@@ -13,14 +13,16 @@ class Product extends Model
         'name', 'type', 'desc', 
         'price', 'srp', 'source', 
         'contact', 'expired_at', 
-        'stocks', 'procurement'
+        'stocks', 'procurement',
+        'sold_by'
     ];
 
     public $sortable = [
         'name', 'type', 'desc', 
         'price', 'srp', 'source',
         'contact', 'expired_at', 'stocks', 
-        'procurement', 'created_at', 'updated_at'
+        'procurement', 'created_at', 'updated_at',
+        'sold_by'
     ];
     
     // Table Name

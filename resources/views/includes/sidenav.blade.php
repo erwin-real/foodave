@@ -53,7 +53,7 @@
                 </a>
                 <div class="arrow d-none {{ request()->is('procurement') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
             </li>
-            <li class="list-group-item {{ request()->is('Loss') ? 'active' : '' }}">
+            <li class="list-group-item {{ request()->is('loss') ? 'active' : '' }}">
                 <a href="/loss">
                     <div class="icon">
                         <i class="fas fa-exclamation-triangle"></i>
@@ -62,7 +62,7 @@
                         Loss
                     </div>
                 </a>
-                <div class="arrow d-none {{ request()->is('procurement') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
+                <div class="arrow d-none {{ request()->is('loss') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
             </li>
             @if(Auth::user()->type == 'admin')
                 <li class="list-group-item {{ request()->is('reports') ? 'active' : '' }}">

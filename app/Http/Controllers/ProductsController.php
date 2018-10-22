@@ -53,7 +53,8 @@ class ProductsController extends Controller
             'price' => 'required',
             'srp' => 'required',
             'stocks' => 'required',
-            'pro' => 'required'
+            'pro' => 'required',
+            'sold_by' => 'required'
         ]);
         
         $product = new Product;
@@ -62,6 +63,7 @@ class ProductsController extends Controller
         $product->desc = $request->input('desc');
         $product->price = $request->input('price');
         $product->srp = $request->input('srp');
+        $product->sold_by = $request->input('sold_by');
         $product->source = $request->input('src');
         $product->contact = $request->input('contact');
         $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
@@ -109,7 +111,8 @@ class ProductsController extends Controller
             'price' => 'required',
             'srp' => 'required',
             'stocks' => 'required',
-            'pro' => 'required'
+            'pro' => 'required',
+            'sold_by' => 'required'
         ]);
         
         $product = Product::find($id);
@@ -118,6 +121,7 @@ class ProductsController extends Controller
         $product->desc = $request->input('desc');
         $product->price = $request->input('price');
         $product->srp = $request->input('srp');
+        $product->sold_by = $request->input('sold_by');
         $product->source = $request->input('src');
         $product->contact = $request->input('contact');
         $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
@@ -169,6 +173,7 @@ class ProductsController extends Controller
                         <td>'. $row->desc .'</td>
                         <td>'. $row->price .'</td>
                         <td>'. $row->srp .'</td>
+                        <td>'. $row->sold_by .'</td>
                         <td>'. $row->source .'</td>
                         <td>'. $row->contact .'</td>
                         <td>'
@@ -233,11 +238,13 @@ class ProductsController extends Controller
                             <td>'. $row->name .'</td>
                             <td>'. $row->desc .'</td>
                             <td>'. $row->srp .'</td>
+                            <td>'. $row->sold_by .'</td>
                             <td>'. $row->stocks .'</td>
                             <td class="icons" onclick="
                                     addTransaction('.$row->id.', \''
                                         .strval($row->name).'\', \''
                                         .strval($row->desc).'\', \''
+                                        .strval($row->sold_by).'\', \''
                                         .$row->srp.'\',  '
                                         .$row->stocks.')
                                 " style="cursor: pointer;">
@@ -301,6 +308,7 @@ class ProductsController extends Controller
             $product->desc =$data['description'];
             $product->price =$data['price'];
             $product->srp =$data['srp'];
+            $product->sold_by =$data['soldby'];
             $product->source =$data['source'];
             $product->contact =$data['contact'];
             $product->expired_at =$data['expiredat'];

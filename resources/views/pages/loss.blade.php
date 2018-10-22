@@ -31,6 +31,7 @@
                             <th scope="col">Quantity</th>
                             <th scope="col">Reason</th>
                             <th scope="col">SRP</th>
+                            <th scope="col">Loss Money</th>
                             <th scope="col">Source</th>
                             <th scope="col">Contact #</th>
                             <th scope="col">Date Created</th>
@@ -49,6 +50,7 @@
                                     <td>{{$loss->quantity}}</td>
                                     <td>{{$loss->reason}}</td>
                                     <td>{{$loss->product->srp}}</td>
+                                    <td>{{$loss->loss_money}}</td>
                                     <td>{{$loss->product->source}}</td>
                                     <td>{{$loss->product->contact}}</td>
                                     <td>{{date('m-d-Y H:i', strtotime($loss->created_at))}}</td>

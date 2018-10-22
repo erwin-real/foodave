@@ -68,6 +68,8 @@ class TransactionsController extends Controller
             $singleTransaction->total = $transac['subtotal'];
             $singleTransaction->capital = $transac['quantity'] * $singleTransaction->product->price;
             $singleTransaction->income = $transac['subtotal'] - $singleTransaction->capital;
+            $singleTransaction->orig_price = $singleTransaction->product->price;
+            $singleTransaction->orig_srp = $singleTransaction->product->srp;
             $singleTransaction->save();
 
             $product = Product::find($singleTransaction->product_id);
