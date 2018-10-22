@@ -70,7 +70,7 @@
                                 @endforeach
                             @else
                             <tr class="text-center">
-                                <th colspan="12">No loss products found</th>
+                                <th colspan="13">No loss products found</th>
                             </tr>
                             @endif
                         </tbody>
