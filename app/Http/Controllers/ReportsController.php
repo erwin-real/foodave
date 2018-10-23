@@ -25,9 +25,9 @@ class ReportsController extends Controller
         $chart = new MyChart;
         $data = $this->organizeDailyTransactions();
         $chart->labels($data['dates']);
-        $chart->dataset('Total', 'line', $data['totals']);
-        $chart->dataset('Capital', 'line', $data['capitals']);
-        $chart->dataset('Income', 'line', $data['incomes']);
+        $chart->dataset('Total', 'line', $data['totals'])->options(['color' => '#f0f',]);
+        $chart->dataset('Capital', 'line', $data['capitals'])->options(['color' => '#6c757d',]);
+        $chart->dataset('Income', 'line', $data['incomes'])->options(['color' => '#3490dc',]);
 
         return view('pages.reports')
             ->with('chart', $chart)

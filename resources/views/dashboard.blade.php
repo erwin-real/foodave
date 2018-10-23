@@ -41,8 +41,8 @@
                             <div class="subs-summary">
                                 <div class="card subs-card mb-3">
                                     <div class="card-body text-center">
-                                        <h1>{{$transactions->sum('total')}}</h1>
-                                        <p>TOTAL</p>
+                                        <h1>{{count($procurements)}}</h1>
+                                        <p>PROCUREMENTS</p>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +61,6 @@
                                     <table class="table table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Show</th>
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Money Received</th>
                                                 <th scope="col">Change</th>
@@ -72,11 +71,6 @@
                                             @if(count($transactions) > 0)
                                                 @foreach($transactions as $transaction)
                                                     <tr>
-                                                        <td class="icons" onclick="window.location.href = '/transactions/{{$transaction->id}}'" style="cursor:pointer;">
-                                                            {{-- <a href="/transactions/{{$transaction->id}}"> --}}
-                                                                <i class="fas fa-eye"></i>
-                                                            {{-- </a> --}}
-                                                        </td>
                                                         <td>{{$transaction->total}}</td>
                                                         <td>{{$transaction->money_received}}</td>
                                                         <td>{{$transaction->change}}</td>
@@ -85,7 +79,7 @@
                                                 @endforeach
                                             @else
                                             <tr class="text-center">
-                                                <th colspan="5">No transactions found</th>
+                                                <th colspan="4">No transactions found</th>
                                             </tr>
                                             @endif
                                         </tbody>
@@ -96,7 +90,7 @@
 
                         <div class="col-md-6">
                             <div class="card card-dashboard mb-2">
-                                <h5 class="card-title lists-title">Procurements: {{count($procurements)}} <a class="float-right" href="/procurement"><i class="fas fa-ellipsis-v"></i></a></h5>
+                                <h5 class="card-title lists-title">Procurements Summary <a class="float-right" href="/procurement"><i class="fas fa-ellipsis-v"></i></a></h5>
                                 <div class="card-body table-responsive-sm">
                                     <table class="table table-hover table-striped">
                                         <thead>
@@ -134,13 +128,9 @@
                                 <div class="card-body text-center h-100 d-table">
                                     <div class="v-align h-100 d-table-cell align-middle">
                                         <div class="row h-100 align-items-center">
-                                            <div class="col-sm-6 px-0">
-                                                <h1>report</h1>
-                                                <p><i class="far fa-check-circle"></i> Report</p>
-                                            </div>
-                                            <div class="col-sm-6 px-0 pb-4">
-                                                <h1>report</h1>
-                                                <p><i class="fas fa-undo"></i> Report</p>
+                                            <div class="col-12 px-0">
+                                                <h1>CHART!</h1>
+                                                <p><i class="far fa-check-circle"></i>one week income</p>
                                             </div>
                                         </div>
                                     </div>

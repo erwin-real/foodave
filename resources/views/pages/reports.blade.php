@@ -18,19 +18,21 @@
 
                 <div class="top-dashboard">
                     <div class="row">
+                        
                         <div class="col-6 col-sm-4 col-xl-2">
                             <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
-                                <div class="card bg-secondary mb-3">
+                                <div class="card bg-success mb-3">
                                     <div class="card-body text-center">
-                                        <h2>{{count($transactions)}}</h2>
-                                        <p>Transactions</p>
+                                        <h2>???</h2>
+                                        <p>Highest Income for single day</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-6 col-sm-4 col-xl-2">
                             <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
-                                <div class="card bg-info mb-3">
+                                <div class="card bg-secondary mb-3">
                                     <div class="card-body text-center">
                                         <h2>{{$transactions->sum('capital')}}</h2>
                                         <p>Capital</p>
@@ -38,6 +40,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-6 col-sm-4 col-xl-2">
                             <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                                 <div class="card bg-primary mb-3">
@@ -48,17 +51,18 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <div class="col-6 col-sm-4 col-xl-2">
                             <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
-                                <div class="card bg-success mb-3">
+                                <div class="card bg-info mb-3">
                                     <div class="card-body text-center">
-                                        <h2>{{$transactions->sum('total')}}</h2>
-                                        <p>Capital + Income</p>
+                                        <h2>{{count($transactions)}}</h2>
+                                        <p>Transactions</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-6 col-sm-4 col-xl-2">
                             <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                                 <div class="card orange mb-3">
@@ -69,6 +73,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-6 col-sm-4 col-xl-2">
                             <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
                                 <div class="card bg-danger mb-3">

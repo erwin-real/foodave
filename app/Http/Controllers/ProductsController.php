@@ -311,8 +311,8 @@ class ProductsController extends Controller
             $product->sold_by = $data['soldby'];
             $product->source = $data['source'];
             $product->contact = $data['contact'];
-            $product->expired_at = $data['expiredat'];
-            $product->stocks = $data['stocks'];
+            $product->expired_at = ($data['expiredat'] == '') ? null : $data['expiredat'];
+            $product->stocks += $data['stocks'];
             $product->procurement = $data['procurement'];
             $product->save();
         }

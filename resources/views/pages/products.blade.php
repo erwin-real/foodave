@@ -70,7 +70,11 @@
                                         <td>{{$product->sold_by}}</td>
                                         <td>{{$product->source}}</td>
                                         <td>{{$product->contact}}</td>
-                                        <td>{{date('D M d,Y', strtotime($product->expired_at))}}</td>
+                                        @if($product->expired_at != null)
+                                            <td>{{date('D M d,Y', strtotime($product->expired_at))}}</td>
+                                        @else
+                                            <td></td>
+                                        @endif
                                         <td>{{$product->stocks}}</td>
                                         <td>{{$product->procurement}}</td>
                                         <td>{{date('D M d,Y H:i', strtotime($product->created_at))}}</td>
