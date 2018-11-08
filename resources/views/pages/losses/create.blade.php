@@ -56,8 +56,8 @@
                 </div>
                 
                 <div class="form-group col-12 col-md-5 col-sm-8">
-                    {{Form::label('contact', 'Contact Number')}}
-                    {{Form::number('contact', $product->contact, ['class' => 'form-control', 'disabled' => 'disabled'])}}
+                    {{Form::label('contact', 'Contact')}}
+                    {{Form::text('contact', $product->contact, ['class' => 'form-control', 'disabled' => 'disabled'])}}
                 </div>
                 
                 <div class="form-group col-12 col-md-5 col-sm-8">

@@ -126,11 +126,13 @@
                         
                         for (var i = 0; i < tBodyChildren.length; i++) {
                             transactions[i] = {
-                                'product_id': tBodyChildren[i].children[7].children[0].value,
+                                'product_id': tBodyChildren[i].children[8].children[0].value,
                                 'quantity': tBodyChildren[i].children[5].children[0].value,
                                 'subtotal': tBodyChildren[i].children[6].innerText
                             };
                         }
+
+                        console.log(transactions);
                         
                         $.ajax({
                         url:"{{ route('transactions.get') }}",
@@ -148,6 +150,7 @@
                         error:function(data) {
                             if (data.status == 200 && data.responseText === "success")
                                 window.location.href = "/transactions";
+                            else console.log("ERROR: " + JSON.stringify(data));
                         }
                         })
 

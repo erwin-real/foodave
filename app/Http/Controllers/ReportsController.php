@@ -24,6 +24,7 @@ class ReportsController extends Controller
     public function index() {
         $chart = new MyChart;
         $data = $this->organizeDailyTransactions();
+
         $chart->labels($data['dates']);
         $chart->dataset('Total', 'line', $data['totals'])->options(['color' => '#f0f',]);
         $chart->dataset('Capital', 'line', $data['capitals'])->options(['color' => '#6c757d',]);

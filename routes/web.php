@@ -27,6 +27,10 @@ Route::get('/products/search', 'ProductsController@search');
 
 Route::get('/transactions/get', 'TransactionsController@get')->name('transactions.get');
 
-Route::resource('products', 'ProductsController');
-Route::resource('transactions', 'TransactionsController');
-Route::resource('loss', 'LossController');
+Route::get('/loss/create/{product_id}', 'LossController@create');
+
+Route::resources([
+    'products' => 'ProductsController',
+    'transactions' => 'TransactionsController',
+    'loss' => 'LossController'
+]);

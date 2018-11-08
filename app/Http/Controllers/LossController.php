@@ -34,9 +34,10 @@ class LossController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('pages.losses.create');
+        return view('pages.losses.create')
+            ->with('product', Product::find($id));
     }
 
     /**
@@ -85,6 +86,7 @@ class LossController extends Controller
      */
     public function edit($id)
     {
+        dd(Loss::find($id));
         return view('pages.losses.edit')->with('loss', Loss::find($id));
     }
 

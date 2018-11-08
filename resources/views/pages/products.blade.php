@@ -79,10 +79,12 @@
                                         <td>{{$product->procurement}}</td>
                                         <td>{{date('D M d,Y H:i', strtotime($product->created_at))}}</td>
                                         <td>{{date('D M d,Y H:i', strtotime($product->updated_at))}}</td>
-                                        <td class="icons">
-                                            <a href="/loss/{{$product->id}}/edit">
+                                        {{-- <td class="icons"> --}}
+                                            
+                                        <td class="icons" onclick="window.location.href = '/loss/create/{{$product->id}}'" style="cursor:pointer;">
+                                            {{-- <a href="/loss/{{$product->id}}/edit"> --}}
                                                 <i class="fa fa-exclamation-triangle"></i>
-                                            </a>
+                                            {{-- </a> --}}
                                         </td>
                                         <td class="icons">
                                             <a href="/products/{{$product->id}}/edit">

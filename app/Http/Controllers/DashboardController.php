@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Charts\MyChart;
 use App\Product;
 use App\User;
 use App\Transaction;
@@ -28,53 +29,25 @@ class DashboardController extends Controller
     {
         return view('dashboard')
             ->with('transactions', Transaction::all())
-            ->with('procurements', Product::orderBy('updated_at','desc')->whereRaw('products.stocks <= products.procurement')->get());
+            ->with('procurements', Product::orderBy('updated_at','desc')->whereRaw('products.stocks <= products.procurement')->get())
+            ->with('chart', $this->createChart());
     }
 
     public function procurement() {
         return view('pages.procurement')
             ->with('procurements', Product::orderBy('updated_at','desc')->whereRaw('products.stocks <= products.procurement')->get());
     }
+    
+    public function createChart() {
+        $data = app('App\Http\Controllers\ReportsController')->organizeDailyTransactions();
 
-    public function organizeDailyTransactions() {
-        $transactions = Transaction::all();
-        $date = new DateTime('tomorrow -1 month');        
-        $days = Transaction::select(array(
-            DB::raw('DATE(`created_at`) as `date`'),
-            DB::raw('COUNT(*) as `count`')
-        ))
-        ->where('created_at', '>', $date)
-        ->groupBy('date')
-        ->orderBy('date', 'ASC')
-        ->pluck('count', 'date');
-        
-        $incomes = collect();
-        $totals = collect();
-        $capitals = collect();
-        $dates = collect();
+        $chart = new MyChart;
+        $chart->labels(array_slice($data['dates']->toArray(), -7));
+        $chart->dataset('Total', 'line', array_slice($data['totals']->toArray(), -7))->options(['color' => '#f0f',]);
+        $chart->dataset('Capital', 'line', array_slice($data['capitals']->toArray(), -7))->options(['color' => '#6c757d',]);
+        $chart->dataset('Income', 'line', array_slice($data['incomes']->toArray(), -7))->options(['color' => '#3490dc',]);
 
-        foreach($days as $date=>$count) {
-            $dates->push($date);
-            $income = 0;
-            $capital = 0;
-            $total = 0;
-            foreach($transactions as $transaction) {
-                if($date === $transaction->created_at->format('Y-m-d')) {
-                    $income += $transaction->income;
-                    $capital += $transaction->capital;
-                    $total += $transaction->total;
-                }
-            }
-            $incomes->push($income);
-            $totals->push($total);
-            $capitals->push($capital);
-        }
-
-        return array(
-            'dates' => $dates,
-            'incomes' => $incomes,
-            'totals' => $totals,
-            'capitals' => $capitals,
-        );
+        return $chart;       
     }
+
 }

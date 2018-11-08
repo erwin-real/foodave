@@ -95,15 +95,11 @@
         </div>
     @endsection
 
-
-    {{-- <script src="https://unpkg.com/vue"></script> --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js" charset=utf-8></script> --}}
     <script src="/js/vue.js"></script>
     <script src="/js/echarts-en.min.js"></script>
     {!! $chart->script() !!}
 
     <script src="/js/highcharts.js"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.6/highcharts.js" charset="utf-8"></script> --}}
 
 @else
     <h1>PERMISSION DENIED</h1>

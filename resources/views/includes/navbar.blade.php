@@ -21,6 +21,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
                 @else
                     @if(Auth::user()->type == 'admin')
                         <li class="nav-tem"><a class="nav-link" href="/dashboard">Dashboard</a></li>

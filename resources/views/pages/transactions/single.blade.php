@@ -22,8 +22,11 @@
                 
                 <p>Date of Transaction: {{date('D M d,Y H:i', strtotime($transaction->created_at))}}</p>
                 <span>Total: {{$transaction->total}}</span><br>
-                <span>Capital: {{$transaction->capital}}</span><br>
-                <span>Income: {{$transaction->income}}</span>
+                
+                @if(Auth::user()->type == 'admin')
+                    <span>Capital: {{$transaction->capital}}</span><br>
+                    <span>Income: {{$transaction->income}}</span>
+                @endif
 
                 <div class="lists-table table-responsive mt-3">
                     <table class="table table-hover table-striped py-3 text-center">
@@ -32,9 +35,14 @@
                                 <th scope="col">Product Name</th>
                                 <th scope="col">Type</th>
                                 <th scope="col">Description</th>
-                                <th scope="col">Price</th>
+
+                                @if(Auth::user()->type == 'admin')
+                                    <th scope="col">Price</th>
+                                @endif
+
                                 <th scope="col">SRP</th>
                                 <th scope="col">Sold</th>
+                                <th scope="col">Subtotal</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,9 +51,14 @@
                                     <td>{{$singleTransaction->product->name}}</td>
                                     <td>{{$singleTransaction->product->type}}</td>
                                     <td>{{$singleTransaction->product->desc}}</td>
-                                    <td>{{$singleTransaction->orig_price}}</td>
+
+                                    @if(Auth::user()->type == 'admin')
+                                        <td>{{$singleTransaction->orig_price}}</td>
+                                    @endif
+
                                     <td>{{$singleTransaction->orig_srp}}</td>
                                     <td>{{$singleTransaction->quantity}}</td>
+                                    <td>{{$singleTransaction->total}}</td>
                                 </tr>
                             @endforeach
                         </tbody>
