@@ -38,7 +38,11 @@
                                 <th scope="col">Date Created</th>
                                 <th scope="col">Date Updated</th>
                                 <th scope="col">Update</th>
-                                <th scope="col">Delete</th>
+                                
+                                @if(Auth::user()->type == 'admin')
+                                    <th scope="col">Delete</th>
+                                @endif
+
                             </tr>
                         </thead>
                         <tbody>
@@ -61,11 +65,15 @@
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
                                         </td>
-                                        <td class="icons">
-                                            <a href="/loss/destroy/{{$loss->id}}">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
+                                        
+                                        @if(Auth::user()->type == 'admin')
+                                            <td class="icons">
+                                                <a href="/loss/destroy/{{$loss->id}}">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        @endif
+                                        
                                     </tr>
                                 @endforeach
                             @else

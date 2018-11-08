@@ -36,7 +36,11 @@
                                 <th scope="col">Money Received</th>
                                 <th scope="col">Change</th>
                                 <th scope="col">Date</th>
-                                <th scope="col">Delete</th>
+
+                                @if(Auth::user()->type == 'admin')
+                                    <th scope="col">Delete</th>
+                                @endif
+
                             </tr>
                         </thead>
                         <tbody>
@@ -52,12 +56,16 @@
                                         <td>{{$transaction->money_received}}</td>
                                         <td>{{$transaction->change}}</td>
                                         <td>{{date('D M d,Y H:i', strtotime($transaction->created_at))}}</td>
-                                        <td class="icons">
-                                            {!!Form::open(['action' => ['TransactionsController@destroy', $transaction->id], 'method' => 'POST'])!!}
-                                                {{Form::hidden('_method', 'DELETE')}}
-                                                {!! Form::button('<i class="fa fa-trash"></i>', ['class'=>'del-btn', 'type'=>'submit']) !!}
-                                            {!!Form::close()!!}
-                                        </td>
+                                        
+                                        @if(Auth::user()->type == 'admin')
+                                            <td class="icons">
+                                                {!!Form::open(['action' => ['TransactionsController@destroy', $transaction->id], 'method' => 'POST'])!!}
+                                                    {{Form::hidden('_method', 'DELETE')}}
+                                                    {!! Form::button('<i class="fa fa-trash"></i>', ['class'=>'del-btn', 'type'=>'submit']) !!}
+                                                {!!Form::close()!!}
+                                            </td>
+                                        @endif
+                                        
                                     </tr>
                                 @endforeach
                             @else

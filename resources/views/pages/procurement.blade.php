@@ -40,10 +40,9 @@
                                 <th scope="col">Expiration Date</th>
                                 <th scope="col">Stocks</th>
                                 <th scope="col">Procurement</th>
-                                <th scope="col">Date Created</th>
-                                <th scope="col">Date Updated</th>
+                                {{-- <th scope="col">Date Created</th>
+                                <th scope="col">Date Updated</th> --}}
                                 <th scope="col">Update</th>
-                                <th scope="col">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,16 +63,11 @@
                                         <td>{{date('m-d-Y', strtotime($procurement->expired_at))}}</td>
                                         <td>{{$procurement->stocks}}</td>
                                         <td>{{$procurement->procurement}}</td>
-                                        <td>{{date('m-d-Y H:i', strtotime($procurement->created_at))}}</td>
-                                        <td>{{date('m-d-Y H:i', strtotime($procurement->updated_at))}}</td>
+                                        {{-- <td>{{date('m-d-Y H:i', strtotime($procurement->created_at))}}</td>
+                                        <td>{{date('m-d-Y H:i', strtotime($procurement->updated_at))}}</td> --}}
                                         <td class="icons">
                                             <a href="/products/{{$procurement->id}}/edit">
                                                 <i class="fa fa-pencil-alt"></i>
-                                            </a>
-                                        </td>
-                                        <td class="icons">
-                                            <a href="/products/destroy/{{$procurement->id}}">
-                                                <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
