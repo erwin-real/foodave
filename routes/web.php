@@ -29,8 +29,14 @@ Route::get('/transactions/get', 'TransactionsController@get')->name('transaction
 
 Route::get('/loss/create/{product_id}', 'LossController@create');
 
-Route::resources([
-    'products' => 'ProductsController',
-    'transactions' => 'TransactionsController',
-    'loss' => 'LossController'
+Route::resource('products', 'ProductsController')->except([
+    'show'
+]);
+
+Route::resource('transactions', 'TransactionsController')->except([
+    'edit', 'update'
+]);
+
+Route::resource('loss', 'LossController')->except([
+    'show', 'destroy'
 ]);
