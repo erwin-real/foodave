@@ -136,7 +136,7 @@ class TransactionsController extends Controller
     {
         $transaction = Transaction::find($id);
         $transaction->delete();
-        
+
         return redirect('/transactions')->with('success', 'Transaction Deleted');
     }
 
