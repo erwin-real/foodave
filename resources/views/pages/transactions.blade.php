@@ -21,6 +21,12 @@
 
                 @include('includes.messages')
 
+                @if($success)
+                    <div class="alert alert-success">
+                        {{$success}}
+                    </div>
+                @endif
+
                 <div class="button-holder text-right">
                     <a href="/transactions/create" class="btn btn-primary mt-1"><i class="fas fa-plus"></i> New Transaction</a>
                     <!-- <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a> -->
