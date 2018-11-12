@@ -145,11 +145,11 @@
                         },
                         dataType:'json',
                         success:function(data) {
-                            window.location.href = "/transactions";
+                            window.location.href = "/transactions/success";
                         },
                         error:function(data) {
                             if (data.status == 200 && data.responseText === "success")
-                                window.location.href = "/transactions";
+                                window.location.href = "/transactions/success";
                             else console.log("ERROR: " + JSON.stringify(data));
                         }
                         })

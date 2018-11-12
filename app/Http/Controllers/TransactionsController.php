@@ -139,8 +139,20 @@ class TransactionsController extends Controller
         
         return redirect('/transactions')->with('success', 'Transaction Deleted');
     }
-    
+
     public function get(Request $request) {
         if ($request->ajax()) return $this->store($request);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function success()
+    {
+        return view('pages.transactions')
+            ->with('success', 'Added Transaction Successfully')
+            ->with('transactions', Transaction::orderBy('created_at', 'desc')->paginate(15));
     }
 }
