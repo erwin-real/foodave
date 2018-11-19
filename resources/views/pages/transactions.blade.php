@@ -21,7 +21,7 @@
 
                 @include('includes.messages')
 
-                @if($success)
+                @if(isset($success))
                     <div class="alert alert-success">
                         {{$success}}
                     </div>

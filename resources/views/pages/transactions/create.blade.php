@@ -20,6 +20,8 @@
                     </ol>
                 </nav>
 
+                <div id="success"></div>
+
                 <div class="bottom-dashboard">
                     <div class="row">
                         <div class="col-12 col-xl-6">
@@ -96,8 +98,7 @@
 
                 fetch_product_data_transact();
 
-                function fetch_product_data_transact(query = '')
-                {
+                function fetch_product_data_transact(query = '') {
                     $.ajax({
                     url:"{{ route('products.transact') }}",
                     method:'GET',
@@ -108,7 +109,7 @@
                         $('#total_records').text(data.total_data);
                     },
                     error:function(data) {
-                        console.log(data);
+                        console.log("ERROR AJAX: " + data);
                     }
                     })
                 }
@@ -145,17 +146,30 @@
                         },
                         dataType:'json',
                         success:function(data) {
-                            window.location.href = "/transactions/success";
+                            console.log("SUCCESS");
+                            resetTransactionsPage();
                         },
                         error:function(data) {
-                            if (data.status == 200 && data.responseText === "success")
-                                window.location.href = "/transactions/success";
+                            if (data.status == 200 && data.responseText === "success"){
+                                console.log("ERROR");
+                                resetTransactionsPage();
+                            }
                             else console.log("ERROR: " + JSON.stringify(data));
                         }
                         })
 
                     }
                 });
+
+
+                function resetTransactionsPage() {
+                    fetch_product_data_transact();
+                    document.getElementById("transactionsTBody").innerHTML = '';
+                    document.getElementById("total").innerText = '';
+                    document.getElementById("money").value = '';
+                    document.getElementById("change").innerText = '';
+                    document.getElementById('success').innerHTML = "<div class=\'alert alert-success\'>New Transaction Added Successfully!</div>";
+                }
                 
             });
 

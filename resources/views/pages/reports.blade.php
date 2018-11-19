@@ -1,9 +1,8 @@
-@if(Auth::user()->type == 'admin')
-
-    @extends('layouts.app')
+@extends('layouts.app')
 
     @section('content')
         @include('includes.sidenav')
+        @if(Auth::user()->type == 'admin')
 
         {{-- Right Content --}}
         <div class="body-right">
@@ -93,7 +92,7 @@
 
             </div>
         </div>
-    @endsection
+
 
     <script src="/js/vue.js"></script>
     <script src="/js/echarts-en.min.js"></script>
@@ -101,6 +100,7 @@
 
     <script src="/js/highcharts.js"></script>
 
-@else
+        @else
+    @endsection
     <h1>PERMISSION DENIED</h1>
 @endif
