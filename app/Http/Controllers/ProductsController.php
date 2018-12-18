@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -54,8 +55,20 @@ class ProductsController extends Controller
             'srp' => 'required',
             'stocks' => 'required',
             'pro' => 'required',
-            'sold_by' => 'required'
+            'sold_by' => 'required',
+            'cover_image' => 'image|nullable|max:1999'
         ]);
+
+        //Handle File Upload
+        if ($request->hasFile('cover_image')) {
+            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('cover_image')->getClientOriginalExtension();
+            $fileNameToStore = $filename .'_'.time().'.'.$extension;
+            $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
         
         $product = new Product;
         $product->name = $request->input('name');
@@ -69,6 +82,7 @@ class ProductsController extends Controller
         $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
         $product->procurement = $request->input('pro');
         $product->stocks = $request->input('stocks');
+        $product->cover_image = $fileNameToStore;
         $product->save();
 
         return redirect('/products')->with('success', 'Product Added');
@@ -82,7 +96,8 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('pages.products.show')
+            ->with('product', Product::find($id));
     }
 
     /**
@@ -114,7 +129,16 @@ class ProductsController extends Controller
             'pro' => 'required',
             'sold_by' => 'required'
         ]);
-        
+
+        //Handle File Upload
+        if ($request->hasFile('cover_image')) {
+            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('cover_image')->getClientOriginalExtension();
+            $fileNameToStore = $filename .'_'.time().'.'.$extension;
+            $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+        }
+
         $product = Product::find($id);
         $product->name = $request->input('name');
         $product->type = $request->input('type');
@@ -127,6 +151,11 @@ class ProductsController extends Controller
         $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
         $product->procurement = $request->input('pro');
         $product->stocks = $request->input('stocks');
+
+        if ($request->hasFile('cover_image')) {
+            $product->cover_image = $fileNameToStore;
+        }
+
         $product->save();
 
         return redirect('/products')->with('success', 'Product Updated');
@@ -141,6 +170,12 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
+
+        if ($product->cover_image != 'noimage.jpg') {
+            Storage::delete('public/cover_images/'.$product->cover_image);
+        }
+
+
         $product->delete();
         
         return redirect('/products')->with('success', 'Product Deleted');

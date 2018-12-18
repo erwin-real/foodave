@@ -20,8 +20,10 @@
                         <li class="breadcrumb-item active" aria-current="page">Add Product</li>
                     </ol>
                 </nav>
+
+                @include('includes.messages')
                 
-                {!! Form::open(['action' => 'ProductsController@store', 'method' => 'POST']) !!}
+                {!! Form::open(['action' => 'ProductsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="form-group col-12 col-md-5 col-sm-8">
                         {{Form::label('name', 'Product Name')}} <span class="text-danger">*</span>
@@ -77,15 +79,20 @@
                         {{Form::label('pro', 'Procurement Level')}} <span class="text-danger">*</span>
                         {{Form::number('pro', '', ['class' => 'form-control', 'placeholder' => 'Enter Procurement Level', 'required' => 'required'])}}
 
+                    </div>
+
+                    <div class="form-group col-12 col-md-5 col-sm-8">
+                        {{Form::file('cover_image')}}
+
                         <div class="text-center mt-4">
-                            {{Form::submit('Save', ['class' => 'btn btn-primary'])}}
+                            {{Form::submit('Save', ['class' => 'btn btn-outline-primary'])}}
                         </div>
 
                     </div>
 
                 {!! Form::close() !!}
                 
-                <a href="/products" class="btn btn-primary mb-3 mx-2"><i class="fas fa-chevron-left"></i> Back</a>
+                <a href="/products" class="btn btn-outline-primary mb-3 mx-2"><i class="fas fa-chevron-left"></i> Back</a>
                 
             </div>
         </div>

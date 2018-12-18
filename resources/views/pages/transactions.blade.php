@@ -28,7 +28,7 @@
                 @endif
 
                 <div class="button-holder text-right">
-                    <a href="/transactions/create" class="btn btn-primary mt-1"><i class="fas fa-plus"></i> New Transaction</a>
+                    <a href="/transactions/create" class="btn btn-outline-primary mt-1"><i class="fas fa-plus"></i> New Transaction</a>
                     <!-- <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a> -->
                 </div>
 

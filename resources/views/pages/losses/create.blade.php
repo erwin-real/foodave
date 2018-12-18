@@ -85,7 +85,7 @@
                     {{Form::text('reason', '', ['class' => 'form-control', 'placeholder' => 'Enter Reason', 'required' => 'required'])}}
 
                     <div class="text-center mt-4">
-                        {{Form::submit('Save', ['class' => 'btn btn-primary'])}}
+                        {{Form::submit('Save', ['class' => 'btn btn-outline-primary'])}}
                     </div>
                 </div>
                 

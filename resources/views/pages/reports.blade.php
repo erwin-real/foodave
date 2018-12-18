@@ -17,17 +17,17 @@
 
                 <div class="top-dashboard">
                     <div class="row">
-                        
-                        <div class="col-6 col-sm-4 col-xl-2">
-                            <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">
-                                <div class="card bg-success mb-3">
-                                    <div class="card-body text-center">
-                                        <h2>???</h2>
-                                        <p>Highest Income for single day</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                        {{--<div class="col-6 col-sm-4 col-xl-2">--}}
+                            {{--<div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">--}}
+                                {{--<div class="card bg-success mb-3">--}}
+                                    {{--<div class="card-body text-center">--}}
+                                        {{--<h2>???</h2>--}}
+                                        {{--<p>Highest Income for single day</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
                         <div class="col-6 col-sm-4 col-xl-2">
                             <div class="campaign-summary" style="cursor: pointer;" onclick="window.location = '/reports'">

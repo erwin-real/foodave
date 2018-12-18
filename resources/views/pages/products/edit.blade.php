@@ -20,7 +20,7 @@
                         <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
                     </ol>
                 </nav>
-                {!! Form::open(['action' => ['ProductsController@update', $product->id], 'method' => 'POST']) !!}
+                {!! Form::open(['action' => ['ProductsController@update', $product->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="form-group col-12 col-md-5 col-sm-8">
                         {{Form::label('name', 'Product Name')}} <span class="text-danger">*</span>
@@ -72,20 +72,24 @@
                         {{Form::number('stocks', $product->stocks, ['class' => 'form-control', 'placeholder' => 'Enter No. of Stocks', 'required' => 'required'])}}
                     </div>
 
-                    <div class="form-group col-12 col-md-5 col-sm-8">
-                        {{Form::label('pro', 'Procurement Level')}} <span class="text-danger">*</span>
-                        {{Form::number('pro', $product->procurement, ['class' => 'form-control', 'placeholder' => 'Enter Procurement Level', 'required' => 'required'])}}
+                <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::label('pro', 'Procurement Level')}} <span class="text-danger">*</span>
+                    {{Form::number('pro', $product->procurement, ['class' => 'form-control', 'placeholder' => 'Enter Procurement Level', 'required' => 'required'])}}
+                </div>
 
-                        <div class="text-center mt-4">
-                            {{Form::hidden('_method', 'PUT')}}
-                            {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
-                        </div>
+                <div class="form-group col-12 col-md-5 col-sm-8">
+                    {{Form::file('cover_image')}}
 
+                    <div class="text-center mt-4">
+                        {{Form::hidden('_method', 'PUT')}}
+                        {{Form::submit('Submit', ['class' => 'btn btn-outline-primary'])}}
                     </div>
+
+                </div>
 
                 {!! Form::close() !!}
                 
-                <a href="/products" class="btn btn-primary mb-3 mx-2"><i class="fas fa-chevron-left"></i> Back</a>
+                <a href="/products" class="btn btn-outline-primary mb-3 mx-2"><i class="fas fa-chevron-left"></i> Back</a>
                 
             </div>
         </div>

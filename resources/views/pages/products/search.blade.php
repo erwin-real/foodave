@@ -52,7 +52,7 @@
                         </table>
                     </div>
                 </div>
-                <a href="/products" class="btn btn-primary mb-3 mx-2"><i class="fas fa-chevron-left"></i> Back</a>
+                <a href="/products" class="btn btn-outline-primary mb-3 mx-2"><i class="fas fa-chevron-left"></i> Back</a>
 
             </div>
         </div>

@@ -30,9 +30,7 @@ Route::get('/transactions/success', 'TransactionsController@success');
 
 Route::get('/loss/create/{product_id}', 'LossController@create');
 
-Route::resource('products', 'ProductsController')->except([
-    'show'
-]);
+Route::resource('products', 'ProductsController');
 
 Route::resource('transactions', 'TransactionsController')->except([
     'edit', 'update'

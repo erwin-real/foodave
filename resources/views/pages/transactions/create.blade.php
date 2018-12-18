@@ -54,7 +54,7 @@
                                             <p><b>Change: <span id="change"></span></b></p>
                                         </div>
                                         <div class="text-center mb-3">
-                                            <button id="save" type="button" class="btn btn-primary" name="button">SAVE</button>
+                                            <button id="save" type="button" class="btn btn-outline-primary" name="button">SAVE</button>
                                         </div>
                                     </div>
                                 <!-- </div> -->

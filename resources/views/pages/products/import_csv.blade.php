@@ -28,13 +28,13 @@
                         </div>
 
                         <div class="text-center mt-4">
-                            {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
+                            {{Form::submit('Submit', ['class' => 'btn btn-outline-primary'])}}
                         </div>
                     </div>
 
                 {!! Form::close() !!}
                 
-                <a href="/products" class="btn btn-primary mb-3 mx-2"><i class="fas fa-chevron-left"></i> Back</a>
+                <a href="/products" class="btn btn-outline-primary mb-3 mx-2"><i class="fas fa-chevron-left"></i> Back</a>
 
             </div>
         </div>

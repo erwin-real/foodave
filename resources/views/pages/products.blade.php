@@ -22,9 +22,9 @@
                 @include('includes.messages')
 
                 <div class="button-holder text-right">
-                    <a href="/products/create" class="btn btn-primary mt-1"><i class="fas fa-plus"></i> Add</a>
-                    <a href="/products/search" class="btn btn-primary mt-1"><i class="fas fa-search"></i> Search</a>
-                    <a href="/products/import" class="btn btn-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a>
+                    <a href="/products/create" class="btn btn-outline-primary mt-1"><i class="fas fa-plus"></i> Add</a>
+                    <a href="/products/search" class="btn btn-outline-primary mt-1"><i class="fas fa-search"></i> Search</a>
+                    <a href="/products/import" class="btn btn-outline-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a>
                 </div>
 
                 <div class="lists-table table-responsive mt-3">
@@ -47,11 +47,9 @@
                                 <th scope="col">@sortablelink('expired_at', 'Expiration Date',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                                 <th scope="col">@sortablelink('stocks', 'Stocks',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                                 <th scope="col">@sortablelink('procurement', 'Procurement',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
-                                <th scope="col">@sortablelink('created_at', 'Date Created',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
-                                <th scope="col">@sortablelink('updated_at', 'Date Updated',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
-                                <th scope="col">Loss</th>
-                                <th scope="col">Update</th>
-                                <th scope="col">Delete</th>
+                                {{--<th scope="col">@sortablelink('created_at', 'Date Created',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>--}}
+                                {{--<th scope="col">@sortablelink('updated_at', 'Date Updated',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>--}}
+                                <th scope="col">Show</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,24 +75,13 @@
                                         @endif
                                         <td>{{$product->stocks}}</td>
                                         <td>{{$product->procurement}}</td>
-                                        <td>{{date('D M d,Y H:i', strtotime($product->created_at))}}</td>
-                                        <td>{{date('D M d,Y H:i', strtotime($product->updated_at))}}</td>
+                                        {{--<td>{{date('D M d,Y H:i', strtotime($product->created_at))}}</td>--}}
+                                        {{--<td class="">{{date('D M d,Y H:i', strtotime($product->updated_at))}}</td>--}}
                                         {{-- <td class="icons"> --}}
-                                            
-                                        <td class="icons" onclick="window.location.href = '/loss/create/{{$product->id}}'" style="cursor:pointer;">
-                                            {{-- <a href="/loss/{{$product->id}}/edit"> --}}
-                                                <i class="fa fa-exclamation-triangle"></i>
-                                            {{-- </a> --}}
-                                        </td>
+
                                         <td class="icons">
-                                            <a href="/products/{{$product->id}}/edit">
-                                                <i class="fa fa-pencil-alt"></i>
-                                            </a>
-                                        </td>
-                                        <td class="icons">
-                                            <a href="/products/destroy/{{$product->id}}">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
+                                             <a href="/products/{{$product->id}}" class="btn btn-outline-primary">Show
+                                             </a>
                                         </td>
                                     </tr>
                                 @endforeach

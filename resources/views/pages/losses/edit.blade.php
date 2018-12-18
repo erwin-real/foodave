@@ -86,7 +86,7 @@
 
                     <div class="text-center mt-4">
                         {{Form::hidden('_method', 'PUT')}}
-                        {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
+                        {{Form::submit('Submit', ['class' => 'btn btn-outline-primary'])}}
                     </div>
                 </div>
                 
