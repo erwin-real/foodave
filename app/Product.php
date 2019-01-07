@@ -33,5 +33,9 @@ class Product extends Model
 
     // Timestamps
     public $timestamps = true;
+
+    public function losses() {
+        return $this->hasMany('App\Loss');
+    }
     
 }

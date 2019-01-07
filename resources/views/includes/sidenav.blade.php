@@ -23,7 +23,7 @@
             <li class="list-group-item {{ request()->is('products') ? 'active' : '' }} {{ request()->is('products') ? 'active' : '' }} {{ request()->is('products/import') ? 'active' : '' }} {{ request()->is('products/add') ? 'active' : '' }} {{ request()->is('products/create') ? 'active' : '' }}">
                 <a href="/products">
                     <div class="icon">
-                        <i class="fas fa-list-ul"></i>
+                        <i class="fas fa-shopping-bag"></i>
                     </div>
                     <div class="link">
                         Products
@@ -34,7 +34,7 @@
             <li class="list-group-item {{ request()->is('transactions') ? 'active' : '' }} {{ request()->is('transactions/create') ? 'active' : '' }} {{ request()->is('transactions') ? 'active' : '' }} {{ request()->is('transactions/list') ? 'active' : '' }} {{ request()->is('transactions/create') ? 'active' : '' }} {{ request()->is('transactions/1') ? 'active' : '' }} {{ request()->is('transactions/2') ? 'active' : '' }} {{ request()->is('transactions/1/edit') ? 'active' : '' }} {{ request()->is('transactions/2/edit') ? 'active' : '' }}">
                 <a href="/transactions">
                     <div class="icon">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-tasks"></i>
                     </div>
                     <div class="link">
                         Transactions
@@ -75,7 +75,19 @@
                         </div>
                     </a>
                     <div class="arrow d-none {{ request()->is('reports') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
-                </li>      
+                </li>
+
+                <li class="list-group-item {{ request()->is('users') ? 'active' : '' }}">
+                    <a href="/users">
+                        <div class="icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="link">
+                            Users
+                        </div>
+                    </a>
+                    <div class="arrow d-none {{ request()->is('users') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
+                </li>
             @endif
             @guest
                 <li class="list-group-item"><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>

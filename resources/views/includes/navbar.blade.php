@@ -21,9 +21,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
+                    {{--<li class="nav-item">--}}
+                        {{--<a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>--}}
+                    {{--</li>--}}
                 @else
                     @if(Auth::user()->type == 'admin')
                         <li class="nav-tem"><a class="nav-link" href="/dashboard">Dashboard</a></li>
@@ -34,6 +34,7 @@
                     <li class="nav-tem"><a class="nav-link" href="/loss">Loss</a></li>
                     @if(Auth::user()->type == 'admin')
                         <li class="nav-tem"><a class="nav-link" href="/reports">Reports</a></li>
+                        <li class="nav-tem"><a class="nav-link" href="/users">Users</a></li>
                     @endif
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

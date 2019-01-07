@@ -17,6 +17,9 @@ class CreateSingleTransactionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('transaction_id');
             $table->unsignedInteger('product_id');
+            $table->string('name');
+            $table->string('type');
+            $table->string('desc')->nullable();
             $table->unsignedInteger('quantity');
             $table->double('orig_price', 15, 4);
             $table->double('orig_srp', 15, 4);

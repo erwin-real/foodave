@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Product;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
@@ -14,20 +16,18 @@ class ProductsController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    public function __construct() { $this->middleware('auth'); }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {        
-        return view('pages.products')
-            ->with('products', Product::sortable()->paginate(20));
+    public function index() {
+        if ($this->isUserType('admin') || $this->isUserType('seller'))
+            return view('pages.products')->with('products', Product::sortable()->paginate(20));
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -35,9 +35,11 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('pages.products.create');
+    public function create() {
+        if ($this->isUserType('admin') || $this->isUserType('seller'))
+            return view('pages.products.create');
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -46,46 +48,47 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {        
-        $this->validate($request, [
-            'name' => 'required',
-            'type' => 'required',
-            'price' => 'required',
-            'srp' => 'required',
-            'stocks' => 'required',
-            'pro' => 'required',
-            'sold_by' => 'required',
-            'cover_image' => 'image|nullable|max:1999'
-        ]);
+    public function store(Request $request) {
+        if ($this->isUserType('admin') || $this->isUserType('seller')) {
+            $this->validate($request, [
+                'name' => 'required',
+                'type' => 'required',
+                'price' => 'required',
+                'srp' => 'required',
+                'stocks' => 'required',
+                'pro' => 'required',
+                'sold_by' => 'required',
+                'cover_image' => 'image|nullable|max:1999'
+            ]);
 
-        //Handle File Upload
-        if ($request->hasFile('cover_image')) {
-            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('cover_image')->getClientOriginalExtension();
-            $fileNameToStore = $filename .'_'.time().'.'.$extension;
-            $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
-        } else {
-            $fileNameToStore = 'noimage.jpg';
+            //Handle File Upload
+            if ($request->hasFile('cover_image')) {
+                $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('cover_image')->getClientOriginalExtension();
+                $fileNameToStore = $filename .'_'.time().'.'.$extension;
+                $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+            } else $fileNameToStore = 'noimage.jpg';
+
+            $product = new Product;
+            $product->name = $request->input('name');
+            $product->type = $request->input('type');
+            $product->desc = $request->input('desc');
+            $product->price = $request->input('price');
+            $product->srp = $request->input('srp');
+            $product->sold_by = $request->input('sold_by');
+            $product->source = $request->input('src');
+            $product->contact = $request->input('contact');
+            $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
+            $product->procurement = $request->input('pro');
+            $product->stocks = $request->input('stocks');
+            $product->cover_image = $fileNameToStore;
+            $product->save();
+
+            return redirect('/products')->with('success', 'Product Added');
         }
-        
-        $product = new Product;
-        $product->name = $request->input('name');
-        $product->type = $request->input('type');
-        $product->desc = $request->input('desc');
-        $product->price = $request->input('price');
-        $product->srp = $request->input('srp');
-        $product->sold_by = $request->input('sold_by');
-        $product->source = $request->input('src');
-        $product->contact = $request->input('contact');
-        $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
-        $product->procurement = $request->input('pro');
-        $product->stocks = $request->input('stocks');
-        $product->cover_image = $fileNameToStore;
-        $product->save();
 
-        return redirect('/products')->with('success', 'Product Added');
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -94,10 +97,11 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        return view('pages.products.show')
-            ->with('product', Product::find($id));
+    public function show($id) {
+        if ($this->isUserType('admin') || $this->isUserType('seller'))
+            return view('pages.products.show')->with('product', Product::find($id));
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -106,9 +110,11 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        return view('pages.products.edit')->with('product', Product::find($id));
+    public function edit($id) {
+        if ($this->isUserType('admin') || $this->isUserType('seller'))
+            return view('pages.products.edit')->with('product', Product::find($id));
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -118,47 +124,48 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'type' => 'required',
-            'price' => 'required',
-            'srp' => 'required',
-            'stocks' => 'required',
-            'pro' => 'required',
-            'sold_by' => 'required'
-        ]);
+    public function update(Request $request, $id) {
+        if ($this->isUserType('admin') || $this->isUserType('seller')) {
+            $this->validate($request, [
+                'name' => 'required',
+                'type' => 'required',
+                'srp' => 'required',
+                'stocks' => 'required',
+                'pro' => 'required',
+                'sold_by' => 'required'
+            ]);
 
-        //Handle File Upload
-        if ($request->hasFile('cover_image')) {
-            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('cover_image')->getClientOriginalExtension();
-            $fileNameToStore = $filename .'_'.time().'.'.$extension;
-            $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+            $product = Product::find($id);
+            $product->name = $request->input('name');
+            $product->type = $request->input('type');
+            $product->desc = $request->input('desc');
+
+            if (Auth::user()->type == 'admin') $product->price = $request->input('price');
+
+            $product->srp = $request->input('srp');
+            $product->sold_by = $request->input('sold_by');
+            $product->source = $request->input('src');
+            $product->contact = $request->input('contact');
+            $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
+            $product->procurement = $request->input('pro');
+            $product->stocks = $request->input('stocks');
+
+            //Handle File Upload
+            if ($request->hasFile('cover_image')) {
+                $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('cover_image')->getClientOriginalExtension();
+                $fileNameToStore = $filename .'_'.time().'.'.$extension;
+                $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+                $product->cover_image = $fileNameToStore;
+            }
+
+            $product->save();
+
+            return redirect('/products')->with('success', 'Product Updated');
         }
 
-        $product = Product::find($id);
-        $product->name = $request->input('name');
-        $product->type = $request->input('type');
-        $product->desc = $request->input('desc');
-        $product->price = $request->input('price');
-        $product->srp = $request->input('srp');
-        $product->sold_by = $request->input('sold_by');
-        $product->source = $request->input('src');
-        $product->contact = $request->input('contact');
-        $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
-        $product->procurement = $request->input('pro');
-        $product->stocks = $request->input('stocks');
-
-        if ($request->hasFile('cover_image')) {
-            $product->cover_image = $fileNameToStore;
-        }
-
-        $product->save();
-
-        return redirect('/products')->with('success', 'Product Updated');
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -167,18 +174,20 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminatsade\Http\Response
      */
-    public function destroy($id)
-    {
-        $product = Product::find($id);
+    public function destroy($id) {
+        if ($this->isUserType('admin')) {
+            $product = Product::find($id);
 
-        if ($product->cover_image != 'noimage.jpg') {
-            Storage::delete('public/cover_images/'.$product->cover_image);
+            if ($product->cover_image != 'noimage.jpg')
+                Storage::delete('public/cover_images/'.$product->cover_image);
+
+            foreach ($product->losses as $loss) $loss->delete();
+
+            $product->delete();
+            return redirect('/products')->with('success', 'Product Deleted');
         }
 
-
-        $product->delete();
-        
-        return redirect('/products')->with('success', 'Product Deleted');
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     public function action(Request $request) {
@@ -203,10 +212,9 @@ class ProductsController extends Controller
                 foreach($data as $row) {
                     $output .= '
                     <tr id="product'. $row->id .'">
-                        <td>'. $row->name .'</td>
+                        <td style="cursor:pointer;" onclick="window.location = \'/products/'. $row->id .'\'">'. $row->name .'</td>
                         <td>'. $row->type .'</td>
                         <td>'. $row->desc .'</td>
-                        <td>'. $row->price .'</td>
                         <td>'. $row->srp .'</td>
                         <td>'. $row->sold_by .'</td>
                         <td>'. $row->source .'</td>
@@ -219,18 +227,6 @@ class ProductsController extends Controller
                     $output .= '</td>
                         <td>'. $row->stocks .'</td>
                         <td>'. $row->procurement .'</td>
-                        <td>'. date('D m-d-Y H:i', strtotime($row->created_at)) .'</td>
-                        <td>'. date('D m-d-Y H:i', strtotime($row->updated_at)) .'</td>
-                        <td class="icons">
-                            <a href="/products/'. $row->id .'/edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                        </td>
-                        <td class="icons">
-                            <a onclick="deleteProduct('. $row->id .')">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </td>
                     <tr>
                     ';
                 }
@@ -270,21 +266,18 @@ class ProductsController extends Controller
                 foreach($data as $row) {
                     $output .= '
                         <tr>
-                            <td>'. $row->name .'</td>
+                            <td class="icons" onclick="
+                                    addTransaction('.$row->id.', \''
+                        .strval($row->name).'\', \''
+                        .strval($row->desc).'\', \''
+                        .strval($row->sold_by).'\', \''
+                        .$row->srp.'\',  '
+                        .$row->stocks.')
+                                " style="cursor: pointer;">'. $row->name .'</td>
                             <td>'. $row->desc .'</td>
                             <td>'. $row->srp .'</td>
                             <td>'. $row->sold_by .'</td>
                             <td>'. $row->stocks .'</td>
-                            <td class="icons" onclick="
-                                    addTransaction('.$row->id.', \''
-                                        .strval($row->name).'\', \''
-                                        .strval($row->desc).'\', \''
-                                        .strval($row->sold_by).'\', \''
-                                        .$row->srp.'\',  '
-                                        .$row->stocks.')
-                                " style="cursor: pointer;">
-                                <i class="fa fa-plus"></i>
-                            </td>
                         <tr>
                     ';
                 }
@@ -303,57 +296,56 @@ class ProductsController extends Controller
         }
     }
 
-    public function del($product_id) {
-        $product = Product::find($product_id);
-        $product->delete();
-        
-        return redirect('/products')->with('success', 'Product Deleted');
-    }
-    
-    public function import()
-    {
-        return view('pages.products.import_csv');
+    public function import() {
+        if ($this->isUserType('admin'))
+            return view('pages.products.import_csv');
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
-    public function uploadCSVFile(Request $request)
-    {        
-        $this->validate($request, ['csv_file' => 'required']);
+    public function uploadCSVFile(Request $request) {
+        if ($this->isUserType('admin')) {
+            $this->validate($request, ['csv_file' => 'required']);
 
-        $upload = $request->file('csv_file');
-        $filePath = $upload->getRealPath();
-        $file=fopen($filePath, 'r');
-        $header=fgetcsv($file);
+            $upload = $request->file('csv_file');
+            $filePath = $upload->getRealPath();
+            $file=fopen($filePath, 'r');
+            $header=fgetcsv($file);
 
-        $escapedHeader=[];
+            $escapedHeader=[];
 
-        foreach($header as $key => $value) {
-            $lheader=strtolower($value);
-            $escapedItem=preg_replace('/[^a-z]/', '', $lheader);
-            array_push($escapedHeader, $escapedItem);
+            foreach($header as $key => $value) {
+                $lheader=strtolower($value);
+                $escapedItem=preg_replace('/[^a-z]/', '', $lheader);
+                array_push($escapedHeader, $escapedItem);
+            }
+
+            while($columns=fgetcsv($file)) {
+                if($columns[0]=="") continue;
+                foreach($columns as $key => $value) $value=preg_replace('/\D/','',$value);
+                $data = array_combine($escapedHeader, $columns);
+
+                $product = Product::firstOrNew(['name'=>$data['name'], 'type'=>$data['type'], 'desc'=>$data['description']]);
+                $product->name = $data['name'];
+                $product->type = $data['type'];
+                $product->desc = $data['description'];
+                $product->price = $data['price'];
+                $product->srp = $data['srp'];
+                $product->sold_by = $data['soldby'];
+                $product->source = $data['source'];
+                $product->contact = $data['contact'];
+                $product->expired_at = ($data['expiredat'] == '') ? null : $data['expiredat'];
+                $product->stocks += $data['stocks'];
+                $product->procurement = $data['procurement'];
+                $product->cover_image = "noimage.jpg";
+                $product->save();
+            }
+
+            return redirect('/products')
+                ->with('success', 'File Imported Successfully');
         }
 
-        while($columns=fgetcsv($file)) {
-            if($columns[0]=="") continue;
-            foreach($columns as $key => $value) $value=preg_replace('/\D/','',$value);
-            $data = array_combine($escapedHeader, $columns);
-
-            $product = Product::firstOrNew(['name'=>$data['name'], 'type'=>$data['type'], 'desc'=>$data['description']]);
-            $product->name = $data['name'];
-            $product->type = $data['type'];
-            $product->desc = $data['description'];
-            $product->price = $data['price'];
-            $product->srp = $data['srp'];
-            $product->sold_by = $data['soldby'];
-            $product->source = $data['source'];
-            $product->contact = $data['contact'];
-            $product->expired_at = ($data['expiredat'] == '') ? null : $data['expiredat'];
-            $product->stocks += $data['stocks'];
-            $product->procurement = $data['procurement'];
-            $product->save();
-        }
-
-        return redirect('/products')
-        ->with('success', 'File Imported Successfully');
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -361,8 +353,14 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function search()
-    {
-        return view('pages.products.search');
+    public function search() {
+        if ($this->isUserType('admin') || $this->isUserType('seller'))
+            return view('pages.products.search');
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
+    }
+
+    public function isUserType($type) {
+        return (User::find(auth()->user()->id)->type == $type) ? true : false;
     }
 }

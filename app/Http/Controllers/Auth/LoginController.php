@@ -27,14 +27,14 @@ class LoginController extends Controller
      * @var string
      */
 
-    protected function authenticated(Request $request, $user)
-    {
-        if ( $user->type == 'admin' ) return redirect('/dashboard');
-        else if ( $user->type == 'seller' ) return redirect('/products');
-        return redirect('/');
-    }
+//    protected function authenticated(Request $request, $user)
+//    {
+//        if ( $user->type == 'admin' ) return redirect('/dashboard');
+//        else if ( $user->type == 'seller' ) return redirect('/products');
+//        return redirect('/');
+//    }
 
-    // protected $redirectTo = '/dashboard';
+     protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -44,5 +44,14 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function username()
+    {
+        $loginType = request()->input('username');
+        $this->username = filter_var($loginType, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        request()->merge([ $this->username => $loginType ]);
+
+        return property_exists($this, 'username') ? $this->username : 'email';
     }
 }

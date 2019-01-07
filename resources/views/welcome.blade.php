@@ -9,6 +9,8 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -51,16 +53,9 @@
 
             .links > a {
                 color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
             }
         </style>
     </head>
@@ -70,21 +65,32 @@
                 <div class="top-right links">
                     @auth
                         @if(Auth::user()->type == 'admin')
-                            <a href="{{ url('/dashboard') }}">Dashboard</a>
+                            <a href="{{ url('/dashboard') }}" class="btn btn-outline-primary m-1"><i class="fas fa-home"></i> Dashboard</a>
                         @elseif(Auth::user()->type == 'seller')
-                            <a href="{{ url('/products') }}">Products</a>
+                            <a href="{{ url('/transactions/create') }}" class="btn btn-outline-primary m-1">
+                                <i class="fas fa-plus"></i> New Transaction
+                            </a>
                         @endif
+                        <a class="btn btn-outline-danger" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                            <div class="link">
+                                <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
+                            </div>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary m-1"><i class="fa fa-sign-in-alt"></i> Login</a>
                     @endauth
                 </div>
             @endif
-
             <div class="content">
-                <div class="title m-b-md">
+                <div class="title">
                     Food Avenue
                 </div>
+                <div> @include('includes.messages') </div>
                 <div>
                     <p>General Merchandise</p>
                 </div>

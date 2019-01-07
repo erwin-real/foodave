@@ -16,11 +16,38 @@ Route::get('/dashboard', 'DashboardController@index');
 Route::get('/procurement', 'DashboardController@procurement');
 Route::get('/reports', 'ReportsController@index');
 
-Auth::routes();
+//Auth::routes();
+
+// Reset Password
+Route::get('/resetPassword/{id}','DashboardController@showResetPasswordForm');
+Route::post('/resetPassword','DashboardController@resetPassword')->name('resetPassword');
+
+// Authentication Routes...
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+//Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+//Route::post('register', 'Auth\RegisterController@register');
+
+// Password Reset Routes...
+//Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+//Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+//Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+//Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+// Users
+Route::get('/users/create', 'DashboardController@addUser');
+Route::get('/users/{id}', 'DashboardController@showUser');
+Route::post('/users','DashboardController@saveUser');
+Route::get('/users','DashboardController@users');
+Route::get('/users/{id}/edit','DashboardController@editUser');
+Route::delete('/users/{id}','DashboardController@destroyUser');
+Route::put('/users/{id}','DashboardController@updateUser');
 
 Route::get('/products/action', 'ProductsController@action')->name('products.action');
 Route::get('/products/transact', 'ProductsController@transact')->name('products.transact');
-Route::get('/products/{product_id}/del', 'ProductsController@del');
 Route::get('/products/import', 'ProductsController@import');
 Route::post('/products/uploadFile', 'ProductsController@uploadCSVFile');
 Route::get('/products/search', 'ProductsController@search');
@@ -32,10 +59,8 @@ Route::get('/loss/create/{product_id}', 'LossController@create');
 
 Route::resource('products', 'ProductsController');
 
+Route::resource('loss', 'LossController')->except(['create']);
+
 Route::resource('transactions', 'TransactionsController')->except([
     'edit', 'update'
-]);
-
-Route::resource('loss', 'LossController')->except([
-    'show', 'destroy'
 ]);
