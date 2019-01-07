@@ -42,7 +42,7 @@
                             @endif
 
                             <th scope="col">@sortablelink('srp', 'SRP',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
-                            <th scope="col">@sortablelink('sold_by', 'Sold by',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
+                            <th scope="col">@sortablelink('sold_by', 'Sold per',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                             <th scope="col">@sortablelink('source', 'Source',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                             <th scope="col">@sortablelink('expired_at', 'Expiration Date',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>
                             <th scope="col">@sortablelink('stocks', 'Stocks',[],['style' => 'text-decoration: none;', 'rel' => 'nofollow'])</th>

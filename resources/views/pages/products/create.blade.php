@@ -50,8 +50,8 @@
                 </div>
 
                 <div class="form-group col-12 col-md-5 col-sm-8">
-                    {{Form::label('sold_by', 'Sold By')}} <span class="text-danger">*</span>
-                    {{Form::text('sold_by', '', ['class' => 'form-control', 'placeholder' => 'Sold by ...'])}}
+                    {{Form::label('sold_by', 'Sold Per')}} <span class="text-danger">*</span>
+                    {{Form::text('sold_by', '', ['class' => 'form-control', 'placeholder' => 'Piece, Pack, Kilogram, etc...'])}}
                 </div>
 
                 <div class="form-group col-12 col-md-5 col-sm-8">

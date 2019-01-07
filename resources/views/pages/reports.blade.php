@@ -89,7 +89,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card mb-2">
-                            <h5 class="card-title report-title">{{ucfirst($type)}} Report Summary <a class="float-right" href="/reports"><i class="fas fa-ellipsis-v"></i></a></h5>
+                            <h5 class="card-title report-title">{{ucfirst($type)}} Report Summary</h5>
                             <div class="panel-body pt-4">
                                 {!! $chart->container() !!}
                             </div>

@@ -73,7 +73,7 @@
                             @endforeach
                         @else
                         <tr class="text-center">
-                            <th colspan="6">No transactions found</th>
+                            <th colspan="7">No transactions found</th>
                         </tr>
                         @endif
                     </tbody>

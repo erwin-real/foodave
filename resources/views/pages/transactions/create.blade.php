@@ -36,7 +36,7 @@
                                                 <th scope="col">Description</th>
                                                 <th scope="col">Stocks</th>
                                                 <th scope="col">Price</th>
-                                                <th scope="col">Sold by</th>
+                                                <th scope="col">Sold per</th>
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col">Total</th>
                                             </tr>
@@ -75,7 +75,7 @@
                                             <th scope="col">Name</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Price</th>
-                                            <th scope="col">Sold by</th>
+                                            <th scope="col">Sold per</th>
                                             <th scope="col">Stocks Remaining</th>
                                         </tr>
                                     </thead>
@@ -128,49 +128,57 @@
             });
 
             $( "#save" ).click(function() {
-                if (confirm("Confirm Transaction")) {
+                let total = $('#total').text();
+                let money = $('#money').val();
+                let change = $('#change').text();
+                if (total.length !== 0 && money.length !== 0 && change.length !== 0) {
 
-                    var tBodyChildren = document.getElementById('transactionsTBody').children;
-                    var transactions = {};
+                    if (confirm("Confirm Transaction")) {
+                        var tBodyChildren = document.getElementById('transactionsTBody').children;
+                        var transactions = {};
 
-                    for (var i = 0; i < tBodyChildren.length; i++) {
-                        transactions[i] = {
-                            'product_id': tBodyChildren[i].children[7].children[0].value,
-                            'quantity': tBodyChildren[i].children[5].children[0].value,
-                            'subtotal': tBodyChildren[i].children[6].innerText
-                        };
-                    }
-
-                    $.ajax({
-                    url:"{{ route('transactions.get') }}",
-                    method:'GET',
-                    data:{
-                        transactions: transactions,
-                        total: $('#total').text(),
-                        money: $('#money').val(),
-                        change: $('#change').text()
-                    },
-                    dataType:'json',
-                    success:function(data) {
-                        console.log("SUCCESS");
-                        resetTransactionsPage(data.id);
-                        successMsg();
-                    },
-                    error:function(data) {
-                        if (data.status == 200 && data.text === "success"){
-                            console.log("ERROR");
-                            resetTransactionsPage(data.id);
-                            successMsg();
+                        for (var i = 0; i < tBodyChildren.length; i++) {
+                            transactions[i] = {
+                                'product_id': tBodyChildren[i].children[7].children[0].value,
+                                'quantity': tBodyChildren[i].children[5].children[0].value,
+                                'subtotal': tBodyChildren[i].children[6].innerText
+                            };
                         }
-                        else console.log("ERROR: " + JSON.stringify(data));
-                    }
-                    })
 
-                }
+                        $.ajax({
+                            url:"{{ route('transactions.get') }}",
+                            method:'GET',
+                            data:{
+                                transactions: transactions,
+                                total: total,
+                                money: money,
+                                change: change
+                            },
+                            dataType:'json',
+                            success:function(data) {
+                                console.log("SUCCESS");
+                                resetTransactionsPage();
+                                successMsg(data.id);
+                            },
+                            error:function(data) {
+                                if (data.status == 200 && data.text === "success"){
+                                    console.log("ERROR");
+                                    resetTransactionsPage();
+                                    successMsg(data.id);
+                                } else console.log("ERROR: " + JSON.stringify(data));
+                            }
+                        })
+                    }
+
+                } else
+                    document.getElementById('message').innerHTML
+                        = "<div class=\'alert alert-danger\'>Cannot save transaction. " +
+                        "Please check all fields in Transaction Summary.</div>";
+
             });
 
 
-            function resetTransactionsPage(id) {
+            function resetTransactionsPage() {
                 fetch_product_data_transact();
                 document.getElementById("transactionsTBody").innerHTML = '';
                 document.getElementById("total").innerText = '';
@@ -178,7 +186,7 @@
                 document.getElementById("change").innerText = '';
             }
 
-            function successMsg() {
+            function successMsg(id) {
                 document.getElementById('message').innerHTML
                     = "<div class=\'alert alert-success\'>New Transaction Added Successfully! " +
                     "<a href='/transactions/"+id+"'>See more</a></div>";

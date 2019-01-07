@@ -323,15 +323,15 @@ class ProductsController extends Controller
             while($columns=fgetcsv($file)) {
                 if($columns[0]=="") continue;
                 foreach($columns as $key => $value) $value=preg_replace('/\D/','',$value);
-                $data = array_combine($escapedHeader, $columns);
 
+                $data = array_combine($escapedHeader, $columns);
                 $product = Product::firstOrNew(['name'=>$data['name'], 'type'=>$data['type'], 'desc'=>$data['description']]);
                 $product->name = $data['name'];
                 $product->type = $data['type'];
                 $product->desc = $data['description'];
                 $product->price = $data['price'];
                 $product->srp = $data['srp'];
-                $product->sold_by = $data['soldby'];
+                $product->sold_by = $data['soldper'];
                 $product->source = $data['source'];
                 $product->contact = $data['contact'];
                 $product->expired_at = ($data['expiredat'] == '') ? null : $data['expiredat'];

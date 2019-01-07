@@ -53,7 +53,7 @@
                             @endif
 
                             <th scope="col">SRP</th>
-                            <th scope="col">Sold</th>
+                            <th scope="col">Quantity</th>
                             <th scope="col">Subtotal</th>
                         </tr>
                     </thead>

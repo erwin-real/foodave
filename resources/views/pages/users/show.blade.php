@@ -35,13 +35,15 @@
                         <p> <strong>Updated at</strong>: {{ date('D m-d-Y', strtotime($user->updated_at)) }}</p>
                         <a href="{{ action('DashboardController@editUser', $user->id) }}" class="btn btn-outline-info float-left mr-2"><i class="fa fa-pencil-alt"></i> Edit</a>
 
-                        <form id="delete" method="POST" action="{{ action('DashboardController@destroyUser', $user->id) }}" class="float-left">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <div>
-                                <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
-                            </div>
-                        </form>
+                        @if(Auth::user()->username != $user->username)
+                            <form id="delete" method="POST" action="{{ action('DashboardController@destroyUser', $user->id) }}" class="float-left">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <div>
+                                    <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
+                                </div>
+                            </form>
+                        @endif
                         <div class="clearfix"></div>
                     </div>
 

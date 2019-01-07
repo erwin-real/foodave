@@ -46,7 +46,7 @@
                                         <tr>
                                             <td><a href="/users/{{$user->id}}">{{ $user->name }}</a></td>
                                             <td>{{ $user->username }}</td>
-                                            <td>{{ $user->email }}</td>
+                                            <td>{{ ($user->email == null) ? "none" : $user->email }}</td>
                                             <td>{{ $user->type }}</td>
                                         </tr>
                                     @endforeach
