@@ -24,7 +24,7 @@
                 <a href="/products/create" class="btn btn-outline-primary mt-1"><i class="fas fa-plus"></i> Add</a>
                 <a href="/products/search" class="btn btn-outline-primary mt-1"><i class="fas fa-search"></i> Search</a>
                 @if(Auth::user()->type == 'admin')
-                    <a href="/products/import" class="btn btn-outline-primary mt-1"><i class="fas fa-file-alt"></i> Import CSV File</a>
+                    <a href="/products/import" class="btn btn-outline-primary mt-1"><i class="fas fa-file-alt"></i> Import File</a>
                 @endif
             </div>
 

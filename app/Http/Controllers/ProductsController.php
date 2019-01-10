@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Product;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductsController extends Controller
 {
@@ -305,48 +307,104 @@ class ProductsController extends Controller
 
     public function uploadCSVFile(Request $request) {
         if ($this->isUserType('admin')) {
-            $this->validate($request, ['csv_file' => 'required']);
+            //validate the xls file
+            $this->validate($request, array(
+                'csv_file'      => 'required'
+            ));
 
-            $upload = $request->file('csv_file');
-            $filePath = $upload->getRealPath();
-            $file=fopen($filePath, 'r');
-            $header=fgetcsv($file);
+            if($request->hasFile('csv_file')){
+                $extension = $request->file('csv_file')->getClientOriginalExtension();
+                if ($extension === "xlsx" || $extension === "xls" || $extension === "csv") {
 
-            $escapedHeader=[];
+                    $path = $request->file('csv_file')->getRealPath();
+                    $data = Excel::load($path, function($reader) {
+                    })->get();
+                    if(!empty($data) && $data->count()){
 
-            foreach($header as $key => $value) {
-                $lheader=strtolower($value);
-                $escapedItem=preg_replace('/[^a-z]/', '', $lheader);
-                array_push($escapedHeader, $escapedItem);
+                        foreach ($data as $key => $value) {
+                            try {
+                                $product = Product::firstOrNew(['name'=>$value->name, 'type'=>$value->type, 'desc'=>$value->description]);
+                                $product->name = $value->name;
+                                $product->type = $value->type;
+                                $product->desc = $value->description;
+                                $product->price = $value->price;
+                                $product->srp = $value->srp;
+                                $product->sold_by = $value->soldper ? $value->soldper : $value->sold_per;
+                                $product->source = $value->source;
+                                $product->contact = $value->contact;
+                                $product->expired_at = ($value->expired_at == '') ? null : $value->expired_at;
+                                $product->stocks += $value->stocks;
+                                $product->procurement = $value->procurement;
+//                                $product->cover_image = "noimage.jpg";
+                                $product->cover_image = $product->cover_image ? $product->cover_image : "noimage.jpg";
+                                $product->save();
+                            }catch (\Exception $ex) {
+                                return redirect('/products/import')->with('error', 'Error inserting the data. Please check the values in the file before importing it.');
+                            }catch (\Error $er) {
+                                return redirect('/products/import')->with('error', 'Error inserting the data. Please check the values in the file before importing it.');
+                            }
+                        }
+
+                        return redirect('/products')
+                            ->with('success', 'Your products has successfully imported');
+                    }
+
+                    return back();
+
+                }else {
+                    return redirect('/products')
+                        ->with('error', 'File is a '.$extension.' file.!! Please upload a valid xls/xlsx/csv file..!!');
+                }
             }
-
-            while($columns=fgetcsv($file)) {
-                if($columns[0]=="") continue;
-                foreach($columns as $key => $value) $value=preg_replace('/\D/','',$value);
-
-                $data = array_combine($escapedHeader, $columns);
-                $product = Product::firstOrNew(['name'=>$data['name'], 'type'=>$data['type'], 'desc'=>$data['description']]);
-                $product->name = $data['name'];
-                $product->type = $data['type'];
-                $product->desc = $data['description'];
-                $product->price = $data['price'];
-                $product->srp = $data['srp'];
-                $product->sold_by = $data['soldper'];
-                $product->source = $data['source'];
-                $product->contact = $data['contact'];
-                $product->expired_at = ($data['expiredat'] == '') ? null : $data['expiredat'];
-                $product->stocks += $data['stocks'];
-                $product->procurement = $data['procurement'];
-                $product->cover_image = "noimage.jpg";
-                $product->save();
-            }
-
-            return redirect('/products')
-                ->with('success', 'File Imported Successfully');
         }
 
         return redirect('/')->with('error', 'You don\'t have the privilege');
     }
+
+//    public function uploadCSVFile(Request $request) {
+//        if ($this->isUserType('admin')) {
+//            $this->validate($request, ['csv_file' => 'required']);
+//
+//            $upload = $request->file('csv_file');
+//            $filePath = $upload->getRealPath();
+//            $file=fopen($filePath, 'r');
+//            $header=fgetcsv($file);
+//
+//            $escapedHeader=[];
+//
+//            foreach($header as $key => $value) {
+//                $lheader=strtolower($value);
+//                $escapedItem=preg_replace('/[^a-z]/', '', $lheader);
+//                array_push($escapedHeader, $escapedItem);
+//            }
+//
+//            while($columns=fgetcsv($file)) {
+//                if($columns[0]=="") continue;
+//                foreach($columns as $key => $value) $value=preg_replace('/\D/','',$value);
+//
+//                $data = array_combine($escapedHeader, $columns);
+//                $product = Product::firstOrNew(['name'=>$data['name'], 'type'=>$data['type'], 'desc'=>$data['description']]);
+//                $product->name = $data['name'];
+//                $product->type = $data['type'];
+//                $product->desc = $data['description'];
+//                $product->price = $data['price'];
+//                $product->srp = $data['srp'];
+//                $product->sold_by = $data['soldper'];
+//                $product->source = $data['source'];
+//                $product->contact = $data['contact'];
+//                $product->expired_at = ($data['expiredat'] == '') ? null : $data['expiredat'];
+//                $product->stocks += $data['stocks'];
+//                $product->procurement = $data['procurement'];
+//                $product->cover_image = "noimage.jpg";
+//                $product->save();
+//            }
+//
+//            return redirect('/products')
+//                ->with('success', 'File Imported Successfully');
+//        }
+//
+//        return redirect('/')->with('error', 'You don\'t have the privilege');
+//    }
 
     /**
      * Show the form for searching a new resource.

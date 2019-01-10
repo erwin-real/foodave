@@ -15,26 +15,36 @@
                         </li>
                     @endif
                     <li class="breadcrumb-item" aria-current="page"><a href="/products">Products</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Import CSV File</li>
+                    <li class="breadcrumb-item active" aria-current="page">Import File</li>
                 </ol>
             </nav>
 
+            @include('includes.messages')
+
             {!! Form::open(['action' => 'ProductsController@uploadCSVFile', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                 <div class="form-group">
-                    <p class="small">
-                        Note:
-                        <ol class="small">
-                            <li>The file must be in CSV (Comma-Separated Values) file format or .csv.</li>
-                            <li>The file must have all the following columns:
-                                <ol>
-                                    <li>Name, Type, Description, Price, SRP, Sold per, Source, Contact, Expired at, Stocks, Procurement</li>
-                                </ol>
-                            </li>
-                            <li>The "Expired at" column in the CSV file must have a date format of yyyy-mm-dd. Example: 2020-04-15</li>
-                            <li>If a product in the file has the same "Name", "Type", and "Description" in the records of products, the product will only increase in the number of stocks.</li>
-                            <li>You can add the image of the product individually after importing the CSV file.</li>
-                        </ol>
-                    </p>
+                    <div class="alert alert-danger">
+                        <p>
+                            <span class="font-weight-bold">Please read and follow these guides before importing a file:</span>
+                            <ol class="">
+                                <li>The file must be in <span class="font-weight-bold">.csv</span> or
+                                    <span class="font-weight-bold">.xls</span> or
+                                    <span class="font-weight-bold">.xlsx</span> file extension.</li>
+                                <li>The file must have all the following columns:
+                                    <ol>
+                                        <li>Name, Type, Description, Price, SRP, Sold per, Source, Contact, Expired at, Stocks, Procurement</li>
+                                    </ol>
+                                </li>
+                                <li>The <span class="font-weight-bold">"Expired at"</span> column in the file must have a date format of
+                                    <span class="font-weight-bold">yyyy-mm-dd</span>. Example: 2020-04-15</li>
+                                <li>If a product in the file has the same
+                                    <span class="font-weight-bold">"Name", "Type", and "Description"</span> in the
+                                    records of products, the product will only increase in the number of
+                                    <span class="font-weight-bold">stocks.</span></li>
+                                <li>You can add the image of the product individually after importing the file.</li>
+                            </ol>
+                        </p>
+                    </div>
                     <label for="csv_file" class="col-md-4 control-label">Upload File <span class="text-danger">*</span></label>
                     <div class="col-md-6">
                         {{Form::file('csv_file', ['class' => 'form-control', 'required'])}}
