@@ -46,7 +46,7 @@
                         <tr>
                             <th scope="col">Product Name</th>
                             <th scope="col">Type</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Description | Sold Per</th>
 
                             @if(Auth::user()->type == 'admin')
                                 <th scope="col">Price</th>

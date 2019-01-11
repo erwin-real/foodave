@@ -83,6 +83,7 @@
                 <a href="/reports?type=daily" class="btn btn-outline-primary">Daily</a>
                 <a href="/reports?type=weekly" class="btn btn-outline-primary">Weekly</a>
                 <a href="/reports?type=monthly" class="btn btn-outline-primary">Monthly</a>
+                <a href="/reports?type=yearly" class="btn btn-outline-primary">Yearly</a>
             </div>
 
             <div class="bottom-dashboard">

@@ -184,6 +184,7 @@
                 document.getElementById("total").innerText = '';
                 document.getElementById("money").value = '';
                 document.getElementById("change").innerText = '';
+                addedProducts = [];
             }
 
             function successMsg(id) {
