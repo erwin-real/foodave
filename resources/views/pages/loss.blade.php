@@ -20,6 +20,10 @@
 
             @include('includes.messages')
 
+            {{--<div class="button-holder text-right">--}}
+                {{--<a href="/guide/loss" class="btn btn-outline-dark mt-1"><i class="fas fa-info-circle"></i> Guide</a>--}}
+            {{--</div>--}}
+
             <div class="lists-table table-responsive mt-3">
                 <h4>Total Loss: {{count($losses)}}</h4>
                 <table class="table table-hover table-striped py-3 text-center">
@@ -28,8 +32,8 @@
                             <th scope="col">Name</th>
                             <th scope="col">Type</th>
                             <th scope="col">Description</th>
-                            <th scope="col">Quantity</th>
                             <th scope="col">SRP</th>
+                            <th scope="col">Quantity</th>
                             <th scope="col">Loss Money</th>
                             <th scope="col">Reason</th>
 
@@ -42,8 +46,8 @@
                                     <td style="cursor: pointer;" onclick="window.location = '/loss/{{$loss->id}}'">{{$loss->product->name}}</td>
                                     <td>{{$loss->product->type}}</td>
                                     <td>{{$loss->product->desc}}</td>
-                                    <td>{{$loss->quantity}}</td>
                                     <td>{{$loss->product->srp}}</td>
+                                    <td>{{$loss->quantity}}</td>
                                     <td>{{$loss->loss_money}}</td>
                                     <td>{{$loss->reason}}</td>
                                 </tr>

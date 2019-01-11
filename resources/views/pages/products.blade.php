@@ -26,6 +26,7 @@
                 @if(Auth::user()->type == 'admin')
                     <a href="/products/import" class="btn btn-outline-primary mt-1"><i class="fas fa-file-alt"></i> Import File</a>
                 @endif
+                <a href="/guide/products" class="btn btn-outline-dark mt-1"><i class="fas fa-info-circle"></i> Guide</a>
             </div>
 
             <div class="lists-table table-responsive mt-3">

@@ -46,21 +46,6 @@ class ReportsController extends Controller
 
         $groups = $this->period();
 
-
-//        if ($type == 'daily') {
-//            $this->format = 'D. M d, Y';
-//            $groups = $this->period();
-//        } else if ($type == 'weekly') {
-//            $this->format = 'W Y';
-//            $groups = $this->period();
-//        } else if ($type == 'monthly') {
-//            $this->format = 'M Y';
-//            $groups = $this->period();
-//        } else {
-//            $this->format = 'Y';
-//            $groups = $this->period();
-//        }
-
         $incomes = collect();
         $totals = collect();
         $capitals = collect();

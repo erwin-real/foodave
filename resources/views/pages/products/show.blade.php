@@ -25,7 +25,7 @@
                 <a href="/products/{{$product->id}}/edit" class="btn btn-outline-primary mt-1"><i class="fas fa-pencil-alt"></i> Edit</a>
 
                 @if($product->stocks != 0)
-                    <a href="/loss/create/{{$product->id}}" class="btn btn-outline-warning mt-1"><i class="fas fa-exclamation-triangle"></i> Loss</a>
+                    <a href="/loss/create/{{$product->id}}" class="btn btn-outline-secondary mt-1"><i class="fas fa-exclamation-triangle"></i> Loss</a>
                 @endif
 
                 @if(Auth::user()->type == 'admin')
@@ -38,7 +38,7 @@
             </div>
 
             <div class="row">
-                <div class="col-4 mt-4 panel-body">
+                <div class="col-sm-12 col-md-4 mt-4 panel-body">
                     <p><b>Name</b>: {{$product->name}}</p>
                     <p><b>Type</b>: {{$product->type}}</p>
                     <p><b>Desc</b>: {{$product->desc}}</p>
@@ -56,7 +56,7 @@
                     <p><b>Updated at</b>: {{date('D M d,Y', strtotime($product->updated_at))}}</p>
                 </div>
 
-                <div class="col-8 mt-4 panel-body">
+                <div class="col-sm-12 col-md-8 mt-4 panel-body">
                     <img src="/storage/cover_images/{{$product->cover_image}}" alt="" style="width: 100%;
 ">
                 </div>

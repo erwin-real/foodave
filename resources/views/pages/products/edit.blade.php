@@ -85,11 +85,12 @@
             </div>
 
             <div class="form-group col-12 col-md-5 col-sm-8">
-                {{Form::file('cover_image')}}
+                <label for="cover_image" class="control-label">Product Image</label>
+                {{Form::file('cover_image', ['class' => 'form-control'])}}
 
                 <div class="text-center mt-4">
                     {{Form::hidden('_method', 'PUT')}}
-                    {{Form::submit('Submit', ['class' => 'btn btn-outline-primary'])}}
+                    {{Form::submit('Save', ['class' => 'btn btn-outline-primary'])}}
                 </div>
 
             </div>

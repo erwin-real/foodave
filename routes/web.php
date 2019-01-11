@@ -16,6 +16,11 @@ Route::get('/dashboard', 'DashboardController@index');
 Route::get('/procurement', 'DashboardController@procurement');
 Route::get('/reports', 'ReportsController@index');
 
+// Guides
+Route::get('/guide/products', 'GuideController@products');
+Route::get('/guide/transactions', 'GuideController@transactions');
+Route::get('/guide/users', 'GuideController@users');
+
 //Auth::routes();
 
 // Reset Password
