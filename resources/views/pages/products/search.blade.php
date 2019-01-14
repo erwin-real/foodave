@@ -33,7 +33,7 @@
                                 <th scope="col">Type</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">SRP</th>
-                                <th scope="col">Sold by</th>
+                                <th scope="col">Sold per</th>
                                 <th scope="col">Source</th>
                                 <th scope="col">Contact #</th>
                                 <th scope="col">Expiration Date</th>

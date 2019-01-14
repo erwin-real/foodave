@@ -96,8 +96,8 @@
 
                             <div class="form-group row mb-0 text-center">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Add') }}
+                                    <button type="submit" class="btn btn-outline-primary">
+                                        {{ __('Save') }}
                                     </button>
                                 </div>
                             </div>

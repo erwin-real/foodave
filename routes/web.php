@@ -19,6 +19,7 @@ Route::get('/reports', 'ReportsController@index');
 // Guides
 Route::get('/guide/products', 'GuideController@products');
 Route::get('/guide/transactions', 'GuideController@transactions');
+Route::get('/guide/loss', 'GuideController@loss');
 Route::get('/guide/users', 'GuideController@users');
 
 //Auth::routes();

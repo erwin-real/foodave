@@ -22,7 +22,7 @@
             <div>
 
                 <h3>♦ Create new transaction</h3>
-                <div class="container-fluid mx-2">
+                <div class="mx-2">
                     <ol>
                         <li>Go to <a href="/transactions">Transactions Page</a>.</li>
                         <li>Click the "New Transaction" button.</li>
@@ -36,10 +36,11 @@
                         <li>Click "OK" in the alertbox that will show up.</li>
                         <li>Finish!</li>
                     </ol>
+                    <span>*To delete a product in the Transaction summary, simply click the name of the product.</span>
                 </div>
 
-                <h3>♦ View specific transaction</h3>
-                <div class="container-fluid mx-2">
+                <h3 class="mt-4">♦ View specific transaction</h3>
+                <div class="mx-2">
                     <ol>
                         <li>Go to <a href="/transactions">Transactions Page</a>.</li>
                         <li>Click the specific date for the transaction in the table.</li>
@@ -49,7 +50,7 @@
 
                 @if(Auth::user()->type == 'admin')
                     <h3>♦ Delete a transaction</h3>
-                    <div class="container-fluid mx-2">
+                    <div class="mx-2">
                         <ol>
                             <li>Go to <a href="/transactions">Transactions Page</a>.</li>
                             <li>Click the specific date for the transaction in the table.</li>
