@@ -41,7 +41,7 @@
                 <div class="col-4 mt-4 panel-body">
                     <p><b>Name</b>: {{$loss->product->name}}</p>
                     <p><b>Type</b>: {{$loss->product->type}}</p>
-                    <p><b>Desc</b>: {{$loss->product->desc}}</p>
+                    <p><b>Description</b>: {{$loss->product->desc}}</p>
                     @if(Auth::user()->type == 'admin')
                         <p><b>Price</b>: {{$loss->product->price}}</p>
                     @endif

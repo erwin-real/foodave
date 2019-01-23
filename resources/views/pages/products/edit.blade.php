@@ -19,7 +19,8 @@
                     <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
                 </ol>
             </nav>
-            {!! Form::open(['action' => ['ProductsController@update', $product->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+            <span class="text-danger">* required</span>
+            {!! Form::open(['action' => ['ProductsController@update', $product->id], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'class' => 'mt-4']) !!}
 
                 <div class="form-group col-12 col-md-5 col-sm-8">
                     {{Form::label('name', 'Product Name')}} <span class="text-danger">*</span>
