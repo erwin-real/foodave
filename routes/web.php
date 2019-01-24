@@ -60,6 +60,7 @@ Route::get('/products/search', 'ProductsController@search');
 
 Route::get('/transactions/get', 'TransactionsController@get')->name('transactions.get');
 Route::get('/transactions/success', 'TransactionsController@success');
+Route::get('/transactions/export/{id}', 'TransactionsController@export');
 
 Route::get('/loss/create/{product_id}', 'LossController@create');
 

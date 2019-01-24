@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Product;
+use PDF;
 use App\SingleTransaction;
 use App\Transaction;
 
@@ -166,6 +167,16 @@ class TransactionsController extends Controller
                 ->with('transactions', Transaction::orderBy('created_at', 'desc')->paginate(15));
         }
 
+        return redirect('/')->with('error', 'You don\'t have the privilege');
+    }
+
+    public function export($id) {
+        if ($this->isUserType('admin') || $this->isUserType('seller')) {
+            $transaction = Transaction::find($id);
+            $pdf = PDF::loadView('pages.transactions.export',
+                compact('transaction'));
+            return $pdf->stream($transaction->created_at.'.pdf');
+        }
         return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 

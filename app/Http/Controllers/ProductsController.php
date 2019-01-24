@@ -38,8 +38,7 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        if ($this->isUserType('admin') || $this->isUserType('seller'))
-            return view('pages.products.create');
+        if ($this->isUserType('admin')) return view('pages.products.create');
 
         return redirect('/')->with('error', 'You don\'t have the privilege');
     }
@@ -335,7 +334,6 @@ class ProductsController extends Controller
                                 $product->expired_at = ($value->expired_at == '') ? null : $value->expired_at;
                                 $product->stocks += $value->stocks;
                                 $product->procurement = $value->procurement;
-//                                $product->cover_image = "noimage.jpg";
                                 $product->cover_image = $product->cover_image ? $product->cover_image : "noimage.jpg";
                                 $product->save();
                             }catch (\Exception $ex) {
@@ -360,51 +358,6 @@ class ProductsController extends Controller
 
         return redirect('/')->with('error', 'You don\'t have the privilege');
     }
-
-//    public function uploadCSVFile(Request $request) {
-//        if ($this->isUserType('admin')) {
-//            $this->validate($request, ['csv_file' => 'required']);
-//
-//            $upload = $request->file('csv_file');
-//            $filePath = $upload->getRealPath();
-//            $file=fopen($filePath, 'r');
-//            $header=fgetcsv($file);
-//
-//            $escapedHeader=[];
-//
-//            foreach($header as $key => $value) {
-//                $lheader=strtolower($value);
-//                $escapedItem=preg_replace('/[^a-z]/', '', $lheader);
-//                array_push($escapedHeader, $escapedItem);
-//            }
-//
-//            while($columns=fgetcsv($file)) {
-//                if($columns[0]=="") continue;
-//                foreach($columns as $key => $value) $value=preg_replace('/\D/','',$value);
-//
-//                $data = array_combine($escapedHeader, $columns);
-//                $product = Product::firstOrNew(['name'=>$data['name'], 'type'=>$data['type'], 'desc'=>$data['description']]);
-//                $product->name = $data['name'];
-//                $product->type = $data['type'];
-//                $product->desc = $data['description'];
-//                $product->price = $data['price'];
-//                $product->srp = $data['srp'];
-//                $product->sold_by = $data['soldper'];
-//                $product->source = $data['source'];
-//                $product->contact = $data['contact'];
-//                $product->expired_at = ($data['expiredat'] == '') ? null : $data['expiredat'];
-//                $product->stocks += $data['stocks'];
-//                $product->procurement = $data['procurement'];
-//                $product->cover_image = "noimage.jpg";
-//                $product->save();
-//            }
-//
-//            return redirect('/products')
-//                ->with('success', 'File Imported Successfully');
-//        }
-//
-//        return redirect('/')->with('error', 'You don\'t have the privilege');
-//    }
 
     /**
      * Show the form for searching a new resource.
