@@ -19,9 +19,9 @@
             </nav>
 
             @include('includes.messages')
-            {{--<div class="button-holder text-right">--}}
-                {{--<a href="/guide/procurement" class="btn btn-outline-dark mt-1"><i class="fas fa-info-circle"></i> Guide</a>--}}
-            {{--</div>--}}
+            <div class="button-holder text-right">
+                <a href="/procurement/track" class="btn btn-outline-info mt-1"><i class="fas fa-map-marker-alt"></i> Track Products</a>
+            </div>
 
             <div class="lists-table table-responsive mt-3">
             <h4>Total Procurement: {{count($procurements)}}</h4>

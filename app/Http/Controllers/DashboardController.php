@@ -33,14 +33,6 @@ class DashboardController extends Controller
         }
         return redirect('/')->with('error', 'You don\'t have the privilege');
     }
-
-    public function procurement() {
-        if ($this->isUserType('admin') || $this->isUserType('seller')) {
-            return view('pages.procurement')
-                ->with('procurements', Product::orderBy('updated_at','desc')->whereRaw('products.stocks <= products.procurement')->get());
-        }
-        return redirect('/')->with('error', 'You don\'t have the privilege');
-    }
     
     public function createChart() {
         $data = app('App\Http\Controllers\ReportsController')->getData('daily');

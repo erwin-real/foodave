@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Track;
 use App\User;
 use Illuminate\Http\Request;
 use App\Product;
@@ -26,8 +27,11 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        if ($this->isUserType('admin') || $this->isUserType('seller'))
-            return view('pages.products')->with('products', Product::sortable()->paginate(20));
+        if ($this->isUserType('admin') || $this->isUserType('seller')){
+            return view('pages.products')
+                ->with('products', Product::sortable()->paginate(20))
+                ->with('total', Product::all()->count());
+        }
 
         return redirect('/')->with('error', 'You don\'t have the privilege');
     }
@@ -50,7 +54,7 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        if ($this->isUserType('admin') || $this->isUserType('seller')) {
+        if ($this->isUserType('admin')) {
             $this->validate($request, [
                 'name' => 'required',
                 'type' => 'required',
@@ -85,6 +89,16 @@ class ProductsController extends Controller
             $product->stocks = $request->input('stocks');
             $product->cover_image = $fileNameToStore;
             $product->save();
+
+            $track = new Track;
+            $track->product_id = $product->id;
+            $track->name = $product->name;
+            $track->product_type = $product->type;
+            $track->desc = $product->desc;
+            $track->updated = $product->stocks;
+            $track->user_name = User::find(auth()->user()->id)->name;
+            $track->date_modified = $product->updated_at;
+            $track->save();
 
             return redirect('/products')->with('success', 'Product Added');
         }
@@ -136,7 +150,14 @@ class ProductsController extends Controller
                 'sold_by' => 'required'
             ]);
 
+            // Find Product instance
             $product = Product::find($id);
+
+            // Initialize new Track model
+            $track = new Track;
+            $track->product_id = $id;
+            $track->previous = $product->stocks;
+
             $product->name = $request->input('name');
             $product->type = $request->input('type');
             $product->desc = $request->input('desc');
@@ -162,6 +183,14 @@ class ProductsController extends Controller
             }
 
             $product->save();
+
+            $track->name = $product->name;
+            $track->product_type = $product->type;
+            $track->desc = $product->desc;
+            $track->updated = $product->stocks;
+            $track->user_name = User::find(auth()->user()->id)->name;
+            $track->date_modified = $product->updated_at;
+            $track->save();
 
             return redirect('/products')->with('success', 'Product Updated');
         }
@@ -323,6 +352,11 @@ class ProductsController extends Controller
                         foreach ($data as $key => $value) {
                             try {
                                 $product = Product::firstOrNew(['name'=>$value->name, 'type'=>$value->type, 'desc'=>$value->description]);
+
+                                $track = new Track;
+                                $track->product_id = $product->id;
+                                $track->previous = $product->stocks;
+
                                 $product->name = $value->name;
                                 $product->type = $value->type;
                                 $product->desc = $value->description;
@@ -336,6 +370,15 @@ class ProductsController extends Controller
                                 $product->procurement = $value->procurement;
                                 $product->cover_image = $product->cover_image ? $product->cover_image : "noimage.jpg";
                                 $product->save();
+
+                                $track->name = $product->name;
+                                $track->product_type = $product->type;
+                                $track->desc = $product->desc;
+                                $track->updated = $product->stocks;
+                                $track->user_name = User::find(auth()->user()->id)->name;
+                                $track->date_modified = $product->updated_at;
+                                $track->save();
+
                             }catch (\Exception $ex) {
                                 return redirect('/products/import')->with('error', 'Error inserting the data. Please check the values in the file before importing it.');
                             }catch (\Error $er) {
@@ -367,6 +410,31 @@ class ProductsController extends Controller
     public function search() {
         if ($this->isUserType('admin') || $this->isUserType('seller'))
             return view('pages.products.search');
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
+    }
+
+    public function procurement() {
+        if ($this->isUserType('admin') || $this->isUserType('seller')) {
+            return view('pages.procurement')
+                ->with('procurements', Product::orderBy('updated_at','desc')->whereRaw('products.stocks <= products.procurement')->get());
+        }
+        return redirect('/')->with('error', 'You don\'t have the privilege');
+    }
+
+    public function track() {
+        if ($this->isUserType('admin') || $this->isUserType('seller'))
+            return view('pages.procurements.track')->with('tracks', Track::orderBy('date_modified','desc')->paginate(100));
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
+    }
+
+    public function destroyTrack($id) {
+        if ($this->isUserType('admin')) {
+            $track = Track::find($id);
+            $track->delete();
+            return redirect('/procurement/track')->with('success', 'Track Product Deleted');
+        }
 
         return redirect('/')->with('error', 'You don\'t have the privilege');
     }

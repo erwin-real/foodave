@@ -15,7 +15,5 @@ class Transaction extends Model
     // Timestamps
     public $timestamps = true;
 
-    public function singleTransactions() {
-        return $this->hasMany('App\SingleTransaction');
-    }
+    public function singleTransactions() { return $this->hasMany('App\SingleTransaction'); }
 }

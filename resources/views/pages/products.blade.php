@@ -21,7 +21,9 @@
             @include('includes.messages')
 
             <div class="button-holder text-right">
+                @if(Auth::user()->type == 'admin')
                 <a href="/products/create" class="btn btn-outline-primary mt-1"><i class="fas fa-plus"></i> Add</a>
+                @endif
                 <a href="/products/search" class="btn btn-outline-primary mt-1"><i class="fas fa-search"></i> Search</a>
                 @if(Auth::user()->type == 'admin')
                     <a href="/products/import" class="btn btn-outline-primary mt-1"><i class="fas fa-file-alt"></i> Import File</a>
@@ -30,7 +32,7 @@
             </div>
 
             <div class="lists-table table-responsive mt-3">
-            <h4>Total: {{count($products)}}</h4>
+            <h4>Total: {{$total}}</h4>
                 <table class="table table-hover table-striped py-3 text-center">
                     <thead>
                         <tr>
@@ -76,7 +78,7 @@
                             @endforeach
                         @else
                         <tr class="text-center">
-                            <th colspan="16">No products found</th>
+                            <th colspan="10">No products found</th>
                         </tr>
                         @endif
                     </tbody>

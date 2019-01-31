@@ -13,7 +13,7 @@
 
 Route::get('/', function () { return view('welcome'); });
 Route::get('/dashboard', 'DashboardController@index');
-Route::get('/procurement', 'DashboardController@procurement');
+
 Route::get('/reports', 'ReportsController@index');
 
 // Guides
@@ -57,6 +57,10 @@ Route::get('/products/transact', 'ProductsController@transact')->name('products.
 Route::get('/products/import', 'ProductsController@import');
 Route::post('/products/uploadFile', 'ProductsController@uploadCSVFile');
 Route::get('/products/search', 'ProductsController@search');
+
+Route::get('/procurement', 'ProductsController@procurement');
+Route::get('/procurement/track', 'ProductsController@track');
+Route::delete('/procurement/track/{id}','ProductsController@destroyTrack');
 
 Route::get('/transactions/get', 'TransactionsController@get')->name('transactions.get');
 Route::get('/transactions/success', 'TransactionsController@success');
