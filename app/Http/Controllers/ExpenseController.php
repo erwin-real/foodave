@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Expense;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -21,9 +23,11 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('pages.expenses');
+    public function index() {
+        if ($this->isUserType('admin'))
+            return view('pages.expenses');
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -31,9 +35,11 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        if ($this->isUserType('admin'))
+            return view('pages.expenses.create');
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -42,9 +48,32 @@ class ExpenseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        if ($this->isUserType('admin')) {
+            $this->validate($request, [
+                'month' => 'required',
+                'clerk' => 'required',
+                'rental' => 'required',
+                'water' => 'required',
+                'electric' => 'required',
+                'service' => 'required',
+                'others' => 'required'
+            ]);
+
+            $expense = new Expense;
+            $expense->month = Carbon::createFromFormat('Y-m-d', $request->input('month').'-01');
+            $expense->clerk = $request->input('clerk');
+            $expense->rental = $request->input('rental');
+            $expense->water = $request->input('water');
+            $expense->electric = $request->input('electric');
+            $expense->service = $request->input('service');
+            $expense->others = $request->input('others');
+            $expense->save();
+
+            return redirect('/')->with('success', 'Saved new monthly expenses successfully!');
+        }
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -53,9 +82,12 @@ class ExpenseController extends Controller
      * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function show(Expense $expense)
-    {
-        //
+    public function show(Expense $expense) {
+        if ($this->isUserType('admin')) {
+
+        }
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -64,9 +96,12 @@ class ExpenseController extends Controller
      * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function edit(Expense $expense)
-    {
-        //
+    public function edit(Expense $expense) {
+        if ($this->isUserType('admin')) {
+            return view('pages.expenses.edit');
+        }
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -76,9 +111,12 @@ class ExpenseController extends Controller
      * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Expense $expense)
-    {
-        //
+    public function update(Request $request, Expense $expense) {
+        if ($this->isUserType('admin')) {
+
+        }
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
     /**
@@ -87,8 +125,13 @@ class ExpenseController extends Controller
      * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Expense $expense)
-    {
-        //
+    public function destroy(Expense $expense) {
+        if ($this->isUserType('admin')) {
+
+        }
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
     }
+
+    public function isUserType($type) { return (User::find(auth()->user()->id)->type == $type) ? true : false; }
 }

@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Expense extends Model
 {
     protected $fillable = [
-        'month', 'capital',
-        'profit', 'clerk',
+        'month', 'clerk',
         'rental', 'water',
         'electric', 'service',
-        'others', 'net_income',
+        'others'
     ];
 
     // Table Name
