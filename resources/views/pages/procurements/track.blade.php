@@ -67,7 +67,7 @@
                             @endforeach
                         @else
                         <tr class="text-center">
-                            <th colspan="7">No tracks found</th>
+                            <th colspan="9">No tracks found</th>
                         </tr>
                         @endif
                     </tbody>

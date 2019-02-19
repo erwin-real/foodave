@@ -70,6 +70,8 @@ Route::get('/loss/create/{product_id}', 'LossController@create');
 
 Route::resource('products', 'ProductsController');
 
+Route::resource('expenses', 'ExpenseController');
+
 Route::resource('loss', 'LossController')->except(['create']);
 
 Route::resource('transactions', 'TransactionsController')->except([

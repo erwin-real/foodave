@@ -33,6 +33,7 @@
                     <li class="nav-tem"><a class="nav-link" href="/procurement">Procurement</a></li>
                     <li class="nav-tem"><a class="nav-link" href="/loss">Loss</a></li>
                     @if(Auth::user()->type == 'admin')
+                        <li class="nav-tem"><a class="nav-link" href="/expenses">Expenses</a></li>
                         <li class="nav-tem"><a class="nav-link" href="/reports">Reports</a></li>
                         <li class="nav-tem"><a class="nav-link" href="/users">Users</a></li>
                     @endif

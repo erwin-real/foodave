@@ -65,6 +65,18 @@
                 <div class="arrow d-none {{ request()->is('loss') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('loss/*') ? 'd-md-none d-lg-block d-xl-block' : '' }} {{ request()->is('guide/loss') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
             </li>
             @if(Auth::user()->type == 'admin')
+                <li class="list-group-item {{ request()->is('expenses') || request()->is('expenses/*') ? 'active' : '' }}">
+                    <a href="/expenses">
+                        <div class="icon">
+                            <i class="fas fa-money-bill-alt"></i>
+                        </div>
+                        <div class="link">
+                            Expenses
+                        </div>
+                    </a>
+                    <div class="arrow d-none {{ request()->is('expenses') || request()->is('expenses/*') ? 'd-md-none d-lg-block d-xl-block' : '' }}"></div>
+                </li>
+
                 <li class="list-group-item {{ request()->is('reports') ? 'active' : '' }}">
                     <a href="/reports">
                         <div class="icon">
