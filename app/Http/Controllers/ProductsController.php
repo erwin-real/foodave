@@ -284,6 +284,7 @@ class ProductsController extends Controller
             if($query != '') {
                 $data = DB::table('products')
                         ->where('name', 'like', '%'.$query.'%')
+                        ->orWhere('type', 'like', '%'.$query.'%')
                         ->orWhere('desc', 'like', '%'.$query.'%')
                         ->orderBy('updated_at', 'desc')
                         ->get();
@@ -301,11 +302,13 @@ class ProductsController extends Controller
                             <td class="icons" onclick="
                                     addTransaction('.$row->id.', \''
                         .strval($row->name).'\', \''
+                        .strval($row->type).'\', \''
                         .strval($row->desc).'\', \''
                         .strval($row->sold_by).'\', \''
                         .$row->srp.'\',  '
                         .$row->stocks.')
                                 " style="cursor: pointer;">'. $row->name .'</td>
+                            <td>'. $row->type .'</td>
                             <td>'. $row->desc .'</td>
                             <td>'. $row->srp .'</td>
                             <td>'. $row->sold_by .'</td>
@@ -355,9 +358,7 @@ class ProductsController extends Controller
                             try {
                                 $product = Product::firstOrNew(['name'=>$value->name, 'type'=>$value->type, 'desc'=>$value->description]);
 
-                                $track = new Track;
-                                $track->product_id = $product->id;
-                                $track->previous = $product->stocks;
+                                $tempStocks = $product->stocks == null ? 0 : $product->stocks;
 
                                 $product->name = $value->name;
                                 $product->type = $value->type;
@@ -373,6 +374,9 @@ class ProductsController extends Controller
                                 $product->cover_image = $product->cover_image ? $product->cover_image : "noimage.jpg";
                                 $product->save();
 
+                                $track = new Track;
+                                $track->product_id = $product->id;
+                                $track->previous = $tempStocks;
                                 $track->name = $product->name;
                                 $track->product_type = $product->type;
                                 $track->desc = $product->desc;
@@ -382,8 +386,10 @@ class ProductsController extends Controller
                                 $track->save();
 
                             }catch (\Exception $ex) {
+                                dd($ex);
                                 return redirect('/products/import')->with('error', 'Error inserting the data. Please check the values in the file before importing it.');
                             }catch (\Error $er) {
+                                dd($er);
                                 return redirect('/products/import')->with('error', 'Error inserting the data. Please check the values in the file before importing it.');
                             }
                         }

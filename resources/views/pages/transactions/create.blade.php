@@ -73,6 +73,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Name</th>
+                                            <th scope="col">Type</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Price</th>
                                             <th scope="col">Sold per</th>
