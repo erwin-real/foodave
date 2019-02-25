@@ -356,6 +356,7 @@ class ProductsController extends Controller
 
                         foreach ($data as $key => $value) {
                             try {
+                                if ($value->name == null) break;
                                 $product = Product::firstOrNew(['name'=>$value->name, 'type'=>$value->type, 'desc'=>$value->description]);
 
                                 $tempStocks = $product->stocks == null ? 0 : $product->stocks;
