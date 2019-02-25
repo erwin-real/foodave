@@ -73,8 +73,21 @@
                     </tbody>
                 </table>
             </div>
+                <form id="delete" method="POST" action="{{ action('ProductsController@destroyAllTracks', '') }}" class="float-right mt-1 ml-1 mb-4">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
+                </form>
 
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#delete").on("submit", function () {
+                return confirm("Are you sure you want to delete all track products?");
+            });
+        });
+    </script>
 
 @endsection

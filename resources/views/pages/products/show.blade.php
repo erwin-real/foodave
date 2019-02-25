@@ -49,7 +49,7 @@
                     <p><b>Sold by</b>: {{$product->sold_by}}</p>
                     <p><b>Source</b>: {{$product->source}}</p>
                     <p><b>Contact</b>: {{$product->contact}}</p>
-                    <p><b>Expiration Date</b>: {{date('D M d,Y', strtotime($product->expired_at))}}</p>
+                    <p><b>Expiration Date</b>: {{ $product->expired_at ? date('D M d,Y', strtotime($product->expired_at)) : 'none'}}</p>
                     <p><b>Stocks</b>: {{$product->stocks}}</p>
                     <p><b>Procurement</b>: {{$product->procurement}}</p>
                     <p><b>Created at</b>: {{date('D M d,Y', strtotime($product->created_at))}}</p>

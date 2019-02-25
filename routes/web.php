@@ -62,6 +62,7 @@ Route::get('/products/search', 'ProductsController@search');
 Route::get('/procurement', 'ProductsController@procurement');
 Route::get('/procurement/track', 'ProductsController@track');
 Route::delete('/procurement/track/{id}','ProductsController@destroyTrack');
+Route::delete('/procurement/track/','ProductsController@destroyAllTracks');
 
 Route::get('/transactions/get', 'TransactionsController@get')->name('transactions.get');
 Route::get('/transactions/success', 'TransactionsController@success');

@@ -75,32 +75,42 @@ class ProductsController extends Controller
                 $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
             } else $fileNameToStore = 'noimage.jpg';
 
-            $product = new Product;
-            $product->name = $request->input('name');
-            $product->type = $request->input('type');
-            $product->desc = $request->input('desc');
-            $product->price = $request->input('price');
-            $product->srp = $request->input('srp');
-            $product->sold_by = $request->input('sold_by');
-            $product->source = $request->input('src');
-            $product->contact = $request->input('contact');
-            $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
-            $product->procurement = $request->input('pro');
-            $product->stocks = $request->input('stocks');
-            $product->cover_image = $fileNameToStore;
-            $product->save();
+            $product = Product::firstOrNew([
+                'name'=>$request->input('name'), 'type'=>$request->input('type'), 'desc'=>$request->input('desc'),
+                'price'=>$request->input('price'), 'srp'=>$request->input('srp')
+            ]);
 
-            $track = new Track;
-            $track->product_id = $product->id;
-            $track->name = $product->name;
-            $track->product_type = $product->type;
-            $track->desc = $product->desc;
-            $track->updated = $product->stocks;
-            $track->user_name = User::find(auth()->user()->id)->name;
-            $track->date_modified = $product->updated_at;
-            $track->save();
+            if ($product->stocks != null) {
+                $product->name = $request->input('name');
+                $product->type = $request->input('type');
+                $product->desc = $request->input('desc');
+                $product->price = $request->input('price');
+                $product->srp = $request->input('srp');
+                $product->sold_by = $request->input('sold_by');
+                $product->source = $request->input('src');
+                $product->contact = $request->input('contact');
+                $product->expired_at = ($request->input('exp') == null ? null : $request->input('exp'));
+                $product->procurement = $request->input('pro');
+                $product->stocks = $request->input('stocks');
+                $product->cover_image = $fileNameToStore;
+                $product->save();
 
-            return redirect('/products')->with('success', 'Product Added');
+                $track = new Track;
+                $track->product_id = $product->id;
+                $track->name = $product->name;
+                $track->product_type = $product->type;
+                $track->desc = $product->desc;
+                $track->updated = $product->stocks;
+                $track->user_name = User::find(auth()->user()->id)->name;
+                $track->date_modified = $product->updated_at;
+                $track->save();
+
+                return redirect('/products')->with('success', 'Product Added');
+            }
+
+            return redirect('/products')->with('error', 'The product name='. $product->name .
+                ', type='. $product->type .', description='. $product->desc .
+                ', price='. $product->price .', srp='. $product->srp .' ALREADY EXIST');
         }
 
         return redirect('/')->with('error', 'You don\'t have the privilege');
@@ -297,13 +307,16 @@ class ProductsController extends Controller
             $total_row = $data->count();
             if($total_row > 0) {
                 foreach($data as $row) {
+                    $name=str_replace("\"", "&quot;", str_replace("\'", "&#039;", $row->name));
+                    $type=str_replace("\"", "&quot;", str_replace("\'", "&#039;", $row->type));;
+                    $desc=str_replace("\"", "&quot;", str_replace("\'", "&#039;", $row->desc));;
                     $output .= '
                         <tr>
                             <td class="icons" onclick="
-                                    addTransaction('.$row->id.', \''
-                        .strval($row->name).'\', \''
-                        .strval($row->type).'\', \''
-                        .strval($row->desc).'\', \''
+                                    addTransaction('.$row->id.', convert(test(\''
+                        .strval(addslashes($name)).'\')), convert(test(\''
+//                        .strval(addslashes($type)).'\')), convert(test(\''
+                        .strval(addslashes($desc)).'\')), \''
                         .strval($row->sold_by).'\', \''
                         .$row->srp.'\',  '
                         .$row->stocks.')
@@ -357,7 +370,10 @@ class ProductsController extends Controller
                         foreach ($data as $key => $value) {
                             try {
                                 if ($value->name == null) break;
-                                $product = Product::firstOrNew(['name'=>$value->name, 'type'=>$value->type, 'desc'=>$value->description]);
+                                $product = Product::firstOrNew([
+                                    'name'=>$value->name, 'type'=>$value->type, 'desc'=>$value->description,
+                                    'price'=>$value->price, 'srp'=>$value->srp
+                                ]);
 
                                 $tempStocks = $product->stocks == null ? 0 : $product->stocks;
 
@@ -443,6 +459,18 @@ class ProductsController extends Controller
             $track = Track::find($id);
             $track->delete();
             return redirect('/procurement/track')->with('success', 'Track Product Deleted');
+        }
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
+    }
+
+    public function destroyAllTracks() {
+        if ($this->isUserType('admin')) {
+            foreach (Track::all() as $item) {
+                $track = Track::find($item->id);
+                $track->delete();
+            }
+            return redirect('/procurement/track')->with('success', 'Deleted All Track Products');
         }
 
         return redirect('/')->with('error', 'You don\'t have the privilege');

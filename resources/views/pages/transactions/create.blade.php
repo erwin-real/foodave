@@ -196,9 +196,24 @@
 
         });
 
+        function convert (string) {
+            return string.replace(/&#(?:x([\da-f]+)|(\d+));/ig, function (_, hex, dec) {
+                return String.fromCharCode(dec || +('0x' + hex))
+            })
+        }
+
+        function test(string) {
+            return string.replace(/&quot;/g,'"');
+
+        }
+
         function addTransaction(id, name, desc, sold_by, srp, stocks) {
+            console.log(id, name, desc, sold_by, srp, stocks);
             for (var a = 0; a < addedProducts.length; a++)
                 if (addedProducts[a] == id) return null;
+
+            name = convert(test(name));
+            desc = convert(test(desc));
 
             addedProducts[addedProducts.length] = id;
             var td, tr;
