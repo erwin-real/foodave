@@ -28,7 +28,8 @@
 
                 <div class="form-group col-12 col-md-5 col-sm-8">
                     {{Form::label('month', 'Month')}} <span class="text-danger">*</span>
-                    {{Form::month('month', date('Y-m', strtotime($expense->month)), ['class' => 'form-control', 'required' => 'required'])}}
+                    <input id="month" type="month" value="{{date('Y-m', strtotime($expense->month))}}" name="month" class="form-control" onchange="updateMonth(this)" required>
+{{--                    {{Form::month('month', date('Y-m', strtotime($expense->month)), ['class' => 'form-control', 'required' => 'required', 'onchange' => 'updateMonth(this)'])}}--}}
                 </div>
 
                 <div class="form-group col-12 col-md-5 col-sm-8">
@@ -64,7 +65,7 @@
                 <div class="form-group col-12 col-md-5 col-sm-8">
                     <div class="text-center mt-4">
                         {{Form::hidden('_method', 'PUT')}}
-                        <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check"></i> Save</button>
+                        <button id="submit" type="submit" class="btn btn-outline-primary"><i class="fa fa-check"></i> Save</button>
                     </div>
                 </div>
 
@@ -74,5 +75,28 @@
 
         </div>
     </div>
+
+    <script>
+        var dates = [];
+
+        @foreach($expenses as $item)
+            @if ($expense->month != $item->month)
+                dates.push('{{date('Y-m', strtotime($item->month))}}');
+            @endif
+        @endforeach
+
+        for (let i = 0; i < dates.length; i++) {
+            if (dates[i] === document.getElementById('month').value && ('{{$expense->month}}' !== document.getElementById('month').value)) {
+                document.getElementById('submit').disabled = true;
+            }
+        }
+
+        function updateMonth(r) {
+            document.getElementById('submit').disabled = false;
+            for (let i = 0; i < dates.length; i++) {
+                if (dates[i] === r.value && ('{{date('Y-m', strtotime($expense->month))}}' !== r.value)) document.getElementById('submit').disabled = true;
+            }
+        }
+    </script>
 
 @endsection

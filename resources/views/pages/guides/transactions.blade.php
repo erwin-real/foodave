@@ -48,6 +48,17 @@
                     </ol>
                 </div>
 
+                <h3 class="mt-4">♦ Print receipt for a specific transaction</h3>
+                <div class="mx-2">
+                    <ol>
+                        <li>Go to <a href="/transactions">Transactions Page</a>.</li>
+                        <li>Click the specific date for the transaction in the table.</li>
+                        <li>Click the "EXPORT" button.</li>
+                        <li>Print as PDF file.</li>
+                        <li>Finish!</li>
+                    </ol>
+                </div>
+
                 @if(Auth::user()->type == 'admin')
                     <h3>♦ Delete a transaction</h3>
                     <div class="mx-2">

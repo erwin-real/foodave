@@ -28,7 +28,7 @@
 
             <div class="button-holder text-right">
                 <a href="/transactions/create" class="btn btn-outline-primary mt-1"><i class="fas fa-plus"></i> New Transaction</a>
-                <a href="/guide/transactions" class="btn btn-outline-dark mt-1"><i class="fas fa-info-circle"></i> Guide</a>
+                <a href="/guide/transactions" target="_blank" class="btn btn-outline-dark mt-1"><i class="fas fa-info-circle"></i> Guide</a>
             </div>
 
             {{$transactions->links()}}

@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateExpensesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the omigrations.
      *
      * @return void
      */

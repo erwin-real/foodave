@@ -58,7 +58,7 @@
     <script>
         $(document).ready(function() {
             $("#delete").on("submit", function () {
-                return confirm("Are you sure?");
+                return confirm("Are you sure you want to delete this user?");
             });
         });
     </script>

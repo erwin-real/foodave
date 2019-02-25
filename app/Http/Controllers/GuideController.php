@@ -47,6 +47,13 @@ class GuideController extends Controller
         return redirect('/')->with('error', 'You don\'t have the privilege');
     }
 
+    public function expenses() {
+        if ($this->isUserType('admin'))
+            return view('pages.guides.expenses');
+
+        return redirect('/')->with('error', 'You don\'t have the privilege');
+    }
+
     public function isUserType($type) {
         return (User::find(auth()->user()->id)->type == $type) ? true : false;
     }

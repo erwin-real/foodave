@@ -25,7 +25,7 @@
                 <a href="/expenses/{{$expense->id}}/edit" class="btn btn-outline-primary mt-1"><i class="fas fa-pencil-alt"></i> Edit</a>
 
                 @if(Auth::user()->type == 'admin')
-                    <form id="delete" method="POST" action="{{ action('ProductsController@destroy', $expense->id) }}" class="float-right mt-1 ml-1">
+                    <form id="delete" method="POST" action="{{ action('ExpenseController@destroy', $expense->id) }}" class="float-right mt-1 ml-1">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
@@ -58,7 +58,7 @@
     <script>
         $(document).ready(function() {
             $("#delete").on("submit", function () {
-                return confirm("Are you sure you want to delete this product?");
+                return confirm("Are you sure you want to delete specific month's expenses?");
             });
         });
     </script>

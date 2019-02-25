@@ -20,7 +20,8 @@
 
             @include('includes.messages')
             <div class="button-holder text-right">
-                <a href="/expenses/create" class="btn btn-outline-info mt-1"><i class="fas fa-plus"></i> Create</a>
+                <a href="/expenses/create" class="btn btn-outline-info mt-1 mb-3"><i class="fas fa-plus"></i> Create</a>
+                <a href="/guide/expenses" target="_blank" class="btn btn-outline-dark mt-1 mb-3"><i class="fas fa-info-circle"></i> Guide</a>
             </div>
 
             <div class="bottom-dashboard">
@@ -29,7 +30,7 @@
                         <div class="card mb-2">
                             <h5 class="card-title report-title">Monthly Expenses Chart</h5>
                             <div class="panel-body pt-4">
-                                {{--{!! $chart->container() !!}--}}
+                                {!! $chart->container() !!}
                             </div>
                         </div>
                     </div>
@@ -55,31 +56,53 @@
                                             <th scope="col">Electric Fee</th>
                                             <th scope="col">Service Fee</th>
                                             <th scope="col">Others Fee</th>
-                                            {{--<th scope="col">Delete</th>--}}
+                                            <th scope="col">Capital</th>
+                                            <th scope="col">Gross Income</th>
+                                            <th scope="col">Income Fee</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            @if(count($expenses) > 0)
-                                                @foreach($expenses as $expense)
+                                            @if (count($expenses) > 0)
+                                                @foreach ($expenses as $expense)
                                                     <tr>
-                                                        <td><a href="/expenses/{{$expense->id}}">{{date('M Y', strtotime($expense->month))}}</a></td>
-                                                        <td>{{$expense->clerk}}</td>
-                                                        <td>{{$expense->rental}}</td>
-                                                        <td>{{$expense->water}}</td>
-                                                        <td>{{$expense->electric}}</td>
-                                                        <td>{{$expense->service}}</td>
-                                                        <td>{{$expense->others}}</td>
-
-                                                        {{--<td class="icons">--}}
-                                                        {{--{!!Form::open(['action' => ['ExpenseController@destroy', $expense->id], 'method' => 'POST', 'class' => 'delete'])!!}--}}
-                                                        {{--{{Form::hidden('_method', 'DELETE')}}--}}
-                                                        {{--{!! Form::button('<i class="fa fa-trash"></i>', ['class'=>'del-btn', 'type'=>'submit']) !!}--}}
-                                                        {{--{!!Form::close()!!}--}}
-                                                        {{--</td>--}}
+                                                        @for ($i = 0; $i < count($data['dates']) ; $i++)
+                                                            @if (date('M Y', strtotime($expense->month)) == $data['dates'][$i])
+                                                                <td><a href="/expenses/{{$expense->id}}">{{date('M Y', strtotime($expense->month))}}</a></td>
+                                                                <td>{{$expense->clerk}}</td>
+                                                                <td>{{$expense->rental}}</td>
+                                                                <td>{{$expense->water}}</td>
+                                                                <td>{{$expense->electric}}</td>
+                                                                <td>{{$expense->service}}</td>
+                                                                <td>{{$expense->others}}</td>
+                                                                <td>{{$data['capitals'][$i]}}</td>
+                                                                <td>{{$data['grosss'][$i]}}</td>
+                                                                <td>{{$data['incomes'][$i]}}</td>
+                                                                @break
+                                                            @endif
+                                                        @endfor
 
                                                     </tr>
                                                 @endforeach
                                             @else
+                                                {{--@if (count($data['dates']) > 0)--}}
+                                                    {{--@for ($i = 0; $i < count($data['dates']) ; $i++)--}}
+                                                        {{--<tr>--}}
+                                                            {{--@foreach($expenses as $expense)--}}
+                                                                {{--@if (date('M Y', strtotime($expense->month)) == $data['dates'][$i])--}}
+                                                                    {{--<td><a href="/expenses/{{$expense->id}}">{{date('M Y', strtotime($expense->month))}}</a></td>--}}
+                                                                    {{--<td>{{$expense->clerk}}</td>--}}
+                                                                    {{--<td>{{$expense->rental}}</td>--}}
+                                                                    {{--<td>{{$expense->water}}</td>--}}
+                                                                    {{--<td>{{$expense->electric}}</td>--}}
+                                                                    {{--<td>{{$expense->service}}</td>--}}
+                                                                    {{--<td>{{$expense->others}}</td>--}}
+                                                                    {{--@break--}}
+                                                                {{--@endif--}}
+                                                            {{--@endforeach--}}
+    {{----}}
+                                                        {{--</tr>--}}
+                                                    {{--@endfor--}}
+                                                {{--@else--}}
                                                 <tr class="text-center">
                                                     <th colspan="7">No expenses found</th>
                                                 </tr>
@@ -99,7 +122,7 @@
 
 <script src="/js/vue.js"></script>
 <script src="/js/echarts-en.min.js"></script>
-{{--{!! $chart->script() !!}--}}
+{!! $chart->script() !!}
 
 <script src="/js/highcharts.js"></script>
 @endsection

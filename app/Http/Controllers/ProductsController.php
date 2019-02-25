@@ -184,13 +184,15 @@ class ProductsController extends Controller
 
             $product->save();
 
-            $track->name = $product->name;
-            $track->product_type = $product->type;
-            $track->desc = $product->desc;
             $track->updated = $product->stocks;
-            $track->user_name = User::find(auth()->user()->id)->name;
-            $track->date_modified = $product->updated_at;
-            $track->save();
+            if ($track->updated != $track->previous) {
+                $track->name = $product->name;
+                $track->product_type = $product->type;
+                $track->desc = $product->desc;
+                $track->user_name = User::find(auth()->user()->id)->name;
+                $track->date_modified = $product->updated_at;
+                $track->save();
+            }
 
             return redirect('/products')->with('success', 'Product Updated');
         }

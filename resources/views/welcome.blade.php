@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Food Avenue</title>
+        <title>2VE</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
@@ -89,11 +89,11 @@
             @endif
             <div class="content">
                 <div class="title">
-                    Food Avenue
+                    2VE
                 </div>
                 <div> @include('includes.messages') </div>
                 <div>
-                    <p>General Merchandise</p>
+                    <p>General Merchandise and Office Supplies Y Convenience Store</p>
                 </div>
             </div>
         </div>
