@@ -80,7 +80,8 @@ class ProductsController extends Controller
                 'price'=>$request->input('price'), 'srp'=>$request->input('srp')
             ]);
 
-            if ($product->stocks != null) {
+
+            if (!$product->stocks) {
                 $product->name = $request->input('name');
                 $product->type = $request->input('type');
                 $product->desc = $request->input('desc');

@@ -42,15 +42,17 @@
                     <tbody>
                         @if(count($losses) > 0)
                             @foreach($losses as $loss)
-                                <tr>
-                                    <td style="cursor: pointer;" onclick="window.location = '/loss/{{$loss->id}}'">{{$loss->product->name}}</td>
-                                    <td>{{$loss->product->type}}</td>
-                                    <td>{{$loss->product->desc}}</td>
-                                    <td>{{$loss->product->srp}}</td>
-                                    <td>{{$loss->quantity}}</td>
-                                    <td>{{$loss->loss_money}}</td>
-                                    <td>{{$loss->reason}}</td>
-                                </tr>
+                                @if ($loss->product != null)
+                                    <tr>
+                                        <td style="cursor: pointer;" onclick="window.location = '/loss/{{$loss->id}}'">{{$loss->product->name}}</td>
+                                        <td>{{$loss->product->type}}</td>
+                                        <td>{{$loss->product->desc}}</td>
+                                        <td>{{$loss->product->srp}}</td>
+                                        <td>{{$loss->quantity}}</td>
+                                        <td>{{$loss->loss_money}}</td>
+                                        <td>{{$loss->reason}}</td>
+                                    </tr>
+                                @endif
                             @endforeach
                         @else
                         <tr class="text-center">
