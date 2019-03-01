@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->string('source')->nullable();
             $table->string('contact')->nullable();
             $table->timestamp('expired_at')->nullable();
-            $table->unsignedInteger('stocks');
+            $table->integer('stocks');
             $table->unsignedInteger('procurement');
             $table->string('cover_image');
             $table->timestamps();

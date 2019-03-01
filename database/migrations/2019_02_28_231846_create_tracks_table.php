@@ -19,8 +19,8 @@ class CreateTracksTable extends Migration
             $table->string('name');
             $table->string('product_type');
             $table->string('desc')->nullable();
-            $table->unsignedInteger('previous')->default(0);
-            $table->unsignedInteger('updated');
+            $table->integer('previous')->default(0);
+            $table->integer('updated');
             $table->string('user_name');
             $table->timestamp('date_modified')->nullable();
         });
